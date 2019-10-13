@@ -1,0 +1,85 @@
+.skillwheel-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.skillwheel {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.skillwheel__title {
+    font-size: 24px;
+    font-weight: $bold;
+    margin-bottom: 45px;
+}
+
+.skillwheel__list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+}
+
+.skillwheel__item {
+    margin-right: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    position: relative;
+
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.skillwheel__subtitle {
+    font-size: 18px;
+    max-width: 80px;
+    font-weight: $bold;
+    text-align: center;
+    color: rgba($text-color, .5);
+}
+
+.circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+}
+
+.circle__bg {
+    fill: none;
+    stroke-width: 10px;
+    stroke: #e9e9e9;
+}
+
+.circle__progress {
+    stroke-dasharray: 410;
+    transform: rotateY(-180deg);
+    transform-origin: 50% 50%;
+    //animation: anim 2s ease-in-out 1 forwards;
+    fill: none;
+    stroke-width: 20px;
+    stroke: url(#grad);
+    transition: stroke-dashoffset 5.5s linear;
+}
+
+@keyframes anim {
+    from {
+        stroke-dashoffset: -410;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+

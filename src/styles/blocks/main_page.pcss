@@ -1,0 +1,84 @@
+.container-main {
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    min-height: 700px;
+}
+
+.header {
+    position: absolute;
+    width: 100%;
+    max-width: 1480px;
+    top: 65px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-logo {
+    font-size: 36px;
+    font-weight: $extrabold;
+}
+
+.main-text {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.main-text__title {
+    font-size: 18x;
+    font-weight: $semibold;
+    color: rgba($text-color, .6);
+}
+
+.main-text__title + .main-text__title {
+    margin-bottom: 35px;
+}
+
+.main-text__name {
+    font-size: 72px;
+    max-width: 600px;
+    text-transform: uppercase;
+    font-weight: $extrabold;
+    line-height: 1
+}
+
+.main-text__name ~ span {
+    margin-bottom: 35px;
+}
+
+.scroll {
+    margin-bottom: 115px;
+}
+
+.scroll__link {
+    font-size: 18px;
+    font-weight: $semibold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        color: $hover-color;
+    }
+
+    &:hover > svg {
+        fill: $hover-color;
+    }
+
+}
+
+.scroll__pic {
+    margin-left: 20px;
+    width: 20px;
+    height: 30px;
+    fill: $text-color;
+}
+

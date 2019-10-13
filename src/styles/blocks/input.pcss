@@ -1,0 +1,57 @@
+.input-wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.input-wrap_text-input {
+    width: 405px;
+}
+
+.input-wrap_textarea {
+    width: 100%;
+}
+
+.label {
+    left: 47px;
+    font-weight: $semibold;
+    color: rgba($text-color, .3);
+    position: absolute;
+}
+
+.label_textarea {
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+input:focus ~ .label {
+    top: -45px;
+}
+
+textarea:focus ~ .label {
+    top: -35px;
+}
+
+.input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #464d62;
+    padding-bottom: 20px;
+    padding-left: 47px;
+    resize: none;
+    font-size: 18px;
+    font-weight: $bold;
+
+    &:focus {
+        outline: none
+    }
+}
+
+.input-pic {
+    position: absolute;
+    left: 0;
+    bottom: 15px;;
+    width: 30px;
+    height: 30px;
+    fill: #c7c9d0;
+}
