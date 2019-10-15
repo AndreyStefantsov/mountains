@@ -1,0 +1,130 @@
+.container-my-projects {
+    margin: 0 160px 175px;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.main-title_my-projects {
+    margin-bottom: 90px;
+    font-size: 36px;
+}
+
+.my-projects {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between
+}
+
+.project-preview {
+    display: flex;
+    max-width: 980px;
+    width: 67%;
+    height: 550px;
+    background: url(../images/content/preview_future.jpg) no-repeat;
+    position: relative;
+    background-size: cover;
+    z-index: 2;
+}
+
+.project-preview__wrap {
+    position: absolute;
+    bottom: 0;
+    right: -2px;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.project-preview__list {
+    position: absolute;
+    right: 2px;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.project-preview__item {
+    position: relative;
+    width: 180px;
+    height: 100px;
+}
+
+.project-preview__link {
+    display: block;
+    height: 100%;
+}
+
+.project-preview__pic {
+    max-width: 100%;
+}
+
+.project-decription {
+    display: flex;
+    flex-direction: column;
+    width: 24%;
+    max-width: 350px;
+    position: relative;
+
+    &:after {
+        content: '2';
+        font-size: 400px;
+        font-weight: $extrabold;
+        color: #e6e6e6;
+        position: absolute;
+        top: 50%;
+        right: 100%;
+        transform: translate(0, -50%);
+    }
+}
+
+.tags {
+    margin-bottom: 50px;
+}
+
+.main-title_tags {
+    margin-bottom: 45px;
+    font-size: 30px;
+}
+
+.main-subtitle_tags {
+    margin-bottom: 50px;
+    color: rgba($text-color, .7);
+}
+
+.my-projects-ref {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: $bold;
+}
+
+.my-projects-ref__pic {
+    width: 15px;   
+    height: 15px;
+    fill: $links-color;
+    margin-right: 20px;
+}
+
+.my-projects-ref__link {
+    display: flex;
+    align-items: center;
+    color: $links-color;   
+}
+
+.is-active {
+
+    &::after {
+        content: "";
+        z-index: 2;
+        position: absolute;
+        width: 178px;
+        height: 98px;
+        top: 0;
+        left: 0;
+        border: 2px solid $border-color; 
+    }
+}
+
+
+

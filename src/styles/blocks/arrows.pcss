@@ -1,0 +1,67 @@
+.arrows {
+    display: flex;
+}
+
+.arrows_section-projects {
+    position: absolute;
+    right: 0;
+    top: 100%;
+}
+
+.arrows_section-comments {
+    width: 130px;
+    justify-content: space-between;
+}
+
+.arrow-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        border: 1px solid $hover-color;
+    }
+
+    &:hover > svg {
+        fill: $hover-color;
+    }
+}
+
+.arrow-link_section-projects {
+    background: $arrow-bg-color;
+    width: 50px;
+    height: 50px;
+}
+
+.arrow-link_section-comments {
+    width: 50px;
+    height: 50px;
+    border: 1px solid $text-color;
+    border-radius: 50%;
+}
+
+.arrow-link__pic {
+    width: 10px;
+    height: 6px;
+}
+
+.arrow-link__pic_color-white {
+    fill: #fff;
+}
+
+.arrow-link__pic_color-414c63 {
+    fill: $text-color;
+}
+
+.arrow-link__pic_up {
+    transform: rotate(-90deg);
+}
+
+.arrow-link__pic_down {
+    transform: rotate(90deg);
+}
+
+.arrow-link__pic_left {
+    transform: rotate(-180deg);
+}
+

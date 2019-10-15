@@ -1,15 +1,103 @@
 include ./mixins.pug
 
 <!DOCTYPE html>
-html(lang="en")
+html(lang="ru-Ru")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    title Portfolio | main page
+    title AC | main page
+    link(href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap&subset=cyrillic" rel="stylesheet")
   body
     .wrapper
-      .maincontent
-        +image('content/user.jpg', 'user-pic')
-        +icon('link', 'link-class')
-        .icon-bg
+      .bg-top
+        section.container.container-main
+          .header
+            .text-logo AC
+            +nav('nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'])
+            +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+          .main-text
+            span.main-text__title Личный сайт 
+            span.main-text__title веб-разработчика
+            .main-text__name Андрей Стефанцов
+          .scroll
+            a.scroll__link(href='#' title='Вниз') Скролл
+              +icon('scroll', 'scroll__pic')
+        section.container.container-about
+          .about-me
+            .main-info
+              .photo
+              +questionnaire('questionnaire', infoList, 'text-mod')
+            .description
+              span.description__entry Привет, меня зовут
+              span.description__name Андрей Стефанцов
+              span.description__info Я занимаюсь разработкой современных сайтов и приложений. Мне нравится делать интересные и современные проекты.
+              span.description__notice Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+      section.container.container-skills
+        .skills-description
+          span.main-title.main-title_skills Чем я могу быть полезен вам
+          span.main-subtitle.main-subtitle_skills Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+        .skills
+          .bg-image
+            +image('content/backpack.png', 'bg-image__pic')
+          .skillwheels-block
+              +skillwheel('skillwheel', 'Front-end', skillList[0])
+              +skillwheel('skillwheel', 'Workflow', skillList[1])
+      section.container.container-my-projects
+        span.main-title.main-title_my-projects Мои работы
+        .my-projects
+          .project-preview
+            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 3)
+            .arrows.arrows_section-projects
+              a.arrow-link.arrow-link_section-projects(href='#')
+                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_up`)
+              a.arrow-link.arrow-link_section-projects(href='#')
+                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_down`)
+          .project-decription
+            +tags('tags', ['HTML', 'CSS', 'Javascript'])
+            .main-title.main-title_tags Сайт школы образования
+            .main-subtitle.main-subtitle_tags Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ratione officia voluptate, quis provident deleniti quo commodi doloribus mollitia nisi, odio eaque veniam ipsum omnis totam necessitatibus pariatur nostrum quas!
+            .my-projects-ref
+              +icon('link', 'my-projects-ref__pic')
+              a.my-projects-ref__link(href='#') Перейти на сайт
+      .bg-down
+        section(class=`container container-сomments`)
+          .comment-description
+            .main-title.main-title_comments Что обо мне говорят
+            .arrows.arrows_section-comments
+              a.arrow-link.arrow-link_section-comments(href='#')
+                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63 arrow-link__pic_left`)
+              a.arrow-link.arrow-link_section-comments(href='#')
+                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63`)
+          .comments
+            +comments('comments', commentsList)
+        section.container.container-contact-me
+          span.main-title.main-title_contact-me Связаться со мной
+          form.form
+            .form__info
+              .input-wrap.input-wrap_text-input
+                +input('input', 'name', 'user')
+                label(class='label' for='name') Введите ваше имя
+              .input-wrap.input-wrap_text-input  
+                +input('input', 'email', 'envelope')
+                label(class='label' for='email') Введите ваш email
+            .form__info
+               .input-wrap.input-wrap_textarea
+                +textarea('input', 'textarea', 'chat')
+                label(class='label label_textarea' for='textarea') Сообщение к письму
+            button.button Отправить
+      footer.footer
+        .container-footer        
+          .copyright &copy; 2019
+          .footer-about
+            span.footer-about__name Андрей Стефанцов
+            span.footer-about__title Личный сайт веб-разработчика
+          .footer-info
+            +nav(`nav`, ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], 'footer')   
+            .context
+              .about-site
+                .about-site__description Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool.
+                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], 'footer')
+              .quote
+                .quote__text Пишите код так, как будто сопровождать его будет склонный к насилию психопат, который знает, где вы живёте
+                span.quote__author Martin Golding
