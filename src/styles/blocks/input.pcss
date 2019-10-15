@@ -43,8 +43,14 @@ textarea:focus ~ .label {
     font-weight: $bold;
 
     &:focus {
-        outline: none
+        outline: none;
+        border-bottom: 1px solid $hover-color;
     }
+
+    &:focus + svg {
+        fill: $hover-color;
+    }
+    
 }
 
 .input-pic {

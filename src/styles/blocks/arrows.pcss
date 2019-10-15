@@ -17,6 +17,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover {
+        border: 1px solid $hover-color;
+    }
+
+    &:hover > svg {
+        fill: $hover-color;
+    }
 }
 
 .arrow-link_section-projects {
