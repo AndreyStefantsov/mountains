@@ -1,5 +1,14 @@
 .socials {
+    opacity: 1;
+}
+
+
+.socials__list {
     display: flex;
+
+    @include widePhones {
+        display: none;
+    }
 }
 
 .socials__item {
@@ -14,7 +23,7 @@
     margin-right: 20px;
 }
 
-.socials__link {
+.socials__link, .socials-burger__link {
     width: 25px;
     height: 25px;
     display: flex;
@@ -49,8 +58,26 @@
     }
 }
 
-
-
 .socials__pic_footer {
     width: 50;
+}
+
+.socials-burger {
+    display: none;
+
+    @include tablets {
+        display: flex;
+    }
+}
+
+.socials-burger__list {
+    display: flex;
+}
+
+.socials-burger__item {
+    margin-right: 20px;
+}
+
+.hidden {
+    opacity: 0;
 }

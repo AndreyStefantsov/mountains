@@ -4,15 +4,64 @@
     flex-direction: column;
     height: initial;
     margin-bottom: 150px;
+    position: relative;
+
+    @include desktop {
+        margin-left: 0px;
+    }
+
+    @include monitor {
+        flex-direction: column;
+        margin-left: 60px;
+    }
+
+    @include tablets {
+        margin-left: 40px;
+    }
+    
+
 }
 
 
 .bg-image {
-    max-width: 800px;
-    width: 45%;
-    margin-right: 55px;
-    position: relative;
-    top: -15%;
+
+    position: absolute;
+    top: 140px;
+    left: 0;
+
+    @include desktop {
+        top: 130px;
+        position: absolute;
+        left: -210px;
+    }
+
+    @include monitor {
+        width: 300px;
+        position: relative;
+        order: 1;
+        left: 80%;
+        top: 50%;
+        transform: translate(-100%, 0);
+        height: 280px;
+        justify-content: center;
+    }
+
+    @include tablets {
+        align-self: flex-start;
+        position: relative;
+        order: 1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, 0);
+        height: 280px;
+        display: flex;
+        justify-content: center;
+    }
+
+    @include widePhones {
+        max-width: 260px;
+        height: auto;
+    }
 }
 
 .bg-image__pic {
@@ -21,28 +70,95 @@
 
 .skills {
     display: flex;
-    align-content: center;
-    justify-content: center;
     flex-direction: row;
-    align-self: flex-start;
+    max-width: 770px;
+    align-self: flex-end;
+    margin-right: 100px;
+
+    @include desktop {
+        justify-content: flex-end;
+        margin-left: 60px;
+        margin-right: 0;
+    }
+
+    @include monitor {
+        flex-direction: column;
+        margin-left: 0;
+        justify-content: center;
+        align-self: center;
+    }
+
+
+    @include tablets {
+        flex-direction: column;
+        margin-left: 0;
+        width: 100%;
+        align-items: center;
+    }
+
+    @include widePhones {
+        margin-left: 30px;
+        flex-direction: column;
+        //max-width: 260px;
+    }
+    
 }
 
 .skills-description {
     display: flex;
-    align-content: center;
+    align-items: flex-start;
     flex-direction: column;
     margin-bottom: 95px;
+
+    @include desktop {
+        margin-left: 60px;
+    }
+
+    @include tablets {
+        margin-bottom: 95px;
+        margin-left: 0;
+        align-items: center;
+        max-width: 450px;
+    }
+
+    @include widePhones {
+        margin-bottom: 60px;
+    }
+
 }
 
 .main-title_skills {
-    font-size: 30px;
+    font-size: 36px;
     margin-bottom: 55px;
-    text-align: center;
+
+    @include tablets {
+        margin-bottom: 30px;
+        max-width: 280px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    @include widePhones {
+        width: 100%;
+        max-width: 260px;
+        text-align: left;
+        font-size: 24px;
+    }
 }
 
 .main-subtitle_skills {
     max-width: 600px;
-    text-align: left;
     color: rgba($text-color, .5);
+    
+    @include tablets {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    @include widePhones {
+        max-width: 260px;
+        width: 100%;
+        text-align: left;
+    }
 }
 

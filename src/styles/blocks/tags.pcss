@@ -14,9 +14,22 @@
     &:last-child {
         margin-right: 0;
     }
+
+    @include widePhones {
+        padding: 13px;
+    }
 }
 
 .tags__title {
     font-size: 15px;
     color: rgba($text-color, .7);
+
+    @include tablets {
+        font-size: 14px;
+        font-weight: $semibold;
+    }
+
+    @include widePhones {
+        font-size: 14px;
+    }
 }

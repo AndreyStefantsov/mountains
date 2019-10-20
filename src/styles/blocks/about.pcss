@@ -1,24 +1,53 @@
 .container-about {
-    //background: #fff;
     align-items: center;
     justify-content: center;
-    max-width: 980px;
-    height: 100vh;
-    min-height: 700px;
+    min-height: 700px; 
+    position: relative;
+    z-index: 9999;
 
+    @include widePhones {
+        padding-bottom: 100px;
+    }
+
+    @include phones_landscape {
+        align-items: flex-start;
+        min-height: unset;
+        padding-bottom: 100px; 
+    }
 }
 
 .about-me {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-width: 980px;
+
+    @include desktop {
+        //justify-content: flex-start;
+    }
+
+
+    @include tablets {
+        max-width: 688px;
+    }
+
+    @include widePhones {
+        flex-direction: column;
+        justify-content: center;
+        max-width: 260px;
+    }
 }
 
 .main-info {
     display: flex;
     flex-direction: column;
-    //width: 330px;
     width: 35%;
+
+    @include widePhones {
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 50px;
+    }
 }
 
 .photo {
@@ -28,10 +57,20 @@
     height: 200px;
     width: 200px;
     overflow: hidden;
-    
     background: url(../images/content/me.jpg), rgba(gray, 0.2) no-repeat;
     background-size: cover;
     background-blend-mode: multiply;
+
+    @include tablets {
+        height: 170px;
+        width: 170px;
+        align-self: flex-start;
+    }
+
+    @include widePhones {
+        margin-bottom: 30px;
+        align-self: center;
+    }
 }
 
 .photo__pic {
@@ -47,46 +86,82 @@
     display: flex;
     flex-flow: row wrap; 
     margin-bottom: 20px;
+    white-space: nowrap;
 
     &:last-child {
         margin-bottom: 0;
+    }
+
+    @include widePhones {
+        margin-bottom: 15px;
     }
 }
 
 .questionnaire__info {
     font-weight: $semibold;
     width: 50%;
+
+    @include tablets {
+        font-size: 14px;
+    }
 }
 
 .description {
-   //width: 530px; 
-   width: 55%;
-   display: flex;
-   flex-direction: column;
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+
+    @include widePhones {
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 .description__entry {
     margin-bottom: 28px;
     font-weight: $semibold;
     color: rgba($text-color, .5);
+
+    @include tablets {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
 }
 
 .description__name {
     margin-bottom: 38px;
     font-size: 36px;
     font-weight: $bold;
+
+    @include tablets {
+        font-size: 30px;
+        margin-bottom: 55px;
+    }
+
+    @include widePhones {
+        margin-bottom: 50px;
+    }
 }
 
 .description__info {
     margin-bottom: 105px;
     font-weight: $semibold;
     color: rgba($text-color, .5);
+
+    @include tablets {
+        font-size: 14px;
+        margin-bottom: 45px;
+    }
 }
 
 .description__notice {
     font-style: italic;
     position: relative;
     color: rgba($text-color, .5);
+
+    @include tablets {
+        font-size: 14px;
+    }
 
     &:after {
         content: url(../images/content/notice.png);

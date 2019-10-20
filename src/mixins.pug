@@ -6,34 +6,20 @@ mixin icon(name, className)
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
 
-mixin nav(className, items, linkMod)
+mixin nav(className, items, anchors, linkMod)
   nav(class=`${className} ` + (linkMod ? `${className}_${linkMod}` : ''))
-    ul(class=`${className}__list`)
-      each item in items
-        li(class=`${className}__item`)
-          a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') href="#")=item
+    ul(class=`${className}__list ` + (linkMod ? `${className}__list_${linkMod}` : ''))
+      - for (var i=0; i<items.length; i++) 
+        li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
+          a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') href=anchors[i])=items[i]
 
 
 mixin socials(className, items, iconClassName, iconNames, linkMod)
-  ul(class=`${className}`)
+  ul(class=`${className}__list `)
     - for (var i=0; i<items.length; i++) 
       li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
         a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='#')
           +icon(iconNames[i], (`${iconClassName} `+ (linkMod ? `${iconClassName}_${linkMod}` : '')))
-
--
-  var infoList=[
-    {
-      title: 'Проживаю', 
-      text:'Домодедово', 
-    },{
-      title: 'Возраст', 
-      text:'28', 
-    },{
-      title: 'Родился', 
-      text:'2 апреля 1991 г.', 
-    }
-  ]
 
 mixin questionnaire(className, items, mod)
   div(class=`${className}`)
@@ -42,39 +28,6 @@ mixin questionnaire(className, items, mod)
         li(class=`${className}__item`)
           span(class=`${className}__info ` + (mod ? mod : '') href="#")=`${item.title}:`
           span(class=`${className}__info` href="#")=item.text
-
--
-  var skillList=[
-    [
-      {
-      text: 'HTML5', 
-      percent:'50', 
-      },{
-        text: 'CSS', 
-        percent:'75', 
-      },{
-        text: 'Javascript', 
-        percent:'25', 
-      },{
-        text: 'jQuery и Vue.js', 
-        percent:'10', 
-      }
-    ],[
-      {
-      text: 'Git', 
-      percent:'37', 
-      },{
-        text: 'Terminal', 
-        percent:'86', 
-      },{
-        text: 'Gulp', 
-        percent:'30', 
-      },{
-        text: 'Webpack', 
-        percent:'44', 
-      }
-    ]
-  ]
 
 mixin skillwheel(className, title, items)
   div(class=`${className}`)
@@ -94,7 +47,7 @@ mixin skillwheel(className, title, items)
               stop(offset="100%" stop-color="#9e00ff")
           div(class=`${className}__subtitle`)=item.text
 
-mixin projects(className, names, activeItem)
+mixin projects(className, names,  activeItem)
   div(class=`${className}__wrap`)
     ul(class=`${className}__list`)
       each name, index in names
@@ -126,11 +79,21 @@ mixin tags(className, items)
       image:'content/user.jpg', 
       name: 'Lorem Lorem', 
       proffesion: 'Lorem Lorem dorem'
+    },{
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?', 
+      image:'content/user.jpg', 
+      name: 'Lorem Lorem', 
+      proffesion: 'Lorem Lorem dorem'
+    },{
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?', 
+      image:'content/user.jpg', 
+      name: 'Lorem Lorem', 
+      proffesion: 'Lorem Lorem dorem'
     }
   ]
 
 mixin comments(className, items)
-  ul(class=`${className}__list`)
+  ul(class=`${className}__list` id='commentsList' :style="{left: offsetleft +'px'}")
     each item in items
       li(class=`${className}__item`)
         span(class=`${className}__text`)=item.text

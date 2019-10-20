@@ -10,14 +10,33 @@
   }
 }
 
+@mixin monitor() {
+  @media screen and (max-width: $bp-monitor) {
+    @content;
+  }
+}
+
+
 @mixin tablets() {
   @media screen and (max-width: $bp-tablets) {
     @content;
   }
 }
 
+@mixin widePhones() {
+  @media screen and (max-width: $bp-widePhones) {
+    @content;
+  }
+}
+
 @mixin phones() {
   @media screen and (max-width: $bp-phones) {
+    @content;
+  }
+}
+
+@mixin phones_landscape() {
+  @media screen and (max-height: $bp-widePhones) and (orientation: landscape) {
     @content;
   }
 }

@@ -4,17 +4,25 @@
     align-items: center;
     height: 100vh;
     min-height: 700px;
+    position: relative;
+    z-index: 9998;
+
+    @include phones_landscape {
+        min-height: 100vh;
+    }
+
 }
 
 .header {
     position: absolute;
     width: 100%;
-    max-width: 1480px;
     top: 65px;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
+    margin: 0;
+
 }
 
 .text-logo {
@@ -29,17 +37,77 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    width: 100%;
     
+    @include desktop {
+        flex-direction: row;
+    }
+
+    @include monitor {
+        flex-direction: row;
+        //width: 600px;
+        justify-content: center;
+    }
+
+    @include tablets {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    @include phones_landscape {
+        flex-direction: row;
+        margin-top: 50px;
+        //width: 400px;
+
+    }
 }
 
 .main-text__title {
     font-size: 18x;
     font-weight: $semibold;
     color: rgba($text-color, .6);
+
+    @include tablets {
+        font-size: 16x;
+    }
+    
+    @include phones_landscape {
+        font-size: 16x;
+        text-align: left;
+    }
+
 }
 
-.main-text__title + .main-text__title {
+.title-main {
     margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+
+    @include desktop {
+        margin-bottom: 92px;
+        text-align: right;
+    }
+
+    @include monitor {
+        margin-right: 30px;
+        margin-bottom: 80px;
+    }
+
+    @include tablets {
+        margin-right: 0;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    @include widePhones {
+        margin-bottom: 20px;
+    }
+
+    @include phones_landscape {
+        margin-bottom: 0;
+        text-align: left;
+        margin-right: 30px;
+    }
 }
 
 .main-text__name {
@@ -47,15 +115,39 @@
     max-width: 600px;
     text-transform: uppercase;
     font-weight: $extrabold;
-    line-height: 1
-}
+    line-height: 1;
 
-.main-text__name ~ span {
-    margin-bottom: 35px;
+    @include tablets {
+        font-size: 48px;
+        max-width: 300px;
+    }
+
+    @include monitor {
+        max-width: 500px;
+    }
+
+    @include widePhones {
+        line-height: 1.42;
+        font-size: 36px;
+    }
+
+    @include phones_landscape {
+        text-align: left;
+        font-size: 48px;
+        max-width: 300px;
+    }   
 }
 
 .scroll {
     margin-bottom: 115px;
+
+    @include tablets {
+        display: none;
+    }
+
+    @include phones_landscape {
+        display: none;
+    }
 }
 
 .scroll__link {

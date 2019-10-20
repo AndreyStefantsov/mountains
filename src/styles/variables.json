@@ -7,11 +7,14 @@
   "tags-bg-color": "#f4f4f4",
   "footer-bg-color": "#1f232d",
   "footer-color": "rgba(#fff, .1)",
-  "bp-desktop-hd": "1800px",
-  "bp-desktop": "1200px",
-  "bp-tablets": "768px",
-  "bp-phones": "480px",
   "semibold": "600",
   "bold": "700",
-  "extrabold": "800"
+  "extrabold": "800",
+  "bp-desktop-hd": "1800px",
+  "bp-desktop": "1200px",
+  "bp-monitor": "980px",
+  "bp-tablets": "768px",
+  "bp-widePhones": "480px",
+  "bp-phones": "320px",
+  "bp-phones_landscape": "375x"
 }

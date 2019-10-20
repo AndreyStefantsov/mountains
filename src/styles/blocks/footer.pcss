@@ -6,21 +6,65 @@
 }
 
 .container-footer {
-    margin: 100px 160px ;
+    margin: 100px 160px;
     display: flex;
+
+    @include desktop {
+        margin: 80px 60px;
+    }
+
+    @include tablets {
+        margin: 60px 40px
+    }
+
+    @include widePhones {
+        flex-direction: column;
+        margin: 60px 30px;
+    }
+}
+
+.footer-main {
+    display: flex;
+    margin-right: 140px; 
+
+    @include desktop {
+        flex-direction: column;
+        margin-right: 110px;
+    }
+
+    @include tablets {
+        margin-right: 75px;
+    }
+
+    @include widePhones {
+        margin-right: 0;
+        margin-bottom: 50px;
+        width: 260px;
+    }
+
 }
 
 .copyright {
     margin-right: 60px;
     font-size: 48px;
     font-weight: $semibold;
+    line-height: 1;
+    
+    @include desktop {
+        margin-right: 0;
+        margin-bottom: 30px;
+        white-space: nowrap;
+    }
 }
 
 .footer-about {
     display: flex;
     flex-direction: column;
-    margin-right: 140px;
-    max-width: 160px;
+    max-width: 145px;
+
+    @include widePhones {
+        max-width: 260px;
+    }
 }
 
 .footer-about__name {
@@ -28,9 +72,29 @@
     font-size: 18px;
     font-weight: $bold;
     color: #fff;
+
+    @include widePhones {
+        margin-bottom: 15px;
+    }
+}
+
+.footer-about__wrap {
+    display: flex;
+    flex-direction: column;
+
+    @include widePhones {
+        flex-direction: row;
+    }
 }
 
 .footer-about__title {
+    @include tablets {
+        font-size: 14px;
+    }
+
+    @include widePhones {
+        margin-right: 10px;
+    }
 }
 
 .footer-info {
@@ -43,12 +107,24 @@
     justify-content: space-between;
     max-width: 950px;
 
+    @include desktop {
+        max-width: 805px;
+    }
+
+    @include tablets {
+        flex-direction: column;
+    }
 }
 
 .about-site {
     display: flex;
     flex-direction: column;
     width: 33%;
+
+    @include tablets {
+        width: 100%;
+        margin-bottom: 60px;
+    }
 }
 
 .about-site__description {
@@ -59,10 +135,18 @@
     display: flex;
     flex-direction: column;
     width: 45%;
+
+    @include tablets {
+        width: 100%;
+    }
 }
 
 .quote__text {
     margin-bottom: 35px;
+
+    @include tablets {
+        margin-bottom: 20px;
+    }
 }
 
 .quote__author {
