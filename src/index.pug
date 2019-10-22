@@ -8,50 +8,76 @@ html(lang="ru-Ru")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
     title AC | main page
     link(href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800&display=swap&subset=cyrillic" rel="stylesheet")
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   body
-    .wrapper
-      .bg-top
-        section.container.container-main
-          .header
-            .text-logo AC
-            +nav('nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'])
-            +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
-          .main-text
-            span.main-text__title Личный сайт 
-            span.main-text__title веб-разработчика
-            .main-text__name Андрей Стефанцов
-          .scroll
-            a.scroll__link(href='#' title='Вниз') Скролл
-              +icon('scroll', 'scroll__pic')
-        section.container.container-about
-          .about-me
-            .main-info
-              .photo
-              +questionnaire('questionnaire', infoList, 'text-mod')
-            .description
-              span.description__entry Привет, меня зовут
-              span.description__name Андрей Стефанцов
-              span.description__info Я занимаюсь разработкой современных сайтов и приложений. Мне нравится делать интересные и современные проекты.
-              span.description__notice Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
-      section.container.container-skills
+    .wrapper#wrapper
+      .bg-top#bg-top
+        .parallax.parallax_top
+          .parallax__layer.parallax__layer_top(data-speed='0.05')
+            +image('parallax/top/layer_1.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.07')
+            +image('parallax/top/layer_2.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.1')
+            +image('parallax/top/layer_3.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.14')
+            +image('parallax/top/layer_4.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.16')
+            +image('parallax/top/layer_5.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.18')
+            +image('parallax/top/layer_6.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_top(data-speed='0.2')
+            +image('parallax/top/layer_7.png', 'parallax__pic')
+        .wpap#burger-wrap   
+          .burger-menu(:class="open" @click='clickOn')
+            +nav('burger', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
+            .socials-burger
+              +socials('socials-burger', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+            a.close-lines(@click.prevent='closeMenu')  
+          section.container.container-main#main
+            .header.container#header
+              .text-logo AC
+              +nav('nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
+              .socials(:class="hidden")
+                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+              a.burger-lines(@click.prevent='openMenu')  
+            .main-text
+              div.title-main
+                span.main-text__title Личный сайт 
+                span.main-text__title веб-разработчика
+              .main-text__name Андрей Стефанцов
+            .scroll
+              a.scroll__link(href='#about' title='Вниз') Скролл
+                +icon('scroll', 'scroll__pic')
+          section.container.container-about#about
+            .about-me
+              .main-info
+                .photo
+                include ./components/questionnaire.pug
+                //+questionnaire('questionnaire', infoList, 'text-mod')
+              .description
+                span.description__entry Привет, меня зовут
+                span.description__name Андрей Стефанцов
+                span.description__info Я занимаюсь разработкой современных сайтов и приложений. Мне нравится делать интересные и современные проекты.
+                span.description__notice Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+      section.container.container-skills#skills
         .skills-description
           span.main-title.main-title_skills Чем я могу быть полезен вам
           span.main-subtitle.main-subtitle_skills Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
         .skills
           .bg-image
-            +image('content/backpack.png', 'bg-image__pic')
-          .skillwheels-block
-              +skillwheel('skillwheel', 'Front-end', skillList[0])
-              +skillwheel('skillwheel', 'Workflow', skillList[1])
-      section.container.container-my-projects
+            +image('content/backpack.png', 'bg-image__pic') 
+          #skills-container
+            //include ./components/skills.pug
+      section.container.container-my-projects#my-projects
         span.main-title.main-title_my-projects Мои работы
-        .my-projects
+        .my-projects#projects
           .project-preview
-            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 3)
+            +image('content/preview_car.jpg', 'project-preview__pic', 'fullImage')
+            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 0)
             .arrows.arrows_section-projects
-              a.arrow-link.arrow-link_section-projects(href='#')
+              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideUp" :class="{blocked: blockedUp}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_up`)
-              a.arrow-link.arrow-link_section-projects(href='#')
+              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideDown" :class="{blocked: blockedDown}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_down`)
           .project-decription
             +tags('tags', ['HTML', 'CSS', 'Javascript'])
@@ -61,17 +87,32 @@ html(lang="ru-Ru")
               +icon('link', 'my-projects-ref__pic')
               a.my-projects-ref__link(href='#') Перейти на сайт
       .bg-down
-        section(class=`container container-сomments`)
+        .parallax.parallax_down
+          .parallax__layer.parallax__layer_down(data-speed='0.05')
+            +image('parallax/down/layer_1.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.07')
+            +image('parallax/down/layer_2.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.1')
+            +image('parallax/down/layer_3.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.14')
+            +image('parallax/down/layer_4.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.16')
+            +image('parallax/down/layer_5.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.18')
+            +image('parallax/down/layer_6.png', 'parallax__pic')
+          .parallax__layer.parallax__layer_down(data-speed='0.2')
+            +image('parallax/down/layer_7.png', 'parallax__pic')
+        section.container.container-comments#comments
           .comment-description
             .main-title.main-title_comments Что обо мне говорят
             .arrows.arrows_section-comments
-              a.arrow-link.arrow-link_section-comments(href='#')
+              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideRight" :class="{blocked: blockedRight}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63 arrow-link__pic_left`)
-              a.arrow-link.arrow-link_section-comments(href='#')
+              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideLeft" :class="{blocked: blockedLeft}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63`)
           .comments
             +comments('comments', commentsList)
-        section.container.container-contact-me
+        section.container.container-contact-me#contact-me
           span.main-title.main-title_contact-me Связаться со мной
           form.form
             .form__info
@@ -87,17 +128,23 @@ html(lang="ru-Ru")
                 label(class='label label_textarea' for='textarea') Сообщение к письму
             button.button Отправить
       footer.footer
-        .container-footer        
-          .copyright &copy; 2019
-          .footer-about
-            span.footer-about__name Андрей Стефанцов
-            span.footer-about__title Личный сайт веб-разработчика
+        .container-footer
+          .footer-main       
+            .copyright &copy; 2019
+            .footer-about
+              span.footer-about__name Андрей Стефанцов
+              .footer-about__wrap
+                span.footer-about__title Личный сайт
+                span.footer-about__title веб-разработчика
           .footer-info
-            +nav(`nav`, ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], 'footer')   
+            +nav(`nav`, ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'], 'footer')   
             .context
               .about-site
                 .about-site__description Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool.
-                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], 'footer')
+                .socials-footer
+                  +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], 'footer')
               .quote
                 .quote__text Пишите код так, как будто сопровождать его будет склонный к насилию психопат, который знает, где вы живёте
                 span.quote__author Martin Golding
+
+      include ./templates/entry.pug

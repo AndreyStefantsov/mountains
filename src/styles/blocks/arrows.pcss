@@ -6,6 +6,11 @@
     position: absolute;
     right: 0;
     top: 100%;
+
+    @include widePhones {
+        z-index: 999;
+    }
+
 }
 
 .arrows_section-comments {
@@ -31,6 +36,8 @@
     background: $arrow-bg-color;
     width: 50px;
     height: 50px;
+
+
 }
 
 .arrow-link_section-comments {
@@ -65,3 +72,6 @@
     transform: rotate(-180deg);
 }
 
+.blocked {
+    pointer-events: none;
+}

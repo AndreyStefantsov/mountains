@@ -1,0 +1,106 @@
+.burger-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: -600px;
+    top: 0;
+    width: 325px;
+    height: 100vh;
+    padding: 0 40px 0 67px;
+    transition: right 0.7s;
+    background: #fff;
+    z-index:5;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 9999;
+
+    @include tablets {
+        width: 100%;
+        right: -105%;
+        align-items: center;
+        padding: 0;
+    }
+
+    @include widePhones {
+        //width: 320px;
+    }
+}
+
+.burger-lines {
+    display: none;
+    
+    @include monitor {
+        display: block;
+        width: 25px;
+        height: 4px;
+        position: relative;
+        background: $text-color;
+        color: transparent;
+        z-index: 10;
+
+        &:before {
+            content: '';
+            display: block;            
+            width: 25px;
+            height: 4px;
+            position: absolute;
+            background: $text-color;
+            top: -8px;
+            z-index: 10;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            width: 25px;
+            height: 4px;
+            position: absolute;
+            background: $text-color;
+            top: 8px;
+            z-index: 10;
+        }
+    }
+}
+
+.close-lines {
+    z-index: 10;
+    width: 0;
+    height: 0;
+    right: 65px;
+    position: absolute;
+    top: 65px;
+    color: transparent;
+    //text-indent: 9999px;
+
+    &:before {
+        content: '';
+        width: 25px;
+        height: 4px;
+        position: absolute;
+        background: $text-color;
+        top: 5%;
+        z-index: 10;
+        transform: rotate(-45deg);
+        transition: transform 0.5s ;
+    }
+
+    &:after {
+        content: '';
+        width: 25px;
+        height: 4px;
+        position: absolute;
+        background: $text-color;
+        top: 5%;
+        z-index: 10;
+        transform: rotate(45deg);
+        transition: transform 0.5s;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+.open {
+    right: 0; 
+}

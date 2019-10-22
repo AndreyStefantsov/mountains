@@ -85,7 +85,7 @@ module.exports = (env, argv) => {
 
   const config = {
     entry: {
-      main: "./src/main.js",
+      main: "./src/main.js",  
       admin: "./src/admin/main.js"
     },
     output: {
@@ -98,6 +98,7 @@ module.exports = (env, argv) => {
       rules: [pcss, vue, js, files, svg, pug]
     },
     resolve: {
+      extensions: ['.js', '.vue', '.json'],
       alias: {
         vue$: "vue/dist/vue.esm.js",
         images: path.resolve(__dirname, "src/images")

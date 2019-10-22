@@ -1,13 +1,83 @@
+.nav {
+    @include monitor {
+        display: none;
+    }
+}
+
 .nav_footer {
     margin-bottom: 70px;
     position: relative;
     left: -30px;
+    margin-right: 0;
+
+    @include desktop {
+        display: flex;
+        left: -20px;
+    }
+
+    @include desktopLow {
+        margin-bottom: 50px;
+    }
+
+    @include tablets {
+        left: 0;
+        margin-bottom: 30px;
+    }
+}
+
+.nav__item {
+
+    @include tablets {
+        margin-bottom: 30px;
+    }
+}
+
+.nav__item_footer {
+
+    @include desktopLow {
+        margin-bottom: 20px;
+    }
+
+    @include tablets {
+        width: 90px;
+    }
+
+    @include widePhones {
+        width: 120px;
+
+        &:nth-child(odd) {
+            margin-right: 20px;
+        }
+    }
 }
 
 .nav__list {
     display: flex;
     align-items: center; 
     flex-flow: row wrap;
+
+
+    @include monitor {
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    @include phones_landscape {
+        justify-content: center;
+
+    }
+
+}
+
+.nav__list_footer { 
+    flex-flow: row wrap;
+    display: flex;
+
+    @include tablets {
+        margin-bottom: 0;
+        justify-content: flex-start; 
+    }
+    
 }
 
 
@@ -19,8 +89,66 @@
         color: $hover-color;
         border-bottom: 3px solid $hover-color;
     }
+
+    @include desktop {
+        padding: 0 20px 5px;
+    }
+
+    @include tablets {
+        padding: 0;
+        font-size: 18px;
+        font-weight: $semibold;
+    }
+
 }
 
 .nav__link_footer {
     color: #fff;
+
+    @include tablets {
+        font-size: 14px;
+    }
+}
+
+.burger {
+    width: 100%;
+}
+
+.burger__list {
+    display: flex;
+    align-items: flex-start;
+    flex-flow: column;
+    margin-bottom: 60px;
+
+    @include tablets {
+        align-items: center;
+    }
+
+    @include widePhones {
+        margin-bottom: 30px;
+    }
+
+    @include phones_landscape {
+        margin-bottom: 15px;
+    }
+}
+
+.burger__item {
+
+    @include monitor {
+        margin-bottom: 30px;
+    }
+
+    @include phones_landscape {
+        margin-bottom: 15px;
+    }
+}
+
+.burger__link {
+    font-size: 16px;
+    font-weight: $semibold;
+
+    &:hover {
+        color: $hover-color;
+    }
 }

@@ -6,34 +6,20 @@ mixin icon(name, className)
 mixin image(path, className)
   img(src=require(`images/${path}`) class=className)
 
-mixin nav(className, items, linkMod)
+mixin nav(className, items, anchors, linkMod)
   nav(class=`${className} ` + (linkMod ? `${className}_${linkMod}` : ''))
-    ul(class=`${className}__list`)
-      each item in items
-        li(class=`${className}__item`)
-          a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') href="#")=item
+    ul(class=`${className}__list ` + (linkMod ? `${className}__list_${linkMod}` : ''))
+      - for (var i=0; i<items.length; i++) 
+        li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
+          a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') href=anchors[i])=items[i]
 
 
 mixin socials(className, items, iconClassName, iconNames, linkMod)
-  ul(class=`${className}`)
+  ul(class=`${className}__list `)
     - for (var i=0; i<items.length; i++) 
       li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
-        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='#')
+        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='')
           +icon(iconNames[i], (`${iconClassName} `+ (linkMod ? `${iconClassName}_${linkMod}` : '')))
-
--
-  var infoList=[
-    {
-      title: 'Проживаю', 
-      text:'Домодедово', 
-    },{
-      title: 'Возраст', 
-      text:'28', 
-    },{
-      title: 'Родился', 
-      text:'2 апреля 1991 г.', 
-    }
-  ]
 
 mixin questionnaire(className, items, mod)
   div(class=`${className}`)
@@ -43,62 +29,12 @@ mixin questionnaire(className, items, mod)
           span(class=`${className}__info ` + (mod ? mod : '') href="#")=`${item.title}:`
           span(class=`${className}__info` href="#")=item.text
 
--
-  var skillList=[
-    [
-      {
-      text: 'HTML5', 
-      percent:'50', 
-      },{
-        text: 'CSS', 
-        percent:'75', 
-      },{
-        text: 'Javascript', 
-        percent:'25', 
-      },{
-        text: 'jQuery и Vue.js', 
-        percent:'10', 
-      }
-    ],[
-      {
-      text: 'Git', 
-      percent:'37', 
-      },{
-        text: 'Terminal', 
-        percent:'86', 
-      },{
-        text: 'Gulp', 
-        percent:'30', 
-      },{
-        text: 'Webpack', 
-        percent:'44', 
-      }
-    ]
-  ]
 
-mixin skillwheel(className, title, items)
-  div(class=`${className}`)
-    span(class=`${className}__title`)=title
-    ul(class=`${className}__list`)
-      each item in items
-        li(class=`${className}__item`)
-          svg.circle(viewBox='0 0 150 150' preserveAspectRatio="none")
-            circle.circle__bg(cx='75' cy='75' r='65')
-              - 
-                const dashoffset = -410;
-                var percent=(dashoffset*(100-item.percent))/100
-            circle.circle__progress(cx='75' cy='75' r='65' stroke-dashoffset=percent)
-            linearGradient(id="grad")
-              stop(offset="0%" stop-color="#4a00ed")
-              stop(offset="50%" stop-color="#5400ec")
-              stop(offset="100%" stop-color="#9e00ff")
-          div(class=`${className}__subtitle`)=item.text
-
-mixin projects(className, names, activeItem)
+mixin projects(className, names,  activeItems)
   div(class=`${className}__wrap`)
-    ul(class=`${className}__list`)
+    ul(class=`${className}__list` :style="{top: offsetTop +'px'}" @click.prevent="changePreview")
       each name, index in names
-        li(class=`${className}__item ` + ((activeItem === index) ? `is-active` : ''))
+        li(class=`${className}__item ` + ((activeItems === index) ? `is-active` : '' ) :class="{is-active : activeItem}" data-index=index)
           - var img = require(`images/content/${name}.jpg`);
           a(class=`${className}__link` href='#' style=`background: url(${img}); background-size: cover`)
 
@@ -126,21 +62,33 @@ mixin tags(className, items)
       image:'content/user.jpg', 
       name: 'Lorem Lorem', 
       proffesion: 'Lorem Lorem dorem'
+    },{
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?', 
+      image:'content/user.jpg', 
+      name: 'Lorem Lorem', 
+      proffesion: 'Lorem Lorem dorem'
+    },{
+      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?', 
+      image:'content/user.jpg', 
+      name: 'Lorem Lorem', 
+      proffesion: 'Lorem Lorem dorem'
     }
   ]
 
 mixin comments(className, items)
-  ul(class=`${className}__list`)
+  ul(class=`${className}__list` ref='commentsList' :style="{left: offsetleft +'px'}")
     each item in items
-      li(class=`${className}__item`)
-        span(class=`${className}__text`)=item.text
-        div(class=`${className}__info`)
-          div(class=`${className}__image`)
-            +image(item.image, `${className}__pic`)
-          div(class=`${className}__decription`)
-            span(class=`${className}__name`)=item.name
-            span(class=`${className}__proffesion`)=item.proffesion
-        +icon('quote', `${className}__quote`)    
+      li(class=`${className}__item` ref='commentsItem')
+        div(class=`${className}__quote-wrap`)
+          +icon('quote', `${className}__quote`)
+        div(class=`${className}__wrap`)
+          span(class=`${className}__text`)=item.text
+          div(class=`${className}__info`)
+            div(class=`${className}__image`)
+              +image(item.image, `${className}__pic`)
+            div(class=`${className}__decription`)
+              span(class=`${className}__name`)=item.name
+              span(class=`${className}__proffesion`)=item.proffesion
 
 mixin input(className, id, image)
   input(class=className type='text' id=id name=id)

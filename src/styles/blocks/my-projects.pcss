@@ -1,29 +1,146 @@
 .container-my-projects {
-    margin: 0 160px 175px;
+    margin-bottom: 175px;
     flex-direction: column;
     overflow: visible;
+    position: relative;
+    align-items: center;
+
+    @include monitor {
+        //margin-right: 0;
+
+        &:after {
+            content: '2';
+            font-size: 400px;
+            font-weight: $extrabold;
+            color: #e6e6e6;
+            position: absolute;
+            top: -40px;
+            right: 0px;
+        }
+    }
+
+
+    @include tablets {
+        //margin-right: 0;
+
+        &:after {
+            content: '2';
+            font-size: 400px;
+            font-weight: $extrabold;
+            color: #e6e6e6;
+            position: absolute;
+            top: -40px;
+            right: -12px;
+        }
+    }
+    
+
+    @include widePhones {
+        margin-left: 0;
+        margin-right: 0;
+        align-items: center;
+        width: 100%;
+
+        &:after {
+            content: '';
+        }
+    }
+
+    @include phones_landscape() {
+        //margin-right: 40px;
+        
+    }
 }
 
 .main-title_my-projects {
     margin-bottom: 90px;
     font-size: 36px;
+
+    @include desktop {
+        margin-bottom: 60px;
+    }
+
+    @include tablets {
+        margin-bottom: 55px;
+        font-size: 30px;
+    }
+
+    @include widePhones {
+        width: 100%;
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
 }
 
 .my-projects {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between
+    width: 100%;
+
+    @include monitor {
+        flex-direction: column;
+        max-width: 630px;
+        align-items: flex-start;
+    }
+
+    @include tablets {
+        flex-direction: column;
+        //width: 630px;
+        align-items: center;
+    }
+
+    @include widePhones {
+        align-items: center;
+        width: 320px;
+    }
+
+    @include phones_landscape() {
+        width: 100%;
+    }
 }
 
 .project-preview {
     display: flex;
+    width: 66.2%;
     max-width: 980px;
-    width: 67%;
-    height: 550px;
-    background: url(../images/content/preview_future.jpg) no-repeat;
+    min-width: 630px;
+    min-height: 360px;
     position: relative;
     background-size: cover;
     z-index: 2;
+    margin-right: 155px;
+
+    
+    @include desktop {
+        min-width: 320px;
+        min-height: 300px;
+        max-width: 630px;
+        max-height: 360px;
+        margin-right: 110px;
+    }
+
+    @include monitor {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 100px;
+    }
+
+    @include tablets {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 100px;
+    }
+
+    @include widePhones {
+        width: 320px;
+        height: 190px;
+        min-height: unset;
+    }
+
+    @include phones_landscape() {
+        width: 100%;
+    }
 }
 
 .project-preview__wrap {
@@ -32,7 +149,24 @@
     right: -2px;
     height: 400px;
     width: 100%;
+    
     overflow: hidden;
+    z-index: 10;
+
+    @include desktop {
+        height: 300px;
+        width: 100%;
+    }
+
+    @include widePhones {
+        width: 320px;
+        height: 190px;
+        right: 0px;
+    }
+
+    @include phones_landscape() {
+        width: 95%;
+    }
 }
 
 .project-preview__list {
@@ -41,28 +175,52 @@
     top: 0;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    //box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    transition: top 0.5s linear;
+
+    @include widePhones {
+        box-shadow: none;
+        right: 0px;
+    }
 }
 
 .project-preview__item {
     position: relative;
     width: 180px;
     height: 100px;
+
+    @include widePhones {
+        width: 320px;
+        height: 190px;
+    }
 }
 
 .project-preview__link {
     display: block;
     height: 100%;
+
+    &:hover {
+        z-index: 2;
+        position: absolute;
+        width: 178px;
+        height: 98px;
+        top: 0;
+        left: 2px;
+        outline: 2px solid $border-color; 
+    }
 }
 
 .project-preview__pic {
     max-width: 100%;
+
+    @include widePhones {
+        display: none;
+    }
 }
 
 .project-decription {
     display: flex;
     flex-direction: column;
-    width: 24%;
     max-width: 350px;
     position: relative;
 
@@ -72,24 +230,90 @@
         font-weight: $extrabold;
         color: #e6e6e6;
         position: absolute;
-        top: 50%;
-        right: 100%;
-        transform: translate(0, -50%);
+        top: -100px;
+        left: -230px;
+
+        @include desktop {
+            left: -180px;
+            font-size: 300px;
+        }
+
+        @include monitor {
+            content: '';
+        }
+
+        @include tablets {
+            content: '';
+        }
+
+    }
+
+    @include monitor {
+        max-width: 100%;
+        align-items: center;
+    }
+
+    @include tablets {
+        width: 100%;
+        max-width: 450px;
+        align-items: center;
+        margin-right: 0;
+    }
+
+    @include widePhones {
+        width: 100%;
+        max-width: 260px;
+        align-items: flex-start;
+
+        &:after {
+            content: '';
+        }
     }
 }
 
 .tags {
     margin-bottom: 50px;
+
+    @include tablets {
+        margin-bottom: 25px;
+    }
 }
 
 .main-title_tags {
     margin-bottom: 45px;
-    font-size: 30px;
+    font-size: 36px;
+
+    @include tablets {
+        margin-bottom: 25px;
+        font-size: 30px;
+    }
+
+    @include widePhones {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 }
 
 .main-subtitle_tags {
     margin-bottom: 50px;
     color: rgba($text-color, .7);
+
+    @include monitor {
+        text-align: center;
+    }
+
+    @include tablets {
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    @include widePhones {
+        width: 100%;
+        max-width: 260px;
+        text-align: left;
+    }
+    
 }
 
 .my-projects-ref {
@@ -97,19 +321,25 @@
     align-items: center;
     font-size: 18px;
     font-weight: $bold;
+    
 }
 
 .my-projects-ref__pic {
     width: 15px;   
     height: 15px;
     fill: $links-color;
-    margin-right: 20px;
+    cursor: pointer;
 }
 
 .my-projects-ref__link {
     display: flex;
     align-items: center;
-    color: $links-color;   
+    color: $links-color; 
+    padding-left: 20px;
+
+    @include tablets {
+        font-size: 14px;
+    }
 }
 
 .is-active {
@@ -119,12 +349,16 @@
         z-index: 2;
         position: absolute;
         width: 178px;
-        height: 98px;
+        height: 96px;
         top: 0;
         left: 0;
         border: 2px solid $border-color; 
+        clear: both;
+
+        @include widePhones {
+            border: none
+        }
     }
+
+    
 }
-
-
-

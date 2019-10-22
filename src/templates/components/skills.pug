@@ -1,0 +1,29 @@
+script(type="text/x-template")#skills-block
+    .skillwheels-block
+        ul.skillwheels-block__list
+            li.skillwheels-block__item(v-for="skill in skills" :key="skill.title")
+                skills-list(
+                    :skillArr="skill"
+                )
+
+script(type="text/x-template")#skills-list
+    .skillwheel
+        span.skillwheel__title {{skillArr.title}}
+        ul.skillwheel__list
+            li.skillwheel__item(v-for="(skillPercent, skillTitle) in skillArr.skills")
+                skills-item(
+                    :skill-title="skillTitle",
+                    :skill-percent="skillPercent"
+                )
+
+script(type="text/x-template")#skills-item
+    div.skillwheel__inner-item
+        svg.circle(viewBox='0 0 150 150' preserveAspectRatio="none")
+            circle.circle__bg(cx='75' cy='75' r='65')
+            circle.circle__progress(cx='75' cy='75' r='65' ref="progress")
+            linearGradient(id="grad")
+                stop(offset="0%" stop-color="#4a00ed")
+                stop(offset="50%" stop-color="#5400ec")
+                stop(offset="100%" stop-color="#9e00ff")
+        .skillwheel__subtitle {{skillTitle}}
+
