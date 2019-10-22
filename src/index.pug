@@ -27,37 +27,38 @@ html(lang="ru-Ru")
             +image('parallax/top/layer_6.png', 'parallax__pic')
           .parallax__layer.parallax__layer_top(data-speed='0.2')
             +image('parallax/top/layer_7.png', 'parallax__pic')
-        .burger-menu(:class="open")
-          +nav('burger', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
-          .socials-burger
-            +socials('socials-burger', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
-          a.close-lines(@click.prevent='closeMenu')  
-        section.container.container-main#main
-          .header.container#header
-            .text-logo AC
-            +nav('nav-top nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
-            .socials(:class="hidden")
-              +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
-            a.burger-lines(@click.prevent='openMenu')  
-          .main-text
-            div.title-main
-              span.main-text__title Личный сайт 
-              span.main-text__title веб-разработчика
-            .main-text__name Андрей Стефанцов
-          .scroll
-            a.scroll__link(href='#about' title='Вниз') Скролл
-              +icon('scroll', 'scroll__pic')
-        section.container.container-about#about(data-scrollTo="2")
-          .about-me
-            .main-info
-              .photo
-              include ./components/questionnaire.pug
-              //+questionnaire('questionnaire', infoList, 'text-mod')
-            .description
-              span.description__entry Привет, меня зовут
-              span.description__name Андрей Стефанцов
-              span.description__info Я занимаюсь разработкой современных сайтов и приложений. Мне нравится делать интересные и современные проекты.
-              span.description__notice Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
+        .wpap#burger-wrap   
+          .burger-menu(:class="open" @click='clickOn')
+            +nav('burger', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
+            .socials-burger
+              +socials('socials-burger', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+            a.close-lines(@click.prevent='closeMenu')  
+          section.container.container-main#main
+            .header.container#header
+              .text-logo AC
+              +nav('nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
+              .socials(:class="hidden")
+                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+              a.burger-lines(@click.prevent='openMenu')  
+            .main-text
+              div.title-main
+                span.main-text__title Личный сайт 
+                span.main-text__title веб-разработчика
+              .main-text__name Андрей Стефанцов
+            .scroll
+              a.scroll__link(href='#about' title='Вниз') Скролл
+                +icon('scroll', 'scroll__pic')
+          section.container.container-about#about
+            .about-me
+              .main-info
+                .photo
+                include ./components/questionnaire.pug
+                //+questionnaire('questionnaire', infoList, 'text-mod')
+              .description
+                span.description__entry Привет, меня зовут
+                span.description__name Андрей Стефанцов
+                span.description__info Я занимаюсь разработкой современных сайтов и приложений. Мне нравится делать интересные и современные проекты.
+                span.description__notice Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool. Чуть позже я освежу в нём свой контент. А пока посмотрите, как тут всё классно и красиво!
       section.container.container-skills#skills
         .skills-description
           span.main-title.main-title_skills Чем я могу быть полезен вам
@@ -71,14 +72,15 @@ html(lang="ru-Ru")
               //+skillwheel('skillwheel', 'Workflow', skillList[1])
       section.container.container-my-projects#my-projects
         span.main-title.main-title_my-projects Мои работы
-        .my-projects
+        .my-projects#projects
           .project-preview
-            +image('content/preview_future.jpg', 'project-preview__pic')
-            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 3)
+            //img.project-preview__pic(src="images/content/preview_car.jpg" )
+            +image('content/preview_car.jpg', 'project-preview__pic', 'fullImage')
+            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 0)
             .arrows.arrows_section-projects
-              a.arrow-link.arrow-link_section-projects(href='#')
+              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideUp" :class="{blocked: blockedUp}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_up`)
-              a.arrow-link.arrow-link_section-projects(href='#')
+              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideDown" :class="{blocked: blockedDown}")
                 +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_down`)
           .project-decription
             +tags('tags', ['HTML', 'CSS', 'Javascript'])

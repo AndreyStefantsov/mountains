@@ -65,7 +65,7 @@
 .socials-burger {
     display: none;
 
-    @include tablets {
+    @include monitor {
         display: flex;
     }
 }
@@ -75,7 +75,11 @@
 }
 
 .socials-burger__item {
-    margin-right: 20px;
+    margin-right: 30px;
+
+    &:last-child {
+        margin-right: 0;
+    }
 }
 
 .hidden {

@@ -61,8 +61,22 @@
     overflow: hidden;
     position: relative;
 
+    @include desktop {
+        //max-width: 850px;
+        max-width: 900px;
+    }
+
     @include monitor {
         max-width: 770px;
+    }
+
+    @include tablets {
+        max-width: 670px;
+    }
+
+    @include tabletsLow {
+        max-width: 400px;
+        align-self: center;
     }
 
     @include widePhones {
@@ -74,53 +88,70 @@
     }
 
     @include phones_landscape {
-        max-width: 550px;
+        max-width: 510px;
     }
 }
 
 .comments__list {
     display: flex;
-    position: relative;
+    /*position: relative;
     left: 100px;
-    top: 0;
+    top: 0;*/
+    position: relative;
+    left: 0;
     transition: left 0.5s linear;
 
     @include monitor {
-        left: 100px;
+        //left: 42px;
     }
 
     @include tablets {
-        left: 42px;
+        //left: 42px;
     }
 
     @include widePhones {
-        left: 0;
+        //left: 0;
     }
 
     @include phones {
-        left: 0;
+        //left: 0;
     }
 
     @include phones_landscape {
-        left: 42px;
+       //left: 42px;
     }
 }
 
 .comments__item {
-    width: 325px;
-    margin-right: 180px;
+    //width: 325px;
+    width: 425px;
+    //margin-right: 180px;
+    margin-right: 75px;
     display: flex;
-    flex-direction: column;
-    position: relative;
+    //flex-direction: column;
+    //position: relative;
+
+    @include desktop {
+        //margin-right: 100px;
+        margin-right: 35px;
+    }
 
     @include monitor {
         margin-right: 85px;
         width: 300px;
     }
+    
 
     @include tablets {
-        width: 270px;
-        margin-right: 85px;
+        //width: 270px;
+        //margin-right: 85px;
+        width: 300px;
+        margin-right: 40px;
+    }
+
+    @include tabletsLow {
+        width: 400px;
+        margin-right: 0px;
     }
 
     @include widePhones {
@@ -133,6 +164,11 @@
         width: 510px;
     }
 
+}
+
+.comments__wrap {
+    display: flex;
+    flex-direction: column;
 }
 
 .comments__text {
@@ -191,7 +227,7 @@
     }
 }
 
-.comments__quote {
+/*.comments__quote {
     width: 75px;
     height: 65px;
     fill: #dae1ec;
@@ -209,6 +245,39 @@
         width: 32px;
         height: 27px;
         left: -42px;
+    }
+
+    @include widePhones {
+        display: none;
+    }
+
+}*/
+
+.comments__quote-wrap {
+    width: 75px;
+    height: 65px;  
+    margin-right: 20px;
+    
+    @include monitor {
+        width: 32px;
+        height: 27px;
+    }
+}
+
+.comments__quote {
+    width: 75px;
+    height: 65px;
+    fill: #dae1ec;
+
+
+    @include monitor {
+        width: 32px;
+        height: 27px;
+    }
+
+    @include tablets {
+        width: 32px;
+        height: 27px;
     }
 
     @include widePhones {

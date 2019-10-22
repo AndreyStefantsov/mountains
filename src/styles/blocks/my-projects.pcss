@@ -3,9 +3,10 @@
     flex-direction: column;
     overflow: visible;
     position: relative;
+    align-items: center;
 
     @include monitor {
-        margin-right: 0;
+        //margin-right: 0;
 
         &:after {
             content: '2';
@@ -20,7 +21,7 @@
 
 
     @include tablets {
-        margin-right: 0;
+        //margin-right: 0;
 
         &:after {
             content: '2';
@@ -29,14 +30,16 @@
             color: #e6e6e6;
             position: absolute;
             top: -40px;
-            right: 0px;
+            right: -12px;
         }
     }
     
 
     @include widePhones {
         margin-left: 0;
+        margin-right: 0;
         align-items: center;
+        width: 100%;
 
         &:after {
             content: '';
@@ -44,7 +47,7 @@
     }
 
     @include phones_landscape() {
-        margin-right: 40px;
+        //margin-right: 40px;
         
     }
 }
@@ -73,16 +76,17 @@
 .my-projects {
     display: flex;
     align-items: flex-start;
+    width: 100%;
 
     @include monitor {
         flex-direction: column;
-        width: 630px;
+        max-width: 630px;
         align-items: flex-start;
     }
 
     @include tablets {
         flex-direction: column;
-        width: 630px;
+        //width: 630px;
         align-items: center;
     }
 
@@ -171,7 +175,8 @@
     top: 0;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    //box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    transition: top 0.5s linear;
 
     @include widePhones {
         box-shadow: none;
@@ -193,6 +198,16 @@
 .project-preview__link {
     display: block;
     height: 100%;
+
+    &:hover {
+        z-index: 2;
+        position: absolute;
+        width: 178px;
+        height: 98px;
+        top: 0;
+        left: 2px;
+        outline: 2px solid $border-color; 
+    }
 }
 
 .project-preview__pic {
@@ -234,17 +249,15 @@
     }
 
     @include monitor {
-        max-width: 95%;
-    }
-
-    @include tablets {
-        margin-right: 0;
+        max-width: 100%;
+        align-items: center;
     }
 
     @include tablets {
         width: 100%;
         max-width: 450px;
         align-items: center;
+        margin-right: 0;
     }
 
     @include widePhones {
@@ -272,9 +285,6 @@
 
     @include tablets {
         margin-bottom: 25px;
-    }
-
-    @include tablets {
         font-size: 30px;
     }
 
@@ -287,6 +297,10 @@
 .main-subtitle_tags {
     margin-bottom: 50px;
     color: rgba($text-color, .7);
+
+    @include monitor {
+        text-align: center;
+    }
 
     @include tablets {
         margin-bottom: 25px;
@@ -307,19 +321,21 @@
     align-items: center;
     font-size: 18px;
     font-weight: $bold;
+    
 }
 
 .my-projects-ref__pic {
     width: 15px;   
     height: 15px;
     fill: $links-color;
-    margin-right: 20px;
+    cursor: pointer;
 }
 
 .my-projects-ref__link {
     display: flex;
     align-items: center;
     color: $links-color; 
+    padding-left: 20px;
 
     @include tablets {
         font-size: 14px;
@@ -333,12 +349,16 @@
         z-index: 2;
         position: absolute;
         width: 178px;
-        height: 98px;
+        height: 96px;
         top: 0;
         left: 0;
         border: 2px solid $border-color; 
+        clear: both;
+
+        @include widePhones {
+            border: none
+        }
     }
+
+    
 }
-
-
-

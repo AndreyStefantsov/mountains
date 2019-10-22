@@ -1,9 +1,23 @@
+.nav {
+    @include monitor {
+        display: none;
+    }
+}
 
 .nav_footer {
     margin-bottom: 70px;
     position: relative;
     left: -30px;
     margin-right: 0;
+
+    @include desktop {
+        display: flex;
+        left: -20px;
+    }
+
+    @include desktopLow {
+        margin-bottom: 50px;
+    }
 
     @include tablets {
         left: 0;
@@ -20,8 +34,8 @@
 
 .nav__item_footer {
 
-    @include monitor {
-        margin-bottom: 10px;
+    @include desktopLow {
+        margin-bottom: 20px;
     }
 
     @include tablets {
@@ -42,9 +56,6 @@
     align-items: center; 
     flex-flow: row wrap;
 
-    @include tablets {
-        display: none;
-    }
 
     @include monitor {
         justify-content: flex-start;
@@ -79,6 +90,10 @@
         border-bottom: 3px solid $hover-color;
     }
 
+    @include desktop {
+        padding: 0 20px 5px;
+    }
+
     @include tablets {
         padding: 0;
         font-size: 18px;
@@ -95,11 +110,19 @@
     }
 }
 
+.burger {
+    width: 100%;
+}
+
 .burger__list {
     display: flex;
     align-items: flex-start;
     flex-flow: column;
     margin-bottom: 60px;
+
+    @include tablets {
+        align-items: center;
+    }
 
     @include widePhones {
         margin-bottom: 30px;
@@ -112,7 +135,7 @@
 
 .burger__item {
 
-    @include tablets {
+    @include monitor {
         margin-bottom: 30px;
     }
 

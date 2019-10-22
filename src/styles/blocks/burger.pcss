@@ -5,7 +5,6 @@
     right: -600px;
     top: 0;
     width: 325px;
-    align-items: center;
     height: 100vh;
     padding: 0 40px 0 67px;
     transition: right 0.7s;
@@ -15,15 +14,22 @@
     align-items: flex-start;
     z-index: 9999;
 
+    @include tablets {
+        width: 100%;
+        right: -105%;
+        align-items: center;
+        padding: 0;
+    }
+
     @include widePhones {
-        width: 320px;
+        //width: 320px;
     }
 }
 
 .burger-lines {
     display: none;
     
-    @include tablets {
+    @include monitor {
         display: block;
         width: 25px;
         height: 4px;

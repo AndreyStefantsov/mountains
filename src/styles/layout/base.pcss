@@ -5,6 +5,7 @@
 body,
 html {
   //height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -24,25 +25,33 @@ body {
 }
 
 .container {
+    width: 95%;
     max-width: 1800px;
-    margin: 0 160px;
+    //margin: 0 160px;
     display: flex;
     overflow: hidden; 
     color: #414c63;
+    margin: 0 auto;
 
     @include desktop {
       //max-width: 1200px;
-      margin: 0 60px;
+      //margin: 0 60px;
+      width: 95%;
+      margin: 0 auto;
     }
 
     @include tablets {
-      margin: 0 40px;
+      //margin: 0 40px;
       //max-width: 768px;
+      width: 95%;
+      margin: 0 auto;
     }
 
     @include phones {
-      margin: 0 30px;
+      //margin: 0 30px;
       //max-width: 320px;
+      width: 95%;
+      margin: 0 auto;
     }
 }
 

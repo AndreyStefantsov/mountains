@@ -18,7 +18,7 @@ mixin socials(className, items, iconClassName, iconNames, linkMod)
   ul(class=`${className}__list `)
     - for (var i=0; i<items.length; i++) 
       li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
-        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='#')
+        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='')
           +icon(iconNames[i], (`${iconClassName} `+ (linkMod ? `${iconClassName}_${linkMod}` : '')))
 
 mixin questionnaire(className, items, mod)
@@ -47,11 +47,11 @@ mixin skillwheel(className, title, items)
               stop(offset="100%" stop-color="#9e00ff")
           div(class=`${className}__subtitle`)=item.text
 
-mixin projects(className, names,  activeItem)
+mixin projects(className, names,  activeItems)
   div(class=`${className}__wrap`)
-    ul(class=`${className}__list`)
+    ul(class=`${className}__list` :style="{top: offsetTop +'px'}" @click.prevent="changePreview")
       each name, index in names
-        li(class=`${className}__item ` + ((activeItem === index) ? `is-active` : ''))
+        li(class=`${className}__item ` + ((activeItems === index) ? `is-active` : '' ) :class="{is-active : activeItem}" data-index=index)
           - var img = require(`images/content/${name}.jpg`);
           a(class=`${className}__link` href='#' style=`background: url(${img}); background-size: cover`)
 
@@ -96,14 +96,16 @@ mixin comments(className, items)
   ul(class=`${className}__list` id='commentsList' :style="{left: offsetleft +'px'}")
     each item in items
       li(class=`${className}__item`)
-        span(class=`${className}__text`)=item.text
-        div(class=`${className}__info`)
-          div(class=`${className}__image`)
-            +image(item.image, `${className}__pic`)
-          div(class=`${className}__decription`)
-            span(class=`${className}__name`)=item.name
-            span(class=`${className}__proffesion`)=item.proffesion
-        +icon('quote', `${className}__quote`)    
+        div(class=`${className}__quote-wrap`)
+          +icon('quote', `${className}__quote`)
+        div(class=`${className}__wrap`)
+          span(class=`${className}__text`)=item.text
+          div(class=`${className}__info`)
+            div(class=`${className}__image`)
+              +image(item.image, `${className}__pic`)
+            div(class=`${className}__decription`)
+              span(class=`${className}__name`)=item.name
+              span(class=`${className}__proffesion`)=item.proffesion
 
 mixin input(className, id, image)
   input(class=className type='text' id=id name=id)

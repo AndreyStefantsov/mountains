@@ -16,18 +16,22 @@
 .header {
     position: absolute;
     width: 100%;
+    max-width: 1480px;
     top: 65px;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
     margin: 0;
-
 }
 
 .text-logo {
     font-size: 36px;
     font-weight: $extrabold;
+
+    @include monitor {
+        flex: 0.8;
+    }
 }
 
 .main-text {

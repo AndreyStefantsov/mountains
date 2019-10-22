@@ -12,8 +12,10 @@
   "extrabold": "800",
   "bp-desktop-hd": "1800px",
   "bp-desktop": "1200px",
+  "bp-desktop-low": "1100px",
   "bp-monitor": "980px",
   "bp-tablets": "768px",
+  "bp-tablets-low": "700px",
   "bp-widePhones": "480px",
   "bp-phones": "320px",
   "bp-phones_landscape": "375x"

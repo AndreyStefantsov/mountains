@@ -10,13 +10,18 @@
         margin-left: 0px;
     }
 
+    @include desktopLow {
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
     @include monitor {
         flex-direction: column;
-        margin-left: 60px;
+        //margin-left: 60px;
     }
 
     @include tablets {
-        margin-left: 40px;
+        //margin-left: 40px;
     }
     
 
@@ -25,29 +30,43 @@
 
 .bg-image {
 
-    position: absolute;
-    top: 140px;
-    left: 0;
+    //position: absolute;
+    //top: 140px;
+    //left: 0;
+    position: relative;
+    top: -140px;
+    left: -60px;
 
     @include desktop {
         top: 130px;
         position: absolute;
-        left: -210px;
+        left: -140px;
     }
 
-    @include monitor {
+    @include desktopLow {
+        //width: 300px;
+        position: relative;
+        order: 1;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 280px;
+        //justify-content: center;
+    }
+
+    /*@include monitor {
         width: 300px;
         position: relative;
         order: 1;
-        left: 80%;
+        left: 30%;
         top: 50%;
         transform: translate(-100%, 0);
         height: 280px;
         justify-content: center;
-    }
+    }*/
 
     @include tablets {
-        align-self: flex-start;
+        /*align-self: flex-start;
         position: relative;
         order: 1;
         left: 50%;
@@ -55,7 +74,7 @@
         transform: translate(-50%, 0);
         height: 280px;
         display: flex;
-        justify-content: center;
+        justify-content: center;*/
     }
 
     @include widePhones {
@@ -71,14 +90,24 @@
 .skills {
     display: flex;
     flex-direction: row;
-    max-width: 770px;
-    align-self: flex-end;
-    margin-right: 100px;
+    //max-width: 770px;
+    //align-self: flex-end;
+    //margin-right: 100px;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
 
     @include desktop {
         justify-content: flex-end;
-        margin-left: 60px;
+        //margin-left: 60px;
         margin-right: 0;
+    }
+
+    @include desktopLow {
+        flex-direction: column;
+        margin-left: 0;
+        justify-content: center;
+        align-self: center;
     }
 
     @include monitor {
