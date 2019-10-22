@@ -29,23 +29,6 @@ mixin questionnaire(className, items, mod)
           span(class=`${className}__info ` + (mod ? mod : '') href="#")=`${item.title}:`
           span(class=`${className}__info` href="#")=item.text
 
-mixin skillwheel(className, title, items)
-  div(class=`${className}`)
-    span(class=`${className}__title`)=title
-    ul(class=`${className}__list`)
-      each item in items
-        li(class=`${className}__item`)
-          svg.circle(viewBox='0 0 150 150' preserveAspectRatio="none")
-            circle.circle__bg(cx='75' cy='75' r='65')
-              - 
-                const dashoffset = -410;
-                var percent=(dashoffset*(100-item.percent))/100
-            circle.circle__progress(cx='75' cy='75' r='65' stroke-dashoffset=percent)
-            linearGradient(id="grad")
-              stop(offset="0%" stop-color="#4a00ed")
-              stop(offset="50%" stop-color="#5400ec")
-              stop(offset="100%" stop-color="#9e00ff")
-          div(class=`${className}__subtitle`)=item.text
 
 mixin projects(className, names,  activeItems)
   div(class=`${className}__wrap`)
@@ -93,9 +76,9 @@ mixin tags(className, items)
   ]
 
 mixin comments(className, items)
-  ul(class=`${className}__list` id='commentsList' :style="{left: offsetleft +'px'}")
+  ul(class=`${className}__list` ref='commentsList' :style="{left: offsetleft +'px'}")
     each item in items
-      li(class=`${className}__item`)
+      li(class=`${className}__item` ref='commentsItem')
         div(class=`${className}__quote-wrap`)
           +icon('quote', `${className}__quote`)
         div(class=`${className}__wrap`)

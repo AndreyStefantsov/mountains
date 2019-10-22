@@ -11,16 +11,16 @@ new Vue ({
     
     computed: {
         commentlist() {
-            return this.$el.querySelector('.comments__list')
+            return this.$refs['commentsList']
         },
         items() {
-            return this.commentlist.querySelectorAll('.comments__item')
+            return this.commentlist.children.length
         },
         itemWidth() {
-            return parseInt(getComputedStyle(this.items[0]).marginRight) + this.items[0].offsetWidth;
+            return parseInt(getComputedStyle(this.$refs['commentsItem']).marginRight) + this.$refs['commentsItem'].offsetWidth;
         },
         stopper() {
-            return this.items.length % 2 === 0 ? stopper = 2 : stopper = 1;
+            return this.items % 2 === 0 ? stopper = 2 : stopper = 1;
         },
         ismobile() {
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
@@ -28,8 +28,7 @@ new Vue ({
             } else return false
         },
         slideCount() {
-            console.log()
-            return this.iterate + this.items.length; 
+            return this.iterate + this.items; 
         },
         count() {
             return ((this.ismobile) || (document.body.clientWidth<=700)) ? 1 : 2;
@@ -38,7 +37,7 @@ new Vue ({
 
     watch: {
         iterate() {
-            if (this.iterate*this.count==this.items.length+(stopper == 2 ? 0 : 1))  {
+            if (this.iterate*this.count==this.items+(stopper == 2 ? 0 : 1))  {
                 this.blockedLeft = true;
             } else {
                 if (this.offsetleft == this.start) {
@@ -60,7 +59,7 @@ new Vue ({
         window.onload = () => {
             this.offsetleft = parseInt(getComputedStyle(this.commentlist).left);
             this.start = this.offsetleft;
-            this.items.length <=2 ? this.blockedLeft = true : this.blockedLeft = false;
+            this.items <=2 ? this.blockedLeft = true : this.blockedLeft = false;
         }
     },
 
@@ -68,10 +67,10 @@ new Vue ({
         slideLeft() {
             this.blockedRight = false;
             this.iterate++;
-            if (this.items.length <=2) {
+            if (this.items <=2) {
                 return
             } else {
-                if (((this.items.length-this.stopper)*this.itemWidth-this.start) != Math.abs(this.offsetleft)) {
+                if (((this.items-this.stopper)*this.itemWidth-this.start) != Math.abs(this.offsetleft)) {
                     this.offsetleft +=  -this.itemWidth*this.count;
                     return this.offsetleft;
                 }  

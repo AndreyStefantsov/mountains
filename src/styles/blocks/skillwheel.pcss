@@ -1,9 +1,11 @@
 .skillwheels-block {
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
 
     @include desktopLow {
         margin-bottom: 110px;
+        align-self: center;
     }
 
 
@@ -21,10 +23,12 @@
     }
 }
 
-.skillwheel {
-    align-self: flex-end;
+.skillwheels-block__list {
     display: flex;
     flex-direction: column;
+}
+
+.skillwheels-block__item {
     margin-bottom: 50px;
 
     &:last-child {
@@ -35,6 +39,11 @@
        align-self: auto;
        margin-bottom: 50px;
     }
+}
+
+.skillwheel {
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -42,6 +51,10 @@
     font-size: 24px;
     font-weight: $bold;
     margin-bottom: 45px;
+
+    @include desktopLow {
+        text-align: center;
+    }
 
     @include tablets {
        text-align: center;
@@ -161,20 +174,9 @@
     stroke-dasharray: 410;
     transform: rotateY(-180deg);
     transform-origin: 50% 50%;
-    //animation: anim 2s ease-in-out 1 forwards;
     fill: none;
     stroke-width: 20px;
     stroke: url(#grad);
-    transition: stroke-dashoffset 5.5s linear;
+    transition: stroke-dashoffset 2s linear;
 }
-
-@keyframes anim {
-    from {
-        stroke-dashoffset: -410;
-    }
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
 
