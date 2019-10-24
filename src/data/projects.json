@@ -1,0 +1,78 @@
+[
+    {
+        "id": "1",
+        "image": "preview_car.jpg",
+        "title": "Сайт с машинами",
+        "tags": "HTML, CSS",
+        "ref": "//google.com",
+        "decription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ratione officia voluptate, quis provident deleniti quo commodi doloribus mollitia nisi, odio eaque veniam ipsum omnis totam necessitatibus pariatur nostrum quas!"
+    },
+    {
+        "id": "2",
+        "image": "preview_future.jpg",
+        "title": "Будущее",
+        "tags": "HTML, CSS, Webpack",
+        "ref": "//ya.ru",
+        "decription": "Lorem, ipsum dolor sit amet deleniti quo commodi doloribus mollitia nisi, odio eaque veniam ipsum omnis totam necessitatibus pariatur nostrum quas!"
+    },
+    {
+        "id": "3",
+        "image": "preview_lake.jpg",
+        "title": "Озеро",
+        "tags": "HTML, CSS, Javascript",
+        "ref": "//google.com",
+        "decription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ratione officia voluptate, quis provident deleniti quo commodi doloribus mollitia nisi!"
+    },
+    {
+        "id": "4",
+        "image": "preview_mountain.jpg",
+        "title": "Горы",
+        "tags": "HTML, CSS, Javascript, Vue",
+        "ref": "//ya.ru",
+        "decription": "Lorem, ipsum dolor sit amet consectetur !"
+    },
+    {
+        "id": "5",
+        "image": "preview_town.jpg",
+        "title": "Город",
+        "tags": "HTML, CSS, JQuery",
+        "ref": "//google.com",
+        "decription": "Город мрачных трущоб весь изглоданный злом\nПо ночам его мгла накрывает крылом\nИ в глазницы домов смотрит ночь словно ворон\nЭтот город безукоризненно черен"
+    },
+    {
+        "id": "6",
+        "image": "preview_town.jpg",
+        "title": "Город",
+        "tags": "HTML, CSS, JQuery",
+        "ref": "//ya.ru",
+        "decription": "Город мрачных трущоб весь изглоданный злом\nПо ночам его мгла накрывает крылом\nИ в глазницы домов смотрит ночь словно ворон\nЭтот город безукоризненно черен"
+    },
+    {
+        "id": "7",
+        "image": "preview_town.jpg",
+        "title": "Город",
+        "tags": "HTML, CSS, JQuery",
+        "ref": "//google.com",
+        "decription": "Город мрачных трущоб весь изглоданный злом\nПо ночам его мгла накрывает крылом\nИ в глазницы домов смотрит ночь словно ворон\nЭтот город безукоризненно черен"
+    },
+    {
+        "id": "8",
+        "image": "preview_town.jpg",
+        "title": "Город",
+        "tags": "HTML, CSS, JQuery",
+        "ref": "//ya.ru",
+        "decription": "Город мрачных трущоб весь изглоданный злом\nПо ночам его мгла накрывает крылом\nИ в глазницы домов смотрит ночь словно ворон\nЭтот город безукоризненно черен"
+    },
+    {
+        "id": "9",
+        "image": "preview_town.jpg",
+        "title": "Город",
+        "tags": "HTML, CSS, JQuery",
+        "ref": "//google.com",
+        "decription": "Город мрачных трущоб весь изглоданный злом\nПо ночам его мгла накрывает крылом\nИ в глазницы домов смотрит ночь словно ворон\nЭтот город безукоризненно черен"
+    }
+
+
+
+]
+

@@ -29,22 +29,6 @@ mixin questionnaire(className, items, mod)
           span(class=`${className}__info ` + (mod ? mod : '') href="#")=`${item.title}:`
           span(class=`${className}__info` href="#")=item.text
 
-
-mixin projects(className, names,  activeItems)
-  div(class=`${className}__wrap`)
-    ul(class=`${className}__list` :style="{top: offsetTop +'px'}" @click.prevent="changePreview")
-      each name, index in names
-        li(class=`${className}__item ` + ((activeItems === index) ? `is-active` : '' ) :class="{is-active : activeItem}" data-index=index)
-          - var img = require(`images/content/${name}.jpg`);
-          a(class=`${className}__link` href='#' style=`background: url(${img}); background-size: cover`)
-
-mixin tags(className, items)
-  div(class=`${className}`)
-      ul(class=`${className}__list`)
-        each item in items
-          li(class=`${className}__item`)
-            span(class=`${className}__title`)=item
-
 -
   var commentsList=[
     {
