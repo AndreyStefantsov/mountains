@@ -2,20 +2,23 @@
     header.header
         .header__top
             .header__container
-                .header__info
-                    .header__image
-                        img.header__pic(:scr="src")
-                    .header__name Андрей Стефанцов    
-                    .header__title Панель администрирования
-                .quit 
-                    a.quit__link(href="#") Выйти
+                .header__container-top
+                    .header__info
+                        .header__image
+                            img.header__pic(:src="src")
+                        .header__name Андрей Стефанцов    
+                        .header__title Панель администрирования
+                    .quit 
+                        a.quit__link(href="#") Выйти
         .header__down
-            nav.nav
-                ul.nav__list
-                    li.nav__item(v-for="tab in tabs" :key="tab.id" :class="{'active-tab': tab.id==activeTab}")
-                        a.nav__link {{tab.tab}}
-</template>
+            .header__container
+                nav.nav
+                    ul.nav__list
+                        li.nav__item(v-for="tab in tabs" :key="tab.id" :class="{'active-tab': tab.id==activeTab}")    
+                            router-link(:to="tab.href").nav__link {{tab.title}}
+                            //a.nav__link {{tab.title}}
 
+</template>
 
 <script>
     import tabsArr from '../data/nav.json'
@@ -34,6 +37,7 @@
     .header {
         display: flex;
         flex-direction: column;
+        margin: 0 auto;
     }
 
     .header__top {
@@ -44,10 +48,15 @@
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e3e59', endColorstr='#454573',GradientType=1 );
     }
     .header__container {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .header__container-top {
         display: flex;
         justify-content: space-between;
         margin: 16px 5% 19px;
-        
     }
 
     .header__info {
@@ -57,8 +66,11 @@
 
     .header__image {
         width: 44px;
-        height: 44px;
+        max-height: 44px;
         margin-right: 20px;
+        border-radius: 50%;
+        overflow: hidden;
+        object-fit: cover;
     }
 
     .header__pic {
@@ -89,8 +101,14 @@
         }
     }
 
+    .header__down {
+        margin: 0 auto;
+        width: 100%;
+    }
+
     .nav {
         margin: 0 5%;
+
     }
     .nav__list {
         display: flex;

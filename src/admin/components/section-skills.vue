@@ -1,58 +1,57 @@
 <template lang="pug">
-    .container-skills
-        section.section-skills
-            .skills-info
-                span.skills-info__title Блок &#171;{{sectionTitle}}&#187;
-                a.add-group
-                    span.add-group__link +
+    .main-wrap
+        section.main-section
+            .main-info
+                span.main-info__title Блок &#171;{{sectionTitle}}&#187;
+                a.add-group(@click="addNewGroup")
+                    span.add-group__link &#43;
                     span.add-group__text Добавить группу
             div.groups
-                ul.groups__list
-                    li.groups__item(v-for="item in skills" :key="item.id")
+                <add-skill v-if="showGroup"></add-skill>
+                ul.groups__list-skills
+                    li.groups__item-skills(v-for="item in skills" :key="item.id")
                         <skill-group :skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)"></skill-group>
                 
 </template>
     
 <script>
     import skillGroup from './skill-group.vue'
+    import addSkill from './add-skill.vue'
+    import skillsArr from '../../data/skills.json'
+    
     export default {
         name: 'sectionSkills',
         data: () => ({
+            showGroup: false,
+            sectionTitle: 'Обо мне',
+            skills: [],
         }),
         components: {
-            skillGroup
+            skillGroup, addSkill
         },
         props: {
-            sectionTitle: String,
-            skills: Array
+            /*skills: Array,
+            showGroup: Boolean*/
+        },
+        created() {
+            this.skills=skillsArr
+        },
+        methods: {
+        /*newValues: function() {
+            this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
+            },*/
+
+        addNewGroup() {
+            this.showGroup = !this.showGroup
         }
+        },
     }
+
     
 </script>  
 
 <style lang="pcss">
-    .container-skills {
-        background: url("../../images/content/mountain_baloon.jpg"), rgba(#fff, .9) no-repeat;
-        background-size: cover;
-        background-blend-mode: lighten;
-        padding-top: 60px;
-        padding-bottom: 30px;
-    }
 
-    .section-skills {
-        margin: 0 5%;
-    }
-
-    .skills-info {
-        display: flex;
-        margin-bottom: 60px;
-    }
-    .skills-info__title {
-        color: #464d62;
-        font-weight: $bold;
-        font-size: 21px;
-        margin-right: 60px;
-    }
     .add-group {
         display: flex;
         align-items: center;
@@ -82,13 +81,13 @@
         margin-left: 13px;
     }
 
-    .groups__list {
+    .groups__list-skills {
         display: flex;
         flex-flow: wrap;
         
     }
 
-    .groups__item {
+    .groups__item-skills {
         margin-bottom: 30px;
         margin-right: 30px;
 

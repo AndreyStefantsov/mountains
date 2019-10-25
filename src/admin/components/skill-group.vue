@@ -1,15 +1,10 @@
-const SkillGroup = new Vue
+
 <template lang="pug">
     .group
         div.main
-            input.input.input_title(:value="skillTitle")
+            input.input.input_title(v-model="skillTitle")
             .button
-                a.button__tick
-                    svg.tick
-                        use(xlink:href=tick)
-                a.button__cross
-                    svg.cross
-                        use(xlink:href=tick)
+                a.button__pencil.button__pencil_title
         .skills
             ul.skills__list
                 li.skills_item(v-for="(skillPercent, skillName) in skillsArr" )
@@ -17,26 +12,22 @@ const SkillGroup = new Vue
                     .percent-wrap
                         input.input.input_skill-percent(:value="skillPercent" maxlength="3")
                     .button
-                        a.button__tick
-                            svg.tick
-                                use(xlink:href=tick)
-                        a.button__cross
-                            svg.cross
-                                use(xlink:href=tick)
+                        a.button__pencil
+                        a.button__remove
         div.add-skill
-            input.input.input_new-skill(placeholder="Новый навык" ref="newSkillValue")
+            input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill")
             .percent-wrap.percent-wrap_add-skill
-                input.input.input_new-percent(placeholder="100" maxlength="3" ref="newPercentValue")
+                input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newPercent")
             a.add-group
-                span.add-group__link.add-group__link__link-in-group(@click.prevent="newValues") +
+                span.add-group__link.add-group__link__link-in-group(@click.prevent="newValues") &#43;
 </template>
 
 <script>
-    import tickIcon from '../../images/icons/tick.svg'
+    //import tickIcon from ''
     export default {
         name: 'skillGroup',
         data: () => ({
-            tick: tickIcon,
+            //tick: require('images/icons/tick.svg'),
             newSkill: '',
             newPercent: ''
         }),
@@ -46,10 +37,8 @@ const SkillGroup = new Vue
             skillId: String
         },
         methods: {
-        newValues: function () {
-            this.newSkill = this.$refs.newSkillValue.value;
-            this.newPercent = this.$refs.newPercentValue.value;
-            this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
+            newValues: function () {
+                this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
             }
         },
         watch: {
@@ -59,9 +48,6 @@ const SkillGroup = new Vue
             }
         }
     }
-
-    
-    
 </script>  
 
 <style lang="pcss">
@@ -96,7 +82,6 @@ const SkillGroup = new Vue
     .input {
         background: transparent;
         border: none;
-        border-bottom: 1px solid #000;
         width: 275px;  
         color: #464d62;
 
@@ -116,30 +101,39 @@ const SkillGroup = new Vue
 
     .button {
         display: flex;
-        
-    }
-
-    .button__pic {
-        //display: flex;
-        //align-items: center;
     }
     
     .button__tick {
-        //display: flex;
         margin-right: 20px;
-    }
-
-    .tick {
+        background: svg-load("tick.svg", fill=#00d70a) no-repeat center;
         width: 15px;
         height: 12px;
-    } 
-    .cross {
+    }
+
+    .button__cross {
+        display: block;
+        background: svg-load("cross.svg", fill=#bf2929) no-repeat center;
         width: 14px;
         height: 12px;
     }
-    .button__cross {
-        display: block;
+
+    .button__pencil {
+        background: svg-load("pencil.svg", fill=#888) no-repeat center;
+        width: 16px;
+        height: 15px;
+        margin-right: 20px;
+
+        &_title {
+            margin-right: 0;
+        }
     }
+
+    .button__remove {
+        background: svg-load("trash.svg", fill=#888) no-repeat center;
+        width: 13px;
+        height: 15px;
+    }
+
 
     .skills {
         margin-bottom: 75px;
@@ -192,20 +186,25 @@ const SkillGroup = new Vue
         margin-right: 10px;
         color: rgba(#464d62, 0.5);
         width: 218px;
+        border-bottom: 1px solid #000;
     }
+
     .percent-wrap_add-skill {
         margin-right: 30px;
-
-
     }
 
     .input_new-percent {
         padding-bottom: 16px;
         padding-left: 10px;
         width: 74px;
+        border-bottom: 1px solid #000;
     }
 
     .active-item {
         pointer-events: all;
+
+        & input {
+            border-bottom: 1px solid #000;
+        }
     }
 </style>
