@@ -42,7 +42,6 @@ new Vue({
         projects: [],
         activeItem: 0,
         offsetBottom: 0,
-        //listHeight: '',
         dataCount: 0,
         scrollWidth: 17,
         previewsAmount:''

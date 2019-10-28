@@ -1,5 +1,5 @@
 <template lang="pug">
-    button(:class="activeClass").button {{buttonTitle}}
+    button(:class="activeClass" @click.prevent="$emit('addNewProject')").button {{buttonTitle}}
 </template>
 
 <script>
@@ -29,7 +29,6 @@
         display: flex;
         justify-content: center;
         color: #fff;
-        border-radius: 25px;
         font-weight: $bold;
         background: #1b5ae3;
         background: -moz-linear-gradient(left,  #1b5ae3 0%, #433acc 100%);
@@ -44,9 +43,11 @@
     .button_load {
         width: 180px;
         height: 50px;
+        border-radius: 25px;
     }
     .button_save {
         width: 180px;
         height: 60px;
+        border-radius: 30px;
     }
 </style>

@@ -1,0 +1,23 @@
+script(type="text/x-template")#comments-block
+    .comments-main
+        .comment-description
+            .main-title.main-title_comments Что обо мне говорят
+            .arrows.arrows_section-comments
+                a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideRight" :class="{blocked: blockedRight}")
+                    +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63 arrow-link__pic_left`)
+                a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideLeft" :class="{blocked: blockedLeft}")
+                    +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63`)
+        .comments
+            ul.comments__list(ref='commentsList' :style="{left: offsetleft +'px'}")
+                li.comments__item(ref='commentsItem' v-for="comment in comments" :key="comment.id")
+                    .comments__quote-wrap
+                        +icon('quote', 'comments__quote')
+                    .comments__wrap
+                        span.comments__text {{comment.text}}
+                        .comments__info
+                            .comments__image
+                                img(:src="comment.photo", class="comments__pic")
+                            .comments__decription
+                                span.comments__name {{comment.name}}
+                                span.comments__proffesion {{comment.prof}}
+

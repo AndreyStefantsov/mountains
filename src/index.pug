@@ -53,7 +53,6 @@ html(lang="ru-Ru")
               .main-info
                 .photo
                 include ./components/questionnaire.pug
-                //+questionnaire('questionnaire', infoList, 'text-mod')
               .description
                 span.description__entry Привет, меня зовут
                 span.description__name Андрей Стефанцов
@@ -87,15 +86,9 @@ html(lang="ru-Ru")
           .parallax__layer.parallax__layer_down(data-speed='0.2')
             +image('parallax/down/layer_7.png', 'parallax__pic')
         section.container.container-comments#comments
-          .comment-description
-            .main-title.main-title_comments Что обо мне говорят
-            .arrows.arrows_section-comments
-              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideRight" :class="{blocked: blockedRight}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63 arrow-link__pic_left`)
-              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideLeft" :class="{blocked: blockedLeft}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63`)
-          .comments
-            +comments('comments', commentsList)
+          #comments-content
+          //#comments-content
+            //+comments('comments', commentsList)
         section.container.container-contact-me#contact-me
           span.main-title.main-title_contact-me Связаться со мной
           form.form

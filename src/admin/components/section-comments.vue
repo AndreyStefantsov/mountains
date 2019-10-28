@@ -3,48 +3,47 @@
         section.main-section
             .main-info
                 span.main-info__title Блок &#171;{{sectionTitle}}&#187;
-            add-project(v-if="showGroup" @closeProject="addNewProject")
+            add-comment(v-if="showGroup" @closeComment="addNewComment")
             div.groups
                 ul.groups__list
-                    li.add-project-item(@click.prevent="addNewProject")
-                        a.add-group
+                    li.add-project-item(@click.prevent="addNewComment")
+                        a.add-group()
                             span.add-group__link &#43;
-                            span.add-group__text Добавить работу
-                    li.groups__item(v-for="item in projects" :key="item.id")
-                        project-group(:prImage="item.image" :prTitle="item.title" :prTags="item.tags" :prRef="item.ref" :prDesc="item.decription")
+                            span.add-group__text Добавить отзыв
+                    li.groups__item(v-for="item in comments" :key="item.id")
+                        comments-group(:commPhoto="item.photo" :commName="item.name" :commProf="item.prof" :commText="item.text")
 </template>
         
 <script>
-    import projectsArr from '../../data/projects.json'
-    import addProject from './add-project.vue'
-    import projectGroup from './project-group.vue'
+    import commentsArr from '../../data/comments.json'
+    import addComment from './add-comment.vue'
+    import commentsGroup from './comments-group.vue'
     export default {
-        name: 'sectionProjects',
+        name: 'sectionComments',
         data: () => ({
-            sectionTitle: 'Работы',
+            sectionTitle: 'Отзывы',
             showGroup: false,
-            projects: []
+            comments: []
         }),
         components: {
-            addProject, projectGroup
+            addComment, 
+            commentsGroup
         },
         props: {
 
         },
         created() {
-            this.projects = this.forRequireImg(projectsArr)
+            this.comments = this.forRequireImg(commentsArr)
         },
         methods: {
-            addNewProject() {
-                console.log('asd')
+            addNewComment() {
                 this.showGroup = !this.showGroup
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
-                
             },
-            forRequireImg(projectsArr) {
-                return projectsArr.map(item => {
-                    const newImage = require(`../../images/content/${item.image}`);
-                    item.image = newImage;
+            forRequireImg(commentsArr) {
+                return commentsArr.map(item => {
+                    const newImage = require(`../../images/content/${item.photo}`);
+                    item.photo = newImage;
                     return item
                 })
             },
@@ -103,7 +102,7 @@
         align-items: center;
         justify-content: center;
         width: 340px;
-        height: 555px;
+        height: 380px;
         margin-bottom: 30px;
         margin-right: 30px;
         background: #1b5ae3;
@@ -167,8 +166,6 @@
                 margin-right: 0;
             }
         }
-
-        
     }
 
 </style>

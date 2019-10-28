@@ -15,6 +15,10 @@ const routes = [
     {
       path: '/projects',
       component: () => import("./components/section-projects.vue")
+    },
+    {
+      path: '/comments',
+      component: () => import("./components/section-comments.vue")
     }
   ]
 

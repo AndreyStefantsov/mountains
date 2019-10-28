@@ -3,13 +3,14 @@
         .header__top
             .header__container
                 .header__container-top
-                    .header__info
-                        .header__image
-                            img.header__pic(:src="src")
-                        .header__name Андрей Стефанцов    
-                        .header__title Панель администрирования
-                    .quit 
-                        a.quit__link(href="#") Выйти
+                    .header__image
+                        img.header__pic(:src="src")
+                    .header__info-wrap
+                        .header-info
+                            .header__name Андрей Стефанцов    
+                            .header__title Панель администрирования
+                        .quit 
+                            a.quit__link(href="#") Выйти
         .header__down
             .header__container
                 nav.nav
@@ -55,11 +56,24 @@
 
     .header__container-top {
         display: flex;
-        justify-content: space-between;
+        //justify-content: space-between;
         margin: 16px 5% 19px;
     }
 
-    .header__info {
+    .header__info-wrap {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        justify-content: space-between;
+
+        @media screen and (max-width: $bp-phones) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+    }
+
+    .header-info {
         display: flex;
         align-items: center;
     }
@@ -82,10 +96,18 @@
         font-size: 18px;
         color: #fff;
         font-weight: $semibold;
+
+        @media screen and (max-width: $bp-phones) {
+            margin-right: 0px;
+        }
     }
     .header__title {
         color: rgba(#6d6d87, 0.5);
         font-size: 14px;
+
+        @media screen and (max-width: $bp-phones) {
+            display: none;
+        }
     }
     .quit {
         display: flex;

@@ -3,14 +3,15 @@
         section.main-section
             .main-info
                 span.main-info__title Блок &#171;{{sectionTitle}}&#187;
-                a.add-group(@click="addNewGroup")
+                a.add-group.add-group_top(@click="addNewGroup")
                     span.add-group__link &#43;
                     span.add-group__text Добавить группу
             div.groups
-                <add-skill v-if="showGroup"></add-skill>
                 ul.groups__list-skills
+                    li.groups__item-skills(v-if="showGroup")
+                        add-skill
                     li.groups__item-skills(v-for="item in skills" :key="item.id")
-                        <skill-group :skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)"></skill-group>
+                        skill-group(:skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)")
                 
 </template>
     
@@ -55,7 +56,17 @@
     .add-group {
         display: flex;
         align-items: center;
+
+
     }
+
+    .add-group_top {
+        @media screen and (max-width: $bp-phones) {
+            margin-bottom: 30px;
+            margin-left: 30px
+        }
+    }
+    
     .add-group__link {
         color: #fff;
         width: 21px;
@@ -85,11 +96,31 @@
         display: flex;
         flex-flow: wrap;
         
+        @media screen and (max-width: $bp-desktop) {
+            justify-content: center;
+        }
+
+        @media screen and (max-width: $bp-tablets) {
+            //justify-content: flex-start;
+        }
+        
     }
 
     .groups__item-skills {
         margin-bottom: 30px;
         margin-right: 30px;
+
+        @media screen and (max-width: $bp-desktop) {
+            margin-right: 0;
+        }
+
+        @media screen and (max-width: $bp-tablets) {
+            margin-right: 20px;
+        }
+
+        @media screen and (max-width: $bp-phones) {
+            margin-right: 0;
+        }
 
         &:nth-child(even) {
             margin-right: 0;

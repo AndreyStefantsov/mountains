@@ -1,4 +1,3 @@
-
 <template lang="pug">
     .group
         .image
@@ -50,12 +49,24 @@
         padding: 0;
         padding-bottom: 40px;
         align-items: center;
+
+        @media screen and (max-width: $bp-tablets) {
+            //justify-content: flex-start;
+        }
+
+        @media screen and (max-width: $bp-phones) {
+            width: 320px;
+        }
     }
 
     .image {
         width: 340px;
         height: 190px;
         margin-bottom: 40px;
+
+        @media screen and (max-width: $bp-phones) {
+            width: 100%;
+        }
     }
 
     .image__pic {

@@ -11,10 +11,10 @@
   import headerAdmin from './components/header-admin.vue'
   import sectionSkills from './components/section-skills.vue'
   import sectionProjects from './components/section-projects.vue'
-
+  import sectionComments from './components/section-comments.vue'
   export default {
     components: {
-      headerAdmin, sectionSkills, sectionProjects
+      headerAdmin, sectionSkills, sectionProjects, sectionComments
     },
     data: () => ({
       sectionTitle: "Обо мне",
@@ -71,10 +71,19 @@
   }
 
   .main-section {
-    margin: 0 5%;
+    margin: 0 4%;
     display: flex;
     flex-direction: column;
+
+    @media screen and (max-width: $bp-tablets) {
+      margin: 0 2.5%;
+    }
+
+    @media screen and (max-width: $bp-phones) {
+      margin: 0
+    }
   }
+
   .main-wrap {
     margin: 0 auto;
     max-width: 1200px;
@@ -83,6 +92,12 @@
   .main-info {
     display: flex;
     margin-bottom: 60px;
+
+    @media screen and (max-width: $bp-phones) {
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+    
   }
   
   .main-info__title {
@@ -90,6 +105,22 @@
     font-weight: $bold;
     font-size: 21px;
     margin-right: 60px;
+
+    @media screen and (max-width: $bp-phones) {
+      margin-bottom: 30px;
+    }
+
+    @media screen and (max-width: $bp-phones) {
+      margin-left: 30px
+    }
   }
+
+  .error {
+        font-size: 12px;
+        color: red;
+        position: absolute;
+        left: 0;
+        top: 100%
+    }
 </style>
 
