@@ -92,18 +92,18 @@
 
     .comments-main__name {
         font-size: 18px;
-        font-weight: $bold;
+        font-weight: 700;
         color: #464d62;
         margin-bottom: 10px;
     }
 
     .comments-main__prof {
-        font-weight: $semibold;
+        font-weight: 600;
         color: rgba(#464d62, 0.5);
     }
 
     .comment-text {
-        font-weight: $semibold;
+        font-weight: 600;
         color: rgba(#464d62, 0.7);
         margin-bottom: 60px;
     }

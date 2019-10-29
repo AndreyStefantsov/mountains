@@ -2,8 +2,8 @@
 <template lang="pug">
     .group
         div.main
-            //input.input.input_title(v-model="skillTitle")
-            addInput(classMod="input_title" v-model="skillTitle" :class="{'active-item': editedMode}")
+            input.input.input_title(v-model="skillTitle" :class="{'active-item': editedMode}")
+            //addInput(classMod="input_title" v-model="skillTitle" :class="{'active-item': editedMode}")
             .button(v-if="editedMode == false")
                 a.button__pencil.button__pencil_title(@click.prevent="changeEditedMode")
             .button(v-else="editedMode == true")
@@ -12,12 +12,13 @@
         .skills
             ul.skills__list
                 li.skills_item(v-for="skillPercent, skillName in skillsArr" :key="skillName")
-                    //input.input.input_skill-text(:value="skillName" )
+                    //input.input.input_skill-text(:value="skillName")
                     .inputs-wrap(:class="{'active-item': editedMode}")
-                        addInput(classMod="input_skill-text" v-model="skillName")
+                        //addInput(classMod="input_skill-text" v-model="skillName")
+                        input.input.input_skill-text(:value="skillName")
                         .percent-wrap
-                            //input.input.input_skill-percent(:value="skillPercent" maxlength="3")
-                            addInput(classMod="input_skill-percent" v-model="skillsArr[skillPercent]" maxlength="3")
+                            input.input.input_skill-percent(:value="skillPercent" maxlength="3")
+                            //addInput(classMod="input_skill-percent" v-model="skillsArr[skillPercent]" maxlength="3")
                     .button(v-if="editedMode == false")
                         a.button__pencil(@click.prevent="changeEditedMode")
                         a.button__remove
@@ -42,17 +43,18 @@
     import addInput from './input.vue'
     export default {
         name: 'skillGroup',
-        data: () => ({
-            //tick: require('images/icons/tick.svg'),
-            newSkill: '',
-            newPercent: '',
-            classMod:'',
-            editedMode: false,
-            errorMessage: 'Это поле должно быть заполнено',
-            isErrorTitle: false,
-            isErrorPercent: false
-            //skillTitlte: ''
-        }),
+        data() {
+            return {
+                newSkill: '',
+                newPercent: '',
+                classMod:'',
+                editedMode: false,
+                errorMessage: 'Это поле должно быть заполнено',
+                isErrorTitle: false,
+                isErrorPercent: false,
+                //skillTitle: ''
+            }
+        },
         components: {
             addInput
         },
@@ -60,22 +62,13 @@
             skillsArr: Object,
             skillTitle: String,
             skillId: String
+            //skillItem: Object
         },
-        computed: {
-            /*checkString() {
-                if ((this.newSkill==undefined) || (this.newSkill=='')) {
-                    this.isError = true;
-                    setTimeout(() => {
-                        this.isError = false
-                    }, 2000);
-                    return 
-                } this.checkString = this.newSkill
-                
-            }*/
-        },
+        // created() {
+        //     this.skillTitle = skillItem.title
+        // },
         methods: {
             newValues: function () {
-                //console.log(this.newSkill)
                 if ((this.newSkill==undefined) || (this.newSkill=='')) {
                     this.isErrorTitle = true;
                     setTimeout(() => {
@@ -92,18 +85,15 @@
             changeEditedMode() {
                 this.editedMode= !this.editedMode
             }
-        },
-        watch: {
-            newSkill(value) {
-                //console.log(value)
-                //(value=='') = 
-            },
-
         }
+
     }
 </script>  
 
 <style lang="pcss">
+
+	@import "../../styles/mixins.pcss";
+
     .group {
         width: 525px;
         display: flex;
@@ -112,17 +102,27 @@
         padding: 30px;
         padding-bottom: 35px;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
+			width: 345px;
+            padding: 25px;
+		}
+
+        /*@media screen and (max-width: $bp-tablets) {
             width: 345px;
             padding: 25px;
-        }
+        }*/
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
+			width: 320px;
+            padding-left: 20px;
+            align-items: flex-start;
+		}
+
+        /*@media screen and (max-width: $bp-phones) {
             width: 320px;
             padding-left: 20px;
             align-items: flex-start;
-
-        }
+        }*/
         
     }
 
@@ -143,14 +143,23 @@
             height: 1px;
             background: #dedee0;
 
-            @media screen and (max-width: $bp-tablets) {
+            @include tablets {
                 width: 315px;
-            }
+		    }
 
-            @media screen and (max-width: $bp-phones) {
+            /*@media screen and (max-width: $bp-tablets) {
+                width: 315px;
+            }*/
+
+            @include phones {
                 width: 320px;
                 left: -20px;
             }
+
+            /*@media screen and (max-width: $bp-phones) {
+                width: 320px;
+                left: -20px;
+            }*/
         }
     }
 
@@ -179,28 +188,37 @@
         width: 100%;
         pointer-events: none;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             margin-right: 25px;
-
         }
+
+        /*@media screen and (max-width: $bp-tablets) {
+            margin-right: 25px;
+        }*/
+
     }
 
     .input_title {
-        /*color: #464d62;
-        font-size: 18px;
-        font-weight: $semibold;*/
         padding-bottom: 15px;
         pointer-events:none;
         margin-right: 20px;
         width: 370px;  
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             width: 230px;
         }
 
-        @media screen and (max-width: $bp-phones) {
+        /*@media screen and (max-width: $bp-tablets) {
+            width: 230px;
+        }*/
+
+        @include phones {
             font-size: 16px;
         }
+
+        /*@media screen and (max-width: $bp-phones) {
+            font-size: 16px;
+        }*/
     }
 
     .button {
@@ -222,7 +240,7 @@
     }
 
     .button__pencil {
-        background: svg-load("pencil.svg", fill=#888) no-repeat center;
+        background: svg-load("pencil.svg", fill=#888 ) no-repeat center;
         width: 16px;
         height: 15px;
         margin-right: 20px;
@@ -251,28 +269,33 @@
     .skills_item {
         display: flex;
         margin-bottom: 20px;
-        //pointer-events: none;
     }
 
     .input_skill-text {
         padding-bottom: 10px;
         margin-right: 20px;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             margin-right: 0;
             width: 150px;
         }
 
-        @media screen and (max-width: $bp-phones) {
+        /*@media screen and (max-width: $bp-tablets) {
+            margin-right: 0;
+            width: 150px;
+        }*/
+
+        @include phones {
             font-size: 14px;
         }
+
+        /*@media screen and (max-width: $bp-phones) {
+            font-size: 14px;
+        }*/
     }
 
     .percent-wrap {
         position: relative;
-        //width: 75px;
-
-
 
         &:after {
             content: '%';
@@ -288,13 +311,21 @@
         padding-left: 10px;
         width: 74px;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             width: 65px;
         }
 
-        @media screen and (max-width: $bp-phones) {
+        /*@media screen and (max-width: $bp-tablets) {
+            width: 65px;
+        }*/
+
+        @include phones {
             font-size: 16px;
         }
+
+        /*@media screen and (max-width: $bp-phones) {
+            font-size: 16px;
+        }*/
     }
 
     .add-skill {
@@ -316,10 +347,13 @@
         width: 218px;
         border-bottom: 1px solid #000 !important;
         
-
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             width: 145px;
         }
+
+        /*@media screen and (max-width: $bp-tablets) {
+            width: 145px;
+        }*/
     }
 
     .percent-wrap_add-skill {
@@ -332,9 +366,13 @@
         width: 74px;
         border-bottom: 1px solid #000 !important;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             width: 65px;
         }
+
+        /*@media screen and (max-width: $bp-tablets) {
+            width: 65px;
+        }*/
     }
 
     .active-item {

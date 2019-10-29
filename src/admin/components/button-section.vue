@@ -29,7 +29,7 @@
         display: flex;
         justify-content: center;
         color: #fff;
-        font-weight: $bold;
+        font-weight: 700;
         background: #1b5ae3;
         background: -moz-linear-gradient(left,  #1b5ae3 0%, #433acc 100%);
         background: -webkit-linear-gradient(left,  #1b5ae3 0%,#433acc 100%);

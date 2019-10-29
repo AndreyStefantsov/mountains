@@ -2,62 +2,24 @@
   .div
     header-admin
     .content-wrap
-      router-view
-      <!--<section-skills :sectionTitle="sectionTitle" :showGroup="showGroup" :skills="skills" @addSkill="addNewSkill" @addGroup="addNewGroup"></section-skills>
-      <section-projects></section-projects>-->
+      router-view      
 </template>
 
 <script>
-  import headerAdmin from './components/header-admin.vue'
-  import sectionSkills from './components/section-skills.vue'
-  import sectionProjects from './components/section-projects.vue'
-  import sectionComments from './components/section-comments.vue'
+
   export default {
     components: {
-      headerAdmin, sectionSkills, sectionProjects, sectionComments
+      headerAdmin: () => import("components/header-admin.vue")
     },
-    data: () => ({
-      sectionTitle: "Обо мне",
-
-      showGroup: false
-    }),
-
-    /*mounted() {
-      if (localStorage.skills) {
-        this.skills = localStorage.skills;
-      }
-    },
-    watch: {
-      skills(newSkills) {
-        localStorage.skills = newSkills;
-      }
-    },*/
-    methods: {
-      addNewSkill(newSkillValue, newPercentValue, itemId) {
-        /*let  skillsList = this.skills[itemId].skills
-        skillsList[newSkillValue] = newPercentValue;
-        this.skills[itemId].skills = skillsList
-        console.log(this.skills)*/
-        //window.localStorage.setItem('newskillsarray', this.skills)
-        /*let skillsList = JSON.stringify(this.skills[itemId].skills).split(',');
-        skillsList.push(`${newSkillValue}:${newPercentValue}`)
-        console.log(skillsList)
-        
-        JSON.parse(skillsList)
-        console.log(JSON.parse(skillsList))*/
-        
-        
-        //console.log(this.skills)
-        console.log(newSkillValue)
-        console.log(newPercentValue)
-        console.log(itemId)
-      },
-      
-    }
   } 
 </script>
 
 <style lang="pcss">
+  @import "normalize.css";
+  @import "../styles/mixins.pcss";
+  @import "../styles/layout/base.pcss";
+  @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
+
   .maincontent {
     width: 100%;
   }
@@ -75,13 +37,21 @@
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: $bp-tablets) {
+    @include tablets {
       margin: 0 2.5%;
     }
 
-    @media screen and (max-width: $bp-phones) {
+    /*@media screen and (max-width: $bp-tablets) {
+      margin: 0 2.5%;
+    }*/
+
+    @include phones {
       margin: 0
     }
+
+    /*@media screen and (max-width: $bp-phones) {
+      margin: 0
+    }*/
   }
 
   .main-wrap {
@@ -93,26 +63,35 @@
     display: flex;
     margin-bottom: 60px;
 
-    @media screen and (max-width: $bp-phones) {
+    @include phones {
       flex-direction: column;
       margin-bottom: 0;
     }
-    
+
+    /*@media screen and (max-width: $bp-phones) {
+      flex-direction: column;
+      margin-bottom: 0;
+    }*/
   }
   
   .main-info__title {
     color: #464d62;
-    font-weight: $bold;
+    font-weight: bold;
     font-size: 21px;
     margin-right: 60px;
 
-    @media screen and (max-width: $bp-phones) {
+    @include phones {
+      margin-left: 30px;
+      margin-bottom: 30px;
+    }
+
+    /*@media screen and (max-width: $bp-phones) {
       margin-bottom: 30px;
     }
 
     @media screen and (max-width: $bp-phones) {
-      margin-left: 30px
-    }
+      margin-left: 30px;
+    }*/
   }
 
   .error {

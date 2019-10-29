@@ -120,7 +120,7 @@
     .main-title-project {
         font-size: 18px;
         margin-bottom: 70px;
-        font-weight: $bold;
+        font-weight: 700;
         color: #464d62;
         position: relative;
 

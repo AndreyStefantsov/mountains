@@ -83,7 +83,7 @@
     .title {
         font-size: 18px;
         margin-bottom: 30px;
-        font-weight: $bold;
+        font-weight: 700;
         color: #464d62;
     }
 

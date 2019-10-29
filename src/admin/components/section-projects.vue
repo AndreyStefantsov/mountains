@@ -36,7 +36,6 @@
         },
         methods: {
             addNewProject() {
-                console.log('asd')
                 this.showGroup = !this.showGroup
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
                 
@@ -94,7 +93,7 @@
 
     .add-group__text {
         color: #fff;
-        font-weight: $bold;
+        font-weight: 700;
     }
 
     .add-project-item {

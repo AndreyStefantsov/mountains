@@ -15,26 +15,32 @@
             .header__container
                 nav.nav
                     ul.nav__list
-                        li.nav__item(v-for="tab in tabs" :key="tab.id" :class="{'active-tab': tab.id==activeTab}")    
-                            router-link(:to="tab.href").nav__link {{tab.title}}
-                            //a.nav__link {{tab.title}}
-
+                        li.nav__item(v-for="(tab, i) in tabs" :key="i" :class="{'active-tab': tab.id==activeTab}")    
+                            router-link(:to="tab.href" class="nav__link" exact-active-class="active") {{tab.title}}
+                            
 </template>
 
 <script>
-    import tabsArr from '../data/nav.json'
     export default {
         name: 'headerAdmin',
-        data: () => ({
-            src: require('images/content/me.jpg'),
-            activeTab: 0,
-            tabs: tabsArr
-        }),
+        data() {
+            return {
+                src: require('images/content/me.jpg'),
+                activeTab: 0,
+                tabs: [
+                    {title: "Обо мне", href: "/"},
+                    {title: "Работы", href: "/projects"},
+                    {title: "Отзывы", href: "/comments"}
+			    ]
+            }
+        },
     }
     
 </script>  
 
 <style  lang="pcss">
+	@import "../../styles/mixins.pcss";
+
     .header {
         display: flex;
         flex-direction: column;
@@ -56,7 +62,6 @@
 
     .header__container-top {
         display: flex;
-        //justify-content: space-between;
         margin: 16px 5% 19px;
     }
 
@@ -66,11 +71,17 @@
         flex: 1;
         justify-content: space-between;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
+			flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+		}
+
+        /*@media screen and (max-width: $bp-phones) {
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-        }
+        }*/
     }
 
     .header-info {
@@ -95,19 +106,27 @@
         margin-right: 25px;
         font-size: 18px;
         color: #fff;
-        font-weight: $semibold;
+        font-weight: 600;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
+			margin-right: 0px;
+		}
+
+        /*@media screen and (max-width: $bp-phones) {
             margin-right: 0px;
-        }
+        }*/
     }
     .header__title {
         color: rgba(#6d6d87, 0.5);
         font-size: 14px;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
+			display: none;
+		}
+
+        /*@media screen and (max-width: $bp-phones) {
             display: none;
-        }
+        }*/
     }
     .quit {
         display: flex;
@@ -146,22 +165,16 @@
 
         &:hover {
             border-bottom: 3px solid #383bcf;
-        }
-
-        &:hover >a {
             color: #383bcf;
-
         }
     }
+
     .nav__link {
         color: #464d62
     }
-    .active-tab {
+    .active {
         border-bottom: 3px solid #383bcf;
-        
-        &>a {
-            color: #383bcf;
-        }
+        color: #383bcf;
     }
     
 </style>

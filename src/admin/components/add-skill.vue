@@ -2,7 +2,7 @@
     .group
         div.main
             //input.input.input_title(v-model="skillTitle" placeholder="Название новой группы")
-            addInput(classMod="input_title" v-model="skillTitle" placeholder="Название новой группы")
+            addInput(classMod="input_title" v-model="skillTitle" placeholder="Название новой группы" :class="{'active-item': editedMode}")
             .button(v-if="editedMode == false")
                 a.button__pencil.button__pencil_title(@click.prevent="changeEditedMode")
             .button(v-else="editedMode == true")
@@ -66,14 +66,19 @@
 </script>  
 
 <style scoped lang="pcss">
+  @import "../styles/mixins.pcss";
     .group {
         min-height: 390px;
         margin-bottom: 30px;
         justify-content: space-between;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             margin-bottom: 0;
         }
+
+        /*@media screen and (max-width: $bp-phones) {
+            margin-bottom: 0;
+        }*/
     }
 
     .add-skill {
@@ -82,5 +87,13 @@
 
     .input_new-skill {
         color: #464d62;
+    }
+
+    .active-item {
+        pointer-events: all;
+
+        /*& input {
+            border-bottom: 1px solid #000;
+        }*/
     }
 </style>

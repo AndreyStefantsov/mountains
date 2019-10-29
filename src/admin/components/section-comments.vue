@@ -93,7 +93,7 @@
 
     .add-group__text {
         color: #fff;
-        font-weight: $bold;
+        font-weight: 700;
     }
 
     .add-project-item {
