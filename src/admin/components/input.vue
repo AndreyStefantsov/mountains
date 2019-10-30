@@ -25,10 +25,10 @@
     }
 </script>  
 
-<style lang="pcss">
+<style lang="postcss">
     .input {
         background: transparent;
-        border: none;
+        border: 1px solid transparent;
         color: #464d62;
         font-size: 18px;
         font-weight: 600;

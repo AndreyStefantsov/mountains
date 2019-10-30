@@ -65,8 +65,8 @@
     }
 </script>  
 
-<style scoped lang="pcss">
-  @import "../styles/mixins.pcss";
+<style scoped lang="postcss">
+    @import "../styles/mixins.pcss";
     .group {
         min-height: 390px;
         margin-bottom: 30px;
@@ -76,9 +76,6 @@
             margin-bottom: 0;
         }
 
-        /*@media screen and (max-width: $bp-phones) {
-            margin-bottom: 0;
-        }*/
     }
 
     .add-skill {
@@ -91,9 +88,7 @@
 
     .active-item {
         pointer-events: all;
-
-        /*& input {
-            border-bottom: 1px solid #000;
-        }*/
     }
 </style>
+
+

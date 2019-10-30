@@ -27,7 +27,7 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
     .tag-wrap {
         display: flex;
         padding: 10px 13px 10px 20px;

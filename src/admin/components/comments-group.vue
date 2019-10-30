@@ -35,7 +35,9 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
+
+    @import "../styles/mixins.pcss";
     
     .group {
         width: 340px;
@@ -45,11 +47,7 @@
         padding: 30px;
         align-items: center;
 
-        @media screen and (max-width: $bp-tablets) {
-            //justify-content: flex-start;
-        }
-
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 320px;
         }
     }
@@ -127,6 +125,7 @@
             background: svg-load("pencil.svg", fill="#383bcf") no-repeat center;
             width: 16px;
             height: 15px;
+            background-size: 15px;
         }
     }
 

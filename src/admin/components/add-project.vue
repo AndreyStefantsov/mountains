@@ -28,7 +28,7 @@
                     .error(v-if="isErrorTags") {{errorMessage}}
                     div.tag-create
                         ul.tag-create__list
-                            li.tag-create__item(v-for="(tag,index) in makeArrayFromString" :key=index) 
+                            li.tag-create__item(v-for="(tag,index) in makeArrayFromString" :key="index") 
                                 tag-component(:newTag="tag" :tagIndex="index" @removeTag="removeTag")
         .button-add-projects
             a.reset-button(@click="$emit('closeProject')") Отмена
@@ -106,15 +106,16 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
+
+    @import "../styles/mixins.pcss";
+
     .group-project {
         padding: 30px;
         display: flex;
         flex-direction: column;
         background: #fff;
         margin-bottom: 30px;
-
-
     }
 
     .main-title-project {
@@ -139,10 +140,11 @@
         display: flex;
         justify-content: space-between;
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             flex-direction: column;
             align-items: center;
         }
+
     }
 
     .form-project {
@@ -155,11 +157,11 @@
         background: #dee4ed;
         background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: grey; stroke-width: 1; stroke-dasharray: 8 8'/></svg>");
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             margin-bottom: 55px;
         }
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 280px;
             height: 155px;
         }
@@ -175,7 +177,7 @@
     .content-project {
         width: 495px;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 100%;
         }
     }
@@ -219,9 +221,10 @@
         align-self: flex-end;
         align-items: center;
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             align-self: center;
         }
+
     }
 
     .project-text {

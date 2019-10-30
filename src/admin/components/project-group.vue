@@ -39,7 +39,9 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
+
+    @import "../styles/mixins.pcss";
     
     .group {
         width: 340px;
@@ -50,13 +52,10 @@
         padding-bottom: 40px;
         align-items: center;
 
-        @media screen and (max-width: $bp-tablets) {
-            //justify-content: flex-start;
-        }
-
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 320px;
         }
+
     }
 
     .image {
@@ -64,7 +63,7 @@
         height: 190px;
         margin-bottom: 40px;
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 100%;
         }
     }
@@ -115,6 +114,7 @@
             background: svg-load("pencil.svg", fill="#383bcf") no-repeat center;
             width: 16px;
             height: 15px;
+            background-size: 15px;
         }
     }
 

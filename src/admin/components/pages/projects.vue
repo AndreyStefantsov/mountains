@@ -52,7 +52,8 @@
     
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
+    @import "../../styles/mixins.pcss";
 
     .main-info {
         display: flex;
@@ -64,10 +65,9 @@
         flex-direction: column;
         align-items: center;
 
-        @media screen and (max-width: $bp-phones) {
-            flex-direction: row
-
-        }
+        @include phones {
+			flex-direction: row
+		}
     }
 
     .add-group__link {
@@ -82,13 +82,14 @@
         margin-bottom: 30px;
         font-size: 72px;
 
-        @media screen and (max-width: $bp-phones) {
-            margin-bottom: 0;
+        @include phones {
+			margin-bottom: 0;
             margin-right: 20px;
             width: 50px;
             height: 50px;
             font-size: 24px;
-        }
+		}
+
     }
 
     .add-group__text {
@@ -111,11 +112,12 @@
         background: linear-gradient(to right,  #1b5ae3 0%,#433acc 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b5ae3', endColorstr='#433acc',GradientType=1 );
 
-        @media screen and (max-width: $bp-phones) {
-            margin-right: 0;
+        @include phones {
+			margin-right: 0;
             width: 320px;
             height: 110px;
-        }
+		}
+
     }
 
     .groups {
@@ -125,11 +127,10 @@
     .groups__list {
         display: flex;
         flex-flow: wrap;
-        //justify-content: center;
 
-        @media screen and (max-width: $bp-desktop) {
-            justify-content: center;
-        }
+        @include desktop {
+			justify-content: center;
+		}
     }
 
 
@@ -140,17 +141,17 @@
         &:nth-child(3n) {
             margin-right: 0;
 
-            @media screen and (max-width: $bp-desktop) {
-                margin-right: 30px;
-            }
+            @include desktop {
+			    margin-right: 30px;
+		    }
 
-            @media screen and (max-width: $bp-tablets) {
-                margin-right: unset;
-            }
+            @include tablets {
+			    margin-right: unset;
+		    }
         }
 
-        @media screen and (max-width: $bp-tablets) {
-            &:nth-child(even) {
+        @include tablets {
+             &:nth-child(even) {
                 margin-right: 0;
             }
 
@@ -159,15 +160,13 @@
             }
         }
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             margin-right: 0;
 
             &:nth-child(odd) {
                 margin-right: 0;
             }
-        }
-
-        
+        }       
     }
 
 </style>

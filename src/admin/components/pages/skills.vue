@@ -24,30 +24,7 @@
 			return {
 				showGroup: false,
 				sectionTitle: 'Обо мне',
-				/*skills: [
-					{
-						"id": "0",
-						"title": "Front-end",
-						"skills": {
-							"HTML5": "50",
-							"CSS": "75",
-							"Javascript": "25",
-							"jQuery и Vue.js": "10"
-						}
-					},
-					{
-						"id": "1",
-						"title": "Back-end",
-						"skills": {
-							"Git": "37",
-							"Terminal": "86",
-							"Gulp": "30",
-							"Webpack": "44"
-						}
-					}
-				]*/
 			}
-        // надо подумать, потом напомнишь, пойду дальше
 		},
 		components: {
 			skillGroup: () => import("components/skill-group.vue"),
@@ -75,7 +52,7 @@
 	
 </script>  
 
-<style lang="pcss">
+<style lang="postcss">
 	@import "../../styles/mixins.pcss";
 
 	.add-group {
@@ -89,10 +66,6 @@
 			margin-left: 30px
 		}
 
-		/*@media screen and (max-width: $bp-phones) {
-			margin-bottom: 30px;
-			margin-left: 30px
-		}*/
 	}
 	
 	.add-group__link {
@@ -127,10 +100,7 @@
 		@include desktop {
 			justify-content: center;
 		}
-		
-		/*@media screen and (max-width: $bp-desktop) {
-			justify-content: center;
-		}*/
+
 	}
 
 	.groups__item-skills {
@@ -141,25 +111,15 @@
 			margin-right: 0;
 		}
 
-		/*@media screen and (max-width: $bp-desktop) {
-			margin-right: 0;
-		}*/
 
 		@include tablets {
 			margin-right: 0;
 		}
 
-		/*@media screen and (max-width: $bp-tablets) {
-			margin-right: 20px;
-		}*/
-
 		@include phones {
 			margin-right: 0;
 		}
 
-		/*@media screen and (max-width: $bp-phones) {
-			margin-right: 0;
-		}*/
 
 		&:nth-child(even) {                      
 			margin-right: 0;

@@ -24,7 +24,7 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
     .button {
         display: flex;
         justify-content: center;

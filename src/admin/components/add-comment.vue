@@ -72,7 +72,8 @@
     }
 </script>  
 
-<style scoped lang="pcss">
+<style scoped lang="postcss">
+    @import "../styles/mixins.pcss";
     .group-project {
         padding: 30px;
         display: flex;
@@ -103,10 +104,11 @@
         display: flex;
         justify-content: flex-start;
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             flex-direction: column;
             align-items: center;
         }
+
     }
 
     .form-comment {
@@ -116,15 +118,16 @@
         flex-direction: column;
         margin-right: 30px;
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             margin-bottom: 55px;
             margin-right: 0;
         }
 
-        @media screen and (max-width: $bp-phones) {
+        @include phones {
             width: 280px;
             margin-right: 0;
         }
+
     }
 
     .form-comment__image {
@@ -169,7 +172,7 @@
         width: 290px;
         position: relative;
 
-        @media screen and (max-width: $bp-tablets) {
+        @include tablets {
             width: 47.5%;
         }
     }
@@ -209,9 +212,10 @@
         align-self: flex-end;
         align-items: center;
 
-        @media screen and (max-width: $bp-desktop) {
+        @include desktop {
             align-self: center;
         }
+
     }
 
     .comment-text {

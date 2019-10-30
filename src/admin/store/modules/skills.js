@@ -2,24 +2,52 @@ const skills = {
     state: {
         skills: [
             {
-                "id": "0",
-                "title": "Front-end",
-                "skills": {
-                    "HTML5": "50",
-                    "CSS": "75",
-                    "Javascript": "25",
-                    "jQuery и Vue.js": "10"
-                }
+                id: "0",
+                title: "Front-end",
+                skills: [
+                    {
+                        id: "0",
+                        title: "HTML5",
+                        percent: "50"
+                    },
+                    {
+                        id: "1",
+                        title: "CSS",
+                        percent: "75"
+                    },{
+                        id: "2",
+                        title: "Javascript",
+                        percent: "25"
+                    },{
+                        id: "3",
+                        title: "jQuery и Vue.js",
+                        percent: "10"
+                    }
+                ]
             },
             {
-                "id": "1",
-                "title": "Back-end",
-                "skills": {
-                    "Git": "37",
-                    "Terminal": "86",
-                    "Gulp": "30",
-                    "Webpack": "44"
-                }
+                id: "1",
+                title: "Back-end",
+                skills: [
+                    {
+                        id: "0",
+                        title: "Git",
+                        percent: "37"
+                    },
+                    {
+                        id: "1",
+                        title: "Terminal",
+                        percent: "86"
+                    },{
+                        id: "2",
+                        title: "Gulp",
+                        percent: "30"
+                    },{
+                        id: "3",
+                        title: "Webpack",
+                        percent: "44"
+                    }
+                ]
             }
         ]
     },

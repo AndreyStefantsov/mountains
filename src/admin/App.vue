@@ -14,7 +14,7 @@
   } 
 </script>
 
-<style lang="pcss">
+<style lang="postcss">
   @import "normalize.css";
   @import "../styles/mixins.pcss";
   @import "../styles/layout/base.pcss";

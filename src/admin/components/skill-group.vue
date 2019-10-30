@@ -11,13 +11,13 @@
                 a.button__cross(@click.prevent="changeEditedMode")    
         .skills
             ul.skills__list
-                li.skills_item(v-for="skillPercent, skillName in skillsArr" :key="skillName")
+                li.skills_item(v-for="skill in skillsArr" :key="skill.id")
                     //input.input.input_skill-text(:value="skillName")
                     .inputs-wrap(:class="{'active-item': editedMode}")
                         //addInput(classMod="input_skill-text" v-model="skillName")
-                        input.input.input_skill-text(:value="skillName")
+                        input.input.input_skill-text(v-model="skill.title")
                         .percent-wrap
-                            input.input.input_skill-percent(:value="skillPercent" maxlength="3")
+                            input.input.input_skill-percent(:value="skill.percent" maxlength="3")
                             //addInput(classMod="input_skill-percent" v-model="skillsArr[skillPercent]" maxlength="3")
                     .button(v-if="editedMode == false")
                         a.button__pencil(@click.prevent="changeEditedMode")
@@ -59,12 +59,12 @@
             addInput
         },
         props: {
-            skillsArr: Object,
+            skillsArr: Array,
             skillTitle: String,
             skillId: String
             //skillItem: Object
         },
-        // created() {
+        // mouted() {
         //     this.skillTitle = skillItem.title
         // },
         methods: {
@@ -90,7 +90,7 @@
     }
 </script>  
 
-<style lang="pcss">
+<style lang="postcss">
 
 	@import "../../styles/mixins.pcss";
 
@@ -107,22 +107,11 @@
             padding: 25px;
 		}
 
-        /*@media screen and (max-width: $bp-tablets) {
-            width: 345px;
-            padding: 25px;
-        }*/
-
         @include phones {
 			width: 320px;
             padding-left: 20px;
             align-items: flex-start;
 		}
-
-        /*@media screen and (max-width: $bp-phones) {
-            width: 320px;
-            padding-left: 20px;
-            align-items: flex-start;
-        }*/
         
     }
 
@@ -147,19 +136,11 @@
                 width: 315px;
 		    }
 
-            /*@media screen and (max-width: $bp-tablets) {
-                width: 315px;
-            }*/
-
             @include phones {
                 width: 320px;
                 left: -20px;
             }
 
-            /*@media screen and (max-width: $bp-phones) {
-                width: 320px;
-                left: -20px;
-            }*/
         }
     }
 
@@ -191,11 +172,6 @@
         @include tablets {
             margin-right: 25px;
         }
-
-        /*@media screen and (max-width: $bp-tablets) {
-            margin-right: 25px;
-        }*/
-
     }
 
     .input_title {
@@ -208,21 +184,15 @@
             width: 230px;
         }
 
-        /*@media screen and (max-width: $bp-tablets) {
-            width: 230px;
-        }*/
-
         @include phones {
             font-size: 16px;
         }
 
-        /*@media screen and (max-width: $bp-phones) {
-            font-size: 16px;
-        }*/
     }
 
     .button {
         display: flex;
+        transform: translate(0, 5px);
     }
     
     .button__tick {
@@ -242,8 +212,9 @@
     .button__pencil {
         background: svg-load("pencil.svg", fill=#888 ) no-repeat center;
         width: 16px;
-        height: 15px;
+        height: 16px;
         margin-right: 20px;
+        background-size: 15px;
 
         &_title {
             margin-right: 0;
@@ -254,6 +225,7 @@
         background: svg-load("trash.svg", fill=#888) no-repeat center;
         width: 13px;
         height: 15px;
+        background-size: 15px;
     }
 
 
@@ -280,18 +252,11 @@
             width: 150px;
         }
 
-        /*@media screen and (max-width: $bp-tablets) {
-            margin-right: 0;
-            width: 150px;
-        }*/
 
         @include phones {
             font-size: 14px;
         }
 
-        /*@media screen and (max-width: $bp-phones) {
-            font-size: 14px;
-        }*/
     }
 
     .percent-wrap {
@@ -315,17 +280,9 @@
             width: 65px;
         }
 
-        /*@media screen and (max-width: $bp-tablets) {
-            width: 65px;
-        }*/
-
         @include phones {
             font-size: 16px;
         }
-
-        /*@media screen and (max-width: $bp-phones) {
-            font-size: 16px;
-        }*/
     }
 
     .add-skill {
@@ -351,9 +308,6 @@
             width: 145px;
         }
 
-        /*@media screen and (max-width: $bp-tablets) {
-            width: 145px;
-        }*/
     }
 
     .percent-wrap_add-skill {
@@ -370,17 +324,10 @@
             width: 65px;
         }
 
-        /*@media screen and (max-width: $bp-tablets) {
-            width: 65px;
-        }*/
     }
 
     .active-item {
         pointer-events: all;
-
-        /*& input {
-            border-bottom: 1px solid #000;
-        }*/
     }
 
 
