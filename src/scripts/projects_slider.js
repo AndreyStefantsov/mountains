@@ -1,101 +1,128 @@
-new Vue ({
-    el: "#projects",
+import Vue from "vue"
 
-    data: {
-        offsetTop: "",
-        blockedUp: true,
-        blockedDown: false,
-        scrollWidth: 17,
-        listHeight: '',
-        previewsIterate: '',
-        activeItem: 0,
-        changed: true,
-        activeIndex: 0,
-        currentItem: [],
-        /*path: 'images/content/',
-        images: [this.path + 'preview_future.jpg'],
-        src: ''*/
-    },
+const projectTags = {
+    template: '#project-tags',
+    props: ["tagsArr"]
+    
+}
 
+const projectDecription = {
+    template: '#project-decription',
+    components: {projectTags},
+    props: ["currentItem"],
     computed: {
-        previewsItems() {
-            return this.$el.querySelectorAll('.project-preview__item')
+        makeTagsArr() {
+            return this.currentItem.tags.split(', ')
+        }
+    }
+}
+
+const projectButtons = {
+    template: '#project-buttons'
+}
+
+const projectPreviews = {
+    template: '#project-previews',
+    props: ["projects", "currentItem", "offsetBottom"],
+    computed: {
+        reverseProjectsArr() {
+            return[...this.projects].reverse()
         },
-        itemHeight() {
-            return parseInt(this.previewsItems[0].clientHeight)
+        /*computeListHeight() {
+            return this.listHeight = parseInt(getComputedStyle(this.$refs.previewList).height)
+        }*/
+    }
+}
+
+new Vue({
+    el: "#projects-container",
+    template: '#project-block',
+    components: {projectPreviews, projectButtons, projectDecription},
+    data: () => ({
+        projects: [],
+        activeItem: 0,
+        offsetBottom: 0,
+        dataCount: 0,
+        scrollWidth: 17,
+        previewsAmount:''
+    }),
+    computed: {
+        currentItem() {
+            return this.projects[this.activeItem]
+        },
+        itemsAmount() {
+            return this.projects.length;
         },
         previewsHeight() {
             if (document.body.clientWidth+this.scrollWidth>1200) {
                 return 400
             } else return document.body.clientWidth<=480 ? 190 : 300;
         },
-        /*previewsIterate() {
-            return this.previewsHeight/this.itemHeight;
-        }*/
-    },
 
-    mounted () {
-        window.onload = () => {
-            this.offsetTop = parseInt(getComputedStyle(this.$el.querySelector('.project-preview__list')).top);
-            this.listHeight = parseInt(getComputedStyle(this.$el.querySelector('.project-preview__list')).height);
+        visibleItemsAmount() {
+            if (this.previewsHeight == 400) {
+                return 4
+            } else return this.previewsHeight == 300 ? 3 : 1;
         },
-        this.previewsIterate = this.previewsHeight/this.itemHeight;
-        //this.currentItem
-        //this.src = this.path + 'preview_car.jpg' 
+        
+        itemHeight() {
+            return this.previewsHeight == 190 ? 190 : 100
+        },
+        
     },
-
-
     watch: {
-        previewsIterate() {
-            if (this.previewsIterate === this.listHeight/this.itemHeight) {
-                this.blockedDown = true;
-            } else if (this.offsetTop == 0) {
-                this.blockedUp = true;
-            } 
+        activeItem(index) {
+            if (index<0) {
+                this.activeItem = this.projects.length-1;
+                
+            };
+
+            if (index>this.projects.length-1) {
+                this.activeItem = 0;
+                this.offsetBottom = 0
+            };
         }
     },
-
     methods: {
+        forRequireImg(projectArr) {
+            return projectArr.map(item => {
+                const newImage = require(`images/content/${item.image}`);
+                item.image = newImage;
+                return item
+            })
+        },
 
         slideUp() {
-            if (this.offsetTop != 0) {
-                this.offsetTop += this.itemHeight;
-                this.blockedDown = false;
-                //this.activeItem--;
-                this.previewsIterate--;
-                console.log(this.previewsIterate)
+            this.activeItem++
+            console.log(this.activeItem)
+            if ((this.activeItem > Math.abs(this.itemsAmount-this.visibleItemsAmount)) && (this.activeItem<this.visibleItemsAmount)) {
+                this.offsetBottom += -this.itemHeight 
+            } else if ((this.activeItem >= this.visibleItemsAmount) && (-this.offsetBottom !== (this.itemsAmount-this.visibleItemsAmount)*this.itemHeight)) {
+                this.offsetBottom += -this.itemHeight 
             }
-            return this.offsetTop;
+
         },
 
         slideDown() {
-            //this.activeItem++
-            //this.$el.getAttribute('data-index')
-            //console.log(this.previewsItems[this.activeItem].getAttribute('data-index'))
-            //if (this.activeItem ==)
-            if (this.listHeight-this.previewsHeight !== Math.abs(this.offsetTop)) {
-                this.blockedUp = false;
-                this.offsetTop += -this.itemHeight;
-                this.previewsIterate++
-                console.log(this.previewsIterate)
-                return this.offsetTop;
-                
+            this.activeItem--
+            if ((this.offsetBottom == 0) && (this.activeItem < 0)) {
+                this.offsetBottom = -this.itemHeight*(this.itemsAmount-this.visibleItemsAmount)
+
+            } else if (this.activeItem < Math.abs(this.offsetBottom)/this.itemHeight) {
+                this.offsetBottom += this.itemHeight
             }
 
         },
 
-        changePreview(e) {
-            if (e.target.tagName !== "A") return;
-            this.currentItem = e.target.closest('li').getAttribute('data-index');
-            //this.activeItem = this.previewsItems[this.currentItem]
-            console.log(this.currentItem)
-            this.previewsItems.forEach(item => {
-                item.classList.remove('is-active')
-            });
-            this.previewsItems[this.currentItem].classList.add('is-active')
-            //this.src = this.images[0]
-            //this.$refs.fullImage['src'] = '../images/content/preview_future.jpg'
-            console.log(this.$refs.fullImage['src'])
+        clickOnPreview(event) {
+            let dataIndex = event.target.closest('a').dataset.index
+            this.activeItem = dataIndex-1
+            
         }
-    }
+    },
+
+    created() {
+        const projectArr = require('../data/projects.json');
+        this.projects = this.forRequireImg(projectArr)
+    } 
 })

@@ -53,7 +53,6 @@ html(lang="ru-Ru")
               .main-info
                 .photo
                 include ./components/questionnaire.pug
-                //+questionnaire('questionnaire', infoList, 'text-mod')
               .description
                 span.description__entry Привет, меня зовут
                 span.description__name Андрей Стефанцов
@@ -67,25 +66,9 @@ html(lang="ru-Ru")
           .bg-image
             +image('content/backpack.png', 'bg-image__pic') 
           #skills-container
-            //include ./components/skills.pug
       section.container.container-my-projects#my-projects
         span.main-title.main-title_my-projects Мои работы
-        .my-projects#projects
-          .project-preview
-            +image('content/preview_car.jpg', 'project-preview__pic', 'fullImage')
-            +projects('project-preview', ['preview_car', 'preview_future', 'preview_lake', 'preview_mountain', 'preview_town'], 0)
-            .arrows.arrows_section-projects
-              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideUp" :class="{blocked: blockedUp}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_up`)
-              a.arrow-link.arrow-link_section-projects(href='#' @click.prevent="slideDown" :class="{blocked: blockedDown}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-white arrow-link__pic_down`)
-          .project-decription
-            +tags('tags', ['HTML', 'CSS', 'Javascript'])
-            .main-title.main-title_tags Сайт школы образования
-            .main-subtitle.main-subtitle_tags Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus ratione officia voluptate, quis provident deleniti quo commodi doloribus mollitia nisi, odio eaque veniam ipsum omnis totam necessitatibus pariatur nostrum quas!
-            .my-projects-ref
-              +icon('link', 'my-projects-ref__pic')
-              a.my-projects-ref__link(href='#') Перейти на сайт
+        #projects-container
       .bg-down
         .parallax.parallax_down
           .parallax__layer.parallax__layer_down(data-speed='0.05')
@@ -103,15 +86,7 @@ html(lang="ru-Ru")
           .parallax__layer.parallax__layer_down(data-speed='0.2')
             +image('parallax/down/layer_7.png', 'parallax__pic')
         section.container.container-comments#comments
-          .comment-description
-            .main-title.main-title_comments Что обо мне говорят
-            .arrows.arrows_section-comments
-              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideRight" :class="{blocked: blockedRight}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63 arrow-link__pic_left`)
-              a.arrow-link.arrow-link_section-comments(href='#' @click.prevent="slideLeft" :class="{blocked: blockedLeft}")
-                +icon('short-arrow', `arrow-link__pic arrow-link__pic_color-414c63`)
-          .comments
-            +comments('comments', commentsList)
+          #comments-content
         section.container.container-contact-me#contact-me
           span.main-title.main-title_contact-me Связаться со мной
           form.form

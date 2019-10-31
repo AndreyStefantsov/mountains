@@ -1,0 +1,46 @@
+script(type="text/x-template")#project-block
+    .my-projects
+        .project-preview(:data-image="currentItem.id")
+            img(:src="currentItem.image" class='project-preview__pic')
+            project-previews(
+                :projects="projects",
+                :current-item="currentItem",
+                :offset-bottom="offsetBottom",
+                @clickOn="clickOnPreview"
+            )
+            project-buttons(
+                @slideUp="slideUp",
+                @slideDown="slideDown",
+            )
+        project-decription(
+            :current-item="currentItem"
+        )
+
+script(type="text/x-template")#project-previews
+    div.project-preview__wrap
+        ul.project-preview__list(ref="previewList" @click.prevent="$emit('clickOn', $event)" :style="{bottom: offsetBottom+'px'}")
+            li.project-preview__item(v-for="project in reverseProjectsArr" :key="projects.id" :class="{'is-active': project.id === currentItem.id}")
+                a(class='project-preview__link' href='#' :data-index="project.id")
+                    img(:src="project.image" class='project-preview__pic-small')  
+
+script(type="text/x-template")#project-buttons
+    .arrows.arrows_section-projects
+        a.arrow-link.arrow-link_section-projects.arrow-link__arrow-up(href='#' @click.prevent="$emit('slideUp')")
+        a.arrow-link.arrow-link_section-projects.arrow-link__arrow-down(href='#'  @click.prevent="$emit('slideDown')")
+
+script(type="text/x-template")#project-decription                
+    .project-decription
+        project-tags(
+            :tagsArr="makeTagsArr"
+        )
+        .main-title.main-title_tags {{currentItem.title}}
+        .main-subtitle.main-subtitle_tags {{currentItem.decription}}
+        .my-projects-ref
+            +icon('link', 'my-projects-ref__pic')
+            a.my-projects-ref__link(:href="currentItem.ref") Перейти на сайт
+
+script(type="text/x-template")#project-tags    
+    div.tags
+        ul.tags__list
+            li.tags__item(v-for="tag in tagsArr" :key="tag")
+                span.tags__title {{tag}}

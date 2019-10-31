@@ -1,0 +1,39 @@
+[
+    {
+        "id": "1",
+        "name": "Иван Петров",
+        "prof": "Переворачиватель пингвинов",
+        "photo": "user.jpg",
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?"
+    },
+    {
+        "id": "2",
+        "name": "Ульяна Никитична",
+        "prof": "Писатель",
+        "photo": "user.jpg",
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?"
+    },
+    {
+        "id": "3",
+        "name": "Петр Иванов",
+        "prof": "Певец",
+        "photo": "user.jpg",
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?"
+    },
+    {
+        "id": "4",
+        "name": "Петр Иванов",
+        "prof": "Певец",
+        "photo": "user.jpg",
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?"
+    },
+    {
+        "id": "5",
+        "name": "Петр Иванов",
+        "prof": "Певец",
+        "photo": "user.jpg",
+        "text": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit quam esse error ipsam veritatis ipsa nihil eos quod consequatur similique perspiciatis, iusto amet architecto. Eaque provident et magni. Laudantium, quasi?"
+    }
+
+]
+
