@@ -9,14 +9,13 @@
 			div.groups
 				ul.groups__list-skills
 					li.groups__item-skills(v-if="showGroup")
-						add-skill
+						add-skill(:skills="skills")
 					li.groups__item-skills(v-for="item in skills" :key="item.id")
-						skill-group(:skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)")
-						//skill-group(:skillItem="item")
+						//skill-group(:skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)")
+						skill-group(:skills="item")
 </template>
 	
 <script>
-	//import skillsArr from '../../../data/skills.json'
 	import {mapState} from 'vuex'
 	export default {
 		name: 'skills',
@@ -35,17 +34,13 @@
 				skills: state => state.skills.skills
 			})
 		},
-		created() {
-			//this.skills = skillsArr
-		},
 		methods: {
-		/*newValues: function() {
-			this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
-			},*/
-
-		addNewGroup() {
-			this.showGroup = !this.showGroup
-		}
+			changeSkill(editSkill) {
+				console.log(editSkill)
+			},
+			addNewGroup() {
+				this.showGroup = !this.showGroup
+			}
 		},
 	}
 
@@ -65,7 +60,6 @@
 			margin-bottom: 30px;
 			margin-left: 30px
 		}
-
 	}
 	
 	.add-group__link {
@@ -80,7 +74,7 @@
 		background: -moz-linear-gradient(left,  #1b5ae3 0%, #433acc 100%);
 		background: -webkit-linear-gradient(left,  #1b5ae3 0%,#433acc 100%);
 		background: linear-gradient(to right,  #1b5ae3 0%,#433acc 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b5ae3', endColorstr='#433acc',GradientType=1 );
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1b5ae3', endColorstr='#433acc',GradientType=1);
 	}
 	.add-group__link__link-in-group {
 		font-size: 30px;

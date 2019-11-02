@@ -1,5 +1,5 @@
 <template lang="pug">
-  .div
+  .maincontent-container
     header-admin
     .content-wrap
       router-view      
@@ -20,8 +20,9 @@
   @import "../styles/layout/base.pcss";
   @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
 
-  .maincontent {
+  .admin-wrapper, .maincontent, .maincontent-container {
     width: 100%;
+    height: 100%
   }
 
   .content-wrap {
@@ -29,7 +30,7 @@
     background-size: cover;
     background-blend-mode: lighten;
     padding-top: 60px;
-    padding-bottom: 30px;
+    padding-bottom: 30px; 
   }
 
   .main-section {

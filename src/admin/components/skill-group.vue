@@ -2,74 +2,94 @@
 <template lang="pug">
     .group
         div.main
-            input.input.input_title(v-model="skillTitle" :class="{'active-item': editedMode}")
-            //addInput(classMod="input_title" v-model="skillTitle" :class="{'active-item': editedMode}")
-            .button(v-if="editedMode == false")
-                a.button__pencil.button__pencil_title(@click.prevent="changeEditedMode")
-            .button(v-else="editedMode == true")
-                a.button__tick
-                a.button__cross(@click.prevent="changeEditedMode")    
+            input.input.input_title(v-model="editedSkills.title" :class="{'active-item': editMode}")
+            .button(v-if="editMode == false")
+                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode")
+            .button(v-else="editMode == true")
+                a.button__tick(@click.prevent="editTitle")
+                a.button__cross(@click.prevent="changeEditMode")    
         .skills
             ul.skills__list
-                li.skills_item(v-for="skill in skillsArr" :key="skill.id")
-                    //input.input.input_skill-text(:value="skillName")
-                    .inputs-wrap(:class="{'active-item': editedMode}")
-                        //addInput(classMod="input_skill-text" v-model="skillName")
-                        input.input.input_skill-text(v-model="skill.title")
-                        .percent-wrap
-                            input.input.input_skill-percent(:value="skill.percent" maxlength="3")
-                            //addInput(classMod="input_skill-percent" v-model="skillsArr[skillPercent]" maxlength="3")
-                    .button(v-if="editedMode == false")
-                        a.button__pencil(@click.prevent="changeEditedMode")
-                        a.button__remove
-                    .button(v-else="editedMode == true")
-                        a.button__tick
-                        a.button__cross(@click.prevent="changeEditedMode") 
+                li.skills_item(v-for="skillItem in editedSkills.skills" :key="skillItem.id")
+                    edit-skill(:skillItem="skillItem" @changeSkill="changeSkill" @removeSkill="removeSkill")
         div.add-skill
             .add-skill__wrap
-                input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill")
-                //addInput(classMod="input_new-skill" v-model="newSkill" placeholder="Новый навык")
+                input.input.input_new-skill(placeholder="Новый навык" v-model="newTitle")
                 .error(v-if="isErrorTitle") {{errorMessage}}
             .percent-wrap.percent-wrap_add-skill
                 input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newPercent")
-                //addInput(classMod="input_new-percent" v-model="newPercent" placeholder="100" maxlength="3")
                 .error(v-if="isErrorPercent") {{errorMessage}}
-            a.add-group(@click.prevent="newValues")
+            a.add-group(@click.prevent="checkNewValues")
                 span.add-group__link.add-group__link__link-in-group &#43;
 </template>
 
 <script>
     //import tickIcon from ''
     import addInput from './input.vue'
+    import editSkill from './edit-skill.vue'
     export default {
         name: 'skillGroup',
         data() {
             return {
-                newSkill: '',
+                newTitle: '',
                 newPercent: '',
                 classMod:'',
-                editedMode: false,
+                editMode: false,
                 errorMessage: 'Это поле должно быть заполнено',
                 isErrorTitle: false,
                 isErrorPercent: false,
-                //skillTitle: ''
+                editedSkills: {...this.skills}
+            }
+        },
+        computed: {
+            newSkillId() {
+                return this.editedSkills.skills.length;
             }
         },
         components: {
-            addInput
+            addInput, editSkill
         },
         props: {
-            skillsArr: Array,
+            /*skillsArr: Array,
             skillTitle: String,
-            skillId: String
-            //skillItem: Object
+            skillId: String,*/
+            skills: Object
         },
         // mouted() {
         //     this.skillTitle = skillItem.title
         // },
+
         methods: {
-            newValues: function () {
-                if ((this.newSkill==undefined) || (this.newSkill=='')) {
+            addNewSkill() {
+                //this.checkNewValues();
+                let newSkill = {
+                    id: this.newSkillId,
+                    title: this.newTitle,
+                    percent: this.newPercent
+                }
+                this.editedSkills.skills.push(newSkill);
+                this.newTitle = '';
+                this.newPercent = '';
+            },
+            /*async checkNewValues() {
+                let checkValues = new Promise((resolve) => {
+                    if ((this.newSkill==undefined) || (this.newSkill=='')) {
+                        this.isErrorTitle = true;
+                        setTimeout(() => {
+                            this.isErrorTitle = false
+                        }, 2000);
+                    } else if ((this.newPercent==undefined) || (this.newPercent=='')) {
+                        this.isErrorPercent = true;
+                        setTimeout(() => {
+                            this.isErrorPercent = false
+                        }, 2000);      
+                    }
+                resolve()
+                })
+                await checkValues;
+            },*/
+            checkNewValues() {
+                if ((this.newTitle==undefined) || (this.newTitle=='')) {
                     this.isErrorTitle = true;
                     setTimeout(() => {
                         this.isErrorTitle = false
@@ -78,14 +98,28 @@
                     this.isErrorPercent = true;
                     setTimeout(() => {
                         this.isErrorPercent = false
-                    }, 2000);
-                }
-
+                    }, 2000);   
+                } else this.addNewSkill()
             },
-            changeEditedMode() {
-                this.editedMode= !this.editedMode
+            changeEditMode() {
+                this.editMode= !this.editMode
+            },
+            changeSkill(editSkill) {
+                this.editedSkills.skills[editSkill.id].title = editSkill.newSkillTitle;
+                this.editedSkills.skills[editSkill.id].percent = editSkill.newSkillPercent;
+            },
+            removeSkill(skillId) {
+                this.editedSkills.skills = this.editedSkills.skills.filter(skill => skill.id !== skillId)
+            },
+            editTitle() {
+                if (this.editedSkills.title !== this.editedSkills.title) {
+                    this.editedSkills.title = this.editedSkills.title;
+                } 
+                this.editMode= !this.editMode;
             }
         }
+
+        //@changeSkill="(editSkill) => $emit('editSkill')"
 
     }
 </script>  
@@ -118,7 +152,6 @@
     .main {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-bottom: 45px;
         position: relative;
         width: 100%;
@@ -199,33 +232,55 @@
         margin-right: 20px;
         background: svg-load("tick.svg", fill=#00d70a) no-repeat center;
         width: 15px;
-        height: 12px;
+        height: 15px;
+       
+        &:hover {
+            background: svg-load("tick.svg", fill=#08a337) no-repeat center;
+        }
+
+        &:active {
+            outline:none;
+        }
     }
 
     .button__cross {
         display: block;
         background: svg-load("cross.svg", fill=#bf2929) no-repeat center;
-        width: 14px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
+
+        &:hover {
+            background: svg-load("cross.svg", fill=#e01b1b) no-repeat center;
+        }
     }
 
     .button__pencil {
-        background: svg-load("pencil.svg", fill=#888 ) no-repeat center;
-        width: 16px;
-        height: 16px;
+        background: svg-load("pencil.svg", fill=#888) no-repeat center;
+        width: 15px;
+        height: 15px;
         margin-right: 20px;
         background-size: 15px;
 
         &_title {
             margin-right: 0;
         }
+
+        &:hover {
+            background: svg-load("pencil.svg", fill=#1b5ae3) no-repeat center;
+            background-size: 15px;
+        }
     }
 
     .button__remove {
         background: svg-load("trash.svg", fill=#888) no-repeat center;
-        width: 13px;
+        width: 15px;
         height: 15px;
         background-size: 15px;
+
+        &:hover {
+            background: svg-load("trash.svg", fill=#bf2929) no-repeat center;
+            background-size: 15px;
+        }
     }
 
 
@@ -265,7 +320,7 @@
         &:after {
             content: '%';
             position: absolute;
-            top: 0;
+            top: 1px;
             right: 10px;
             color: rgba(#464d62, 0.7)
         }
