@@ -15,8 +15,15 @@
             .header__container
                 nav.nav
                     ul.nav__list
-                        li.nav__item(v-for="(tab, i) in tabs" :key="i" :class="{'active-tab': tab.id==activeTab}")    
-                            router-link(:to="tab.href" class="nav__link" exact-active-class="active") {{tab.title}}
+                        li.nav__item(v-for="(tab, i) in tabs" :key="i")    
+                            router-link(
+                                :to="tab.href" 
+                                :data-text="tab.title" 
+                                class="nav__link" 
+                                exact-active-class="active"
+                                )
+                        //- li.nav__item(v-for="(tab, i) in tabs" :key="i")    
+                        //-     router-link(:to="tab.href" class="nav__link" exact-active-class="active")
                             
 </template>
 
@@ -170,12 +177,18 @@
     }
 
     .nav__link {
-        color: #464d62
+        color: #464d62;
+        
+        &:before {
+            content: attr(data-text);
+        }
+
+        &.active {
+            border-bottom: 3px solid #383bcf;
+            color: #383bcf;
+        }
     }
-    .active {
-        border-bottom: 3px solid #383bcf;
-        color: #383bcf;
-    }
+    
     
 </style>
     

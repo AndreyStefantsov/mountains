@@ -2,7 +2,7 @@
   .maincontent-container
     header-admin
     .content-wrap
-      router-view      
+      router-view
 </template>
 
 <script>

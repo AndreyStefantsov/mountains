@@ -1,30 +1,52 @@
 <template lang="pug">
     .login
         .login__container
-            form.login__form()
+            form.login__form(@submit.prevent="login")
                 .login__form-title Авторизация
                 .login__content.login-content_name
-                    input(v-model="user.login" name="login").login__name
                     label(for="login").login__label Логин
+                    input(v-model="user.name" name="login").login__name
                 .login__content.login-content_password
-                    input(v-model="user.password" name="password" type="password").login__password
                     label(for="password").login__label Пароль
+                    input(v-model="user.password" name="password" type="password").login__password
                 button(type="submit").login__send Войти
 </template>
 
 <script>
+    import $axios from '../../requests';
+   
     export default {
         name: 'editSkill',
         data() {
             return {
                 user: {
-                    login: "",      //stefantsov-102019
-                    password: ""    //jo5e72
-                }
+                    name: "stefantsov-102019",      //stefantsov-102019
+                    password: "jo5e72"    //jo5e72
+                },
             }
         },
         methods: {
-
+            async login() {
+               
+                // const config = {
+                //     headers: {
+                //         'X-Requested-With': 'XMLHttpRequest',
+                //         //'Access-Control-Allow-Origin': true,
+                //         //'Access-Control-Allow-Headers': "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+                //         },
+                // }
+                try {
+                    const response = await $axios.post('http://webdev-api.loftschool.com/login', this.user);
+                    console.log(111, response)
+                    /*const token = response.data.token;
+                    localStorage.setItem("token", token);
+                    $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+                    this.$router.replace("/")*/
+                    
+                } catch (error) {
+                    
+                }
+            }
         }
     }
     
@@ -99,7 +121,7 @@
         &:before {
             content: '';
             position: absolute;
-            background: svg-load("key.svg", fill="none", stroke="#c7cad0", stroke-width="20") no-repeat center;
+            background: svg-load("key.svg", fill="#c7cad0") no-repeat center;
             width: 28px;
             height: 28px;
         }
@@ -132,13 +154,10 @@
 
     .login__label {
         left: 45px;
+        top: -45px;
         font-weight: 600;
         color: rgba($text-color, .3);
         position: absolute;
-    }
-
-    input:focus ~ .login__label {
-        top: -45px;
     }
 
     .login__send {
