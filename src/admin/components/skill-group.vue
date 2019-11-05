@@ -2,49 +2,50 @@
 <template lang="pug">
     .group
         div.main
-            input.input.input_title(v-model="editedSkills.title" :class="{'active-item': editMode}")
+            input.input.input_title(v-model="editedCategory.category" :class="{'active-item': editMode}")
             .button(v-if="editMode == false")
                 a.button__pencil.button__pencil_title(@click.prevent="changeEditMode")
             .button(v-else="editMode == true")
-                a.button__tick(@click.prevent="editTitle")
-                a.button__cross(@click.prevent="changeEditMode")    
+                a.button__tick(@click.prevent="changeCategoryName")
+                a.button__cross(@click.prevent="removeExistedCategory")    
         .skills
             ul.skills__list
-                li.skills_item(v-for="skillItem in editedSkills.skills" :key="skillItem.id")
-                    edit-skill(:skillItem="skillItem" @changeSkill="changeSkill" @removeSkill="removeSkill")
+                li.skills_item(v-for="skill in category.skills" :key="skill.id")
+
+                    //- edit-skill(:skill="skill" @changeSkill="changeSkill" @removeSkill="removeSkill")
         div.add-skill
             .add-skill__wrap
-                input.input.input_new-skill(placeholder="Новый навык" v-model="newTitle")
+                input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill.title")
                 .error(v-if="isErrorTitle") {{errorMessage}}
             .percent-wrap.percent-wrap_add-skill
-                input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newPercent")
+                input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newSkill.percent")
                 .error(v-if="isErrorPercent") {{errorMessage}}
             a.add-group(@click.prevent="checkNewValues")
                 span.add-group__link.add-group__link__link-in-group &#43;
 </template>
 
 <script>
-    //import tickIcon from ''
     import addInput from './input.vue'
     import editSkill from './edit-skill.vue'
     export default {
         name: 'skillGroup',
         data() {
             return {
-                newTitle: '',
-                newPercent: '',
-                classMod:'',
+                newSkill: {
+                    title: '',
+                    percent: '',  
+                    category: this.category.id
+                },
                 editMode: false,
                 errorMessage: 'Это поле должно быть заполнено',
                 isErrorTitle: false,
                 isErrorPercent: false,
-                editedSkills: {...this.skills}
+                editedSkills: {...this.category.skills},
+                editedCategory: {...this.category}
             }
         },
         computed: {
-            newSkillId() {
-                return this.editedSkills.skills.length;
-            }
+
         },
         components: {
             addInput, editSkill
@@ -53,7 +54,17 @@
             /*skillsArr: Array,
             skillTitle: String,
             skillId: String,*/
-            skills: Object
+            //skills: Object,
+            /*skills: {
+                type: Array,
+                default: () => ({}),
+                required: true 
+            },*/
+            category: {
+                type: Object,
+                default: () => ({}),
+                required: true 
+            }
         },
         // mouted() {
         //     this.skillTitle = skillItem.title
@@ -61,15 +72,13 @@
 
         methods: {
             addNewSkill() {
-                //this.checkNewValues();
-                let newSkill = {
-                    id: this.newSkillId,
+                /*let newSkill = {
                     title: this.newTitle,
                     percent: this.newPercent
-                }
-                this.editedSkills.skills.push(newSkill);
-                this.newTitle = '';
-                this.newPercent = '';
+                }*/
+                this.$emit('addNewSkill', this.newSkill);
+                /*this.newSkill.title = '';
+                this.newSkill.percent = '';*/
             },
             /*async checkNewValues() {
                 let checkValues = new Promise((resolve) => {
@@ -89,12 +98,12 @@
                 await checkValues;
             },*/
             checkNewValues() {
-                if ((this.newTitle==undefined) || (this.newTitle=='')) {
+                if ((this.newSkill.title==undefined) || (this.newSkill.title=='')) {
                     this.isErrorTitle = true;
                     setTimeout(() => {
                         this.isErrorTitle = false
                     }, 2000);
-                } else if ((this.newPercent==undefined) || (this.newPercent=='')) {
+                } else if ((this.newSkill.percent==undefined) || (this.newSkill.percent=='')) {
                     this.isErrorPercent = true;
                     setTimeout(() => {
                         this.isErrorPercent = false
@@ -116,6 +125,18 @@
                     this.editedSkills.title = this.editedSkills.title;
                 } 
                 this.editMode= !this.editMode;
+            },
+            changeCategoryName() {
+                /*if (this.editedCategory.category !== this.editedCategory.category) {
+                    this.editedSkills.title = this.editedSkills.title;
+                }*/
+                this.editMode= !this.editMode;
+                this.$emit('changeCategoryName', this.editedCategory)
+                
+            },
+            removeExistedCategory() {
+                this.editMode= !this.editMode;
+                this.$emit('removeExistedCategory', this.editedCategory)
             }
         }
 

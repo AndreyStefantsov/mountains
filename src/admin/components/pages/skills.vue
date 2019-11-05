@@ -3,45 +3,133 @@
 		section.main-section
 			.main-info
 				span.main-info__title Блок &#171;{{sectionTitle}}&#187;
-				a.add-group.add-group_top(@click="addNewGroup")
+				a.add-group.add-group_top(@click="showNewGroupModule")
 					span.add-group__link &#43;
 					span.add-group__text Добавить группу
 			div.groups
 				ul.groups__list-skills
 					li.groups__item-skills(v-if="showGroup")
-						add-skill(:skills="skills")
-					li.groups__item-skills(v-for="item in skills" :key="item.id")
-						//skill-group(:skillsArr="item.skills" :skillTitle="item.title" :skillId="item.id" @addSkill="(newSkillValue, newPercentValue, itemId) => $emit('addSkill', newSkillValue, newPercentValue, itemId)")
-						skill-group(:skills="item")
+						add-skill(@addNewGroup="addNewGroup")
+					li.groups__item-skills(v-for="category in categories" :key="category.id")
+						skill-group(
+							:category="category" 
+							@changeCategoryName="changeCategoryName"
+							@removeExistedCategory="removeExistedCategory"
+							@addNewSkill="addNewSkill"
+						)
+		tooltip-message(:message="errorMessage" :messageMod="messageMod" v-if="isError")
 </template>
 	
 <script>
-	import {mapState} from 'vuex'
+	import {mapState, mapActions} from 'vuex';
+	//import tooltipMessage from '../tooltip';
 	export default {
 		name: 'skills',
 		data() {
 			return {
 				showGroup: false,
 				sectionTitle: 'Обо мне',
+				errorMessage: '',
+				messageMod: '', //error/complete/other
+				isError: false
 			}
 		},
 		components: {
 			skillGroup: () => import("components/skill-group.vue"),
-			addSkill: () => import("components/add-skill.vue")
+			addSkill: () => import("components/add-skill.vue"),
+			tooltipMessage: () =>import("components/tooltip.vue")
 		},
 		computed: {
-			...mapState({
-				skills: state => state.skills.skills
-			})
+			...mapState("categories", {
+				categories: state => state.categories
+			}),
 		},
+		created() {
+			this.setCategories()
+		},
+		
 		methods: {
+			...mapActions("categories", ["addNewCategory", "setCategories", "editCategory", "removeCategory"]),
+			...mapActions("skills", ["addSkill"]),
 			changeSkill(editSkill) {
 				console.log(editSkill)
 			},
-			addNewGroup() {
+			showNewGroupModule() {
 				this.showGroup = !this.showGroup
+			},
+			async addNewGroup(newTitle) {
+				try {
+					await this.addNewCategory(newTitle)
+					this.messageMod = 'complete'
+					this.errorMessage = "Категория добавлена";
+					this.isError = true;
+					
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+					
+				} finally {
+                    setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
+			},
+			async addNewSkill(newSkill) {
+				try {
+					await this.addSkill(newSkill);
+					this.messageMod = 'complete'
+					this.errorMessage = "Скилл добавлен";
+					this.isError = true;
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+				} finally {
+                     setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
+			},
+			async changeCategoryName(editedCategory) {
+				try {
+					await this.editCategory(editedCategory);
+					this.messageMod = 'complete'
+					this.errorMessage = "Имя категории изменено";
+					this.isError = true;
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+				} finally {
+                     setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
+			
+			},
+			async removeExistedCategory(editedCategory) {
+				try {
+					await this.removeCategory(editedCategory);
+					this.messageMod = 'complete'
+					this.errorMessage = "Категория удалена";
+					this.isError = true;
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+				} finally {
+                     setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
 			}
 		},
+		
 	}
 
 	

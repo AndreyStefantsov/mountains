@@ -20,14 +20,18 @@
             return {
                 editMode: false,
                 editSkill: {
-                    id: this.skillItem.id,
-                    newSkillTitle: this.skillItem.title,
-                    newSkillPercent: this.skillItem.percent
+                    id: this.skill.id,
+                    newSkillTitle: this.skill.title,
+                    newSkillPercent: this.skill.percent
                 }
             }
         },
         props: {
-            skillItem: Object
+            skill: {
+                type: Object,
+                default: () => ({}),
+                required: true
+            }
         },
         methods: {
             changeEditMode() {

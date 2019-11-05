@@ -1,16 +1,28 @@
 <template lang="pug">
   .maincontent-container
-    header-admin
-    .content-wrap
+    template(v-if="$route.meta.public")
       router-view
+    template(v-else="isLogged")  
+      header-admin
+      .content-wrap
+        router-view
 </template>
 
 <script>
-
+  
   export default {
+    data() {
+      return {
+        isLogged: false
+      }
+    },
     components: {
       headerAdmin: () => import("components/header-admin.vue")
     },
+    beforecreated() {
+      const token = localStorage.getItem("token")
+      token ? isLogged=true : isLogged=false
+    }
   } 
 </script>
 

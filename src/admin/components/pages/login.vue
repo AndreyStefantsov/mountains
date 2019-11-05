@@ -1,7 +1,7 @@
 <template lang="pug">
     .login
         .login__container
-            form.login__form(@submit.prevent="login")
+            form.login__form(@submit.prevent="userLogin")
                 .login__form-title Авторизация
                 .login__content.login-content_name
                     label(for="login").login__label Логин
@@ -10,41 +10,58 @@
                     label(for="password").login__label Пароль
                     input(v-model="user.password" name="password" type="password").login__password
                 button(type="submit").login__send Войти
+        tooltip-message(:message="errorMessage" v-if="isError")            
 </template>
 
 <script>
     import $axios from '../../requests';
-   
+    import tooltipMessage from '../tooltip';
+    import { mapActions } from 'vuex';
+
     export default {
-        name: 'editSkill',
         data() {
             return {
                 user: {
                     name: "stefantsov-102019",      //stefantsov-102019
                     password: "jo5e72"    //jo5e72
                 },
+                errorMessage: '',
+                isError: false
             }
         },
+        components: {
+            tooltipMessage
+        },
         methods: {
-            async login() {
-               
-                // const config = {
-                //     headers: {
-                //         'X-Requested-With': 'XMLHttpRequest',
-                //         //'Access-Control-Allow-Origin': true,
-                //         //'Access-Control-Allow-Headers': "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-                //         },
-                // }
+            ...mapActions("user", ["login"]),
+            /*async login() {
                 try {
-                    const response = await $axios.post('http://webdev-api.loftschool.com/login', this.user);
-                    console.log(111, response)
-                    /*const token = response.data.token;
+                    const response = await $axios.post('/login', this.user);
+                    const token = response.data.token;
                     localStorage.setItem("token", token);
                     $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-                    this.$router.replace("/")*/
+                    this.$router.replace("/")
                     
                 } catch (error) {
+                    throw new Error(error.response.data.error || error.response.data.message)
+                    console.log(error.message)
+                    this.errorMessage = error.message;
+                    setTimeout(() => this.isError = true, 1500);
+                }
+            }*/
+            async userLogin() {
+                try {
+                    await this.login(this.user);
+                    this.$router.replace("/");
+                    this.errorMessage = "Вход выполнен";
+                    this.isError = true;
+
+                } catch (error) {
+                    this.errorMessage = error.message;
+                    this.isError = true;
                     
+                } finally {
+                    setTimeout(() => this.isError = false, 2500);
                 }
             }
         }
@@ -65,6 +82,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
 
         &:before {
             content: '';

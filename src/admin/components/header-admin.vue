@@ -10,7 +10,7 @@
                             .header__name Андрей Стефанцов    
                             .header__title Панель администрирования
                         .quit 
-                            a.quit__link(href="#") Выйти
+                            a.quit__link(@click.prevent="userLogout") Выйти
         .header__down
             .header__container
                 nav.nav
@@ -21,13 +21,11 @@
                                 :data-text="tab.title" 
                                 class="nav__link" 
                                 exact-active-class="active"
-                                )
-                        //- li.nav__item(v-for="(tab, i) in tabs" :key="i")    
-                        //-     router-link(:to="tab.href" class="nav__link" exact-active-class="active")
-                            
+                                )                            
 </template>
 
 <script>
+import { mapActions } from 'vuex'
     export default {
         name: 'headerAdmin',
         data() {
@@ -41,6 +39,17 @@
 			    ]
             }
         },
+        methods: {
+            ...mapActions("user", ["logout"]),
+            async userLogout() {
+                try {
+                    await this.logout();
+                    this.$router.replace("/login")
+                } catch (error) {
+                   
+                }
+            }
+        }
     }
     
 </script>  
@@ -106,7 +115,7 @@
     }
 
     .header__pic {
-        max-width: 100%;
+        width: 100%;
         object-fit: cover;
     }    
     .header__name {
@@ -167,20 +176,26 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-bottom: 3px solid transparent;
         cursor: pointer;
 
-        &:hover {
-            border-bottom: 3px solid #383bcf;
-            color: #383bcf;
-        }
     }
 
     .nav__link {
         color: #464d62;
-        
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 3px solid transparent;
+            
         &:before {
             content: attr(data-text);
+        }
+
+        &:hover {
+            border-bottom: 3px solid #383bcf;
+            color: #383bcf;
         }
 
         &.active {

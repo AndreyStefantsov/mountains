@@ -1,59 +1,31 @@
-const skills = {
-    state: {
-        skills: [
-            {
-                id: "0",
-                title: "Front-end",
-                skills: [
-                    {
-                        id: "0",
-                        title: "HTML5",
-                        percent: "50"
-                    },
-                    {
-                        id: "1",
-                        title: "CSS",
-                        percent: "75"
-                    },{
-                        id: "2",
-                        title: "Javascript",
-                        percent: "25"
-                    },{
-                        id: "3",
-                        title: "jQuery и Vue.js",
-                        percent: "10"
-                    }
-                ]
-            },
-            {
-                id: "1",
-                title: "Back-end",
-                skills: [
-                    {
-                        id: "0",
-                        title: "Git",
-                        percent: "37"
-                    },
-                    {
-                        id: "1",
-                        title: "Terminal",
-                        percent: "86"
-                    },{
-                        id: "2",
-                        title: "Gulp",
-                        percent: "30"
-                    },{
-                        id: "3",
-                        title: "Webpack",
-                        percent: "44"
-                    }
-                ]
-            }
-        ]
-    },
-    actions: {},
+export default {
+    namespaced: true,
+    mutations: {},
     getters: {},
-    mutations: {}
+    actions: {
+        /*async setCategories(store) {
+            try {
+               const {data} = await this.$axios.get("/categories")
+               store.commit("categories/SET_SKILLS", data, {root: true})
+            } catch (error) {
+                throw new Error(error.response.data.error || error.response.data.message)
+            }
+        },*/
+        async addSkill(store, newSkill) {
+            try {
+                /*const skill = {
+                    title: newSkill.title,
+                    percent: newSkill.percent,
+                    category: newSkill.categoryId
+                }*/
+                // const response = await this.$axios.get('/skills/195');
+				// console.log(response);
+                
+                const {data} = await this.$axios.post("/skills", newSkill)
+                store.commit("categories/ADD_SKILL", data, {root: true})
+            } catch (error) {
+                //throw new Error(error.error || error.message)
+            }
+        },
+    },
 }
-
-export default skills
