@@ -8,7 +8,8 @@ export default {
             state.categories = categories
         },
         ADD_CATEGORY(state, newCategory) {
-            state.categories.push(newCategory)
+            newCategory.skills = []            
+            state.categories.unshift(newCategory)       
         },
         EDIT_CATEGORY(state, category) {
             state.categories = state.categories.map(cat => {
@@ -25,15 +26,34 @@ export default {
                 }
             })
         },
-        SET_SKILLS(state, skills) {
-        },
         ADD_SKILL(state, newSkill) {       
             state.categories = state.categories.map(cat => {
                 if (cat.id === newSkill.category) {
                     cat.skills.push(newSkill)
-                    console.log(cat.skills)
-
                 }
+                return cat
+            })
+        },
+        EDIT_SKILL(state, editedSkill) {            
+            state.categories = state.categories.map(cat => {
+                if (cat.id === editedSkill.category) {
+                    if (cat.skills.id === editedSkill.id) {
+                        cat.skills.title = editedSkill.skill.title;
+                        cat.skills.percent = editedSkill.skill.percent
+                    }
+                }             
+                return cat
+            })
+        },
+        REMOVE_SKILL(state, removedSkill) {
+            state.categories = state.categories.map(cat => {
+                if (cat.id === removedSkill.category) {
+                    cat.skills = cat.skills.filter(skill => {
+                        if (skill.id !== removedSkill.id) {
+                            return skill
+                        }
+                    })
+                }             
                 return cat
             })
         }
@@ -41,7 +61,7 @@ export default {
     actions: {
         async addNewCategory(store, title) {
             try {
-                const {data} = await this.$axios.post("/categories", {title})
+                const {data} = await this.$axios.post("/categories/", {title})
                 store.commit("ADD_CATEGORY", data)
             } catch (error) {
                 throw new Error(error.data.error || error.data.message)
@@ -49,7 +69,8 @@ export default {
         },
         async setCategories(store) {
             try {
-               const {data} = await this.$axios.get("/categories")
+               const {data: {user: {id}}} = await this.$axios.get('/user');                
+               const {data} = await this.$axios.get(`/categories/${id}`);
                store.commit("SET_CATEGORIES", data)
             } catch (error) {
                 throw new Error(error.data.error || error.data.message)

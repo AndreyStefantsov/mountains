@@ -1,5 +1,5 @@
 <template lang="pug">
-    button(:class="activeClass" @click.prevent="$emit('addNewProject')").button {{buttonTitle}}
+    button(:class="activeClass" @click.prevent="$emit('checkFields')").button {{buttonTitle}}
 </template>
 
 <script>
@@ -38,6 +38,10 @@
 
         &:focus {
             outline: none
+        }
+
+        &:hover {
+            color: #E3EF62
         }
     }
     .button_load {

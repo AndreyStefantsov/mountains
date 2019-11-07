@@ -3,29 +3,29 @@ export default {
     mutations: {},
     getters: {},
     actions: {
-        /*async setCategories(store) {
-            try {
-               const {data} = await this.$axios.get("/categories")
-               store.commit("categories/SET_SKILLS", data, {root: true})
-            } catch (error) {
-                throw new Error(error.response.data.error || error.response.data.message)
-            }
-        },*/
         async addSkill(store, newSkill) {
-            try {
-                /*const skill = {
-                    title: newSkill.title,
-                    percent: newSkill.percent,
-                    category: newSkill.categoryId
-                }*/
-                // const response = await this.$axios.get('/skills/195');
-				// console.log(response);
-                
+            try { 
                 const {data} = await this.$axios.post("/skills", newSkill)
                 store.commit("categories/ADD_SKILL", data, {root: true})
             } catch (error) {
                 //throw new Error(error.error || error.message)
             }
         },
+        async editSkill(store, editedSkill) {
+            try { 
+                const {data} = await this.$axios.post(`/skills/${editedSkill.id}`, editedSkill)
+                store.commit("categories/EDIT_SKILL", data.skill, {root: true})
+            } catch (error) {
+                //throw new Error(error.error || error.message)
+            }
+        },
+        async removeSkill(store, removedSkill) {
+            try { 
+                await this.$axios.delete(`/skills/${removedSkill.id}`)
+                store.commit("categories/REMOVE_SKILL", removedSkill, {root: true})
+            } catch (error) {
+                //throw new Error(error.error || error.message)
+            }
+        }
     },
 }

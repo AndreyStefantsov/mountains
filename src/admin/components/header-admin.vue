@@ -33,7 +33,7 @@ import { mapActions } from 'vuex'
                 src: require('images/content/me.jpg'),
                 activeTab: 0,
                 tabs: [
-                    {title: "Обо мне", href: "/"},
+                    {title: "Скиллы", href: "/"},
                     {title: "Работы", href: "/projects"},
                     {title: "Отзывы", href: "/comments"}
 			    ]
@@ -127,10 +127,6 @@ import { mapActions } from 'vuex'
         @include phones {
 			margin-right: 0px;
 		}
-
-        /*@media screen and (max-width: $bp-phones) {
-            margin-right: 0px;
-        }*/
     }
     .header__title {
         color: rgba(#6d6d87, 0.5);
@@ -139,10 +135,6 @@ import { mapActions } from 'vuex'
         @include phones {
 			display: none;
 		}
-
-        /*@media screen and (max-width: $bp-phones) {
-            display: none;
-        }*/
     }
     .quit {
         display: flex;
@@ -177,7 +169,7 @@ import { mapActions } from 'vuex'
         justify-content: center;
         align-items: center;
         cursor: pointer;
-
+        margin-right: 20px;
     }
 
     .nav__link {

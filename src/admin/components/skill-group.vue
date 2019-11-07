@@ -11,8 +11,7 @@
         .skills
             ul.skills__list
                 li.skills_item(v-for="skill in category.skills" :key="skill.id")
-
-                    //- edit-skill(:skill="skill" @changeSkill="changeSkill" @removeSkill="removeSkill")
+                    edit-skill(:skill="skill" @editExistedSkill="editExistedSkill" @removeExistedSkill="removeExistedSkill")
         div.add-skill
             .add-skill__wrap
                 input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill.title")
@@ -25,7 +24,6 @@
 </template>
 
 <script>
-    import addInput from './input.vue'
     import editSkill from './edit-skill.vue'
     export default {
         name: 'skillGroup',
@@ -40,7 +38,6 @@
                 errorMessage: 'Это поле должно быть заполнено',
                 isErrorTitle: false,
                 isErrorPercent: false,
-                editedSkills: {...this.category.skills},
                 editedCategory: {...this.category}
             }
         },
@@ -48,55 +45,26 @@
 
         },
         components: {
-            addInput, editSkill
+            editSkill: () => import('components/edit-skill.vue')
         },
         props: {
-            /*skillsArr: Array,
-            skillTitle: String,
-            skillId: String,*/
-            //skills: Object,
-            /*skills: {
-                type: Array,
-                default: () => ({}),
-                required: true 
-            },*/
             category: {
                 type: Object,
                 default: () => ({}),
                 required: true 
             }
         },
-        // mouted() {
-        //     this.skillTitle = skillItem.title
-        // },
-
         methods: {
-            addNewSkill() {
-                /*let newSkill = {
-                    title: this.newTitle,
-                    percent: this.newPercent
-                }*/
-                this.$emit('addNewSkill', this.newSkill);
-                /*this.newSkill.title = '';
-                this.newSkill.percent = '';*/
+            changeEditMode() {
+                this.editMode= !this.editMode
             },
-            /*async checkNewValues() {
-                let checkValues = new Promise((resolve) => {
-                    if ((this.newSkill==undefined) || (this.newSkill=='')) {
-                        this.isErrorTitle = true;
-                        setTimeout(() => {
-                            this.isErrorTitle = false
-                        }, 2000);
-                    } else if ((this.newPercent==undefined) || (this.newPercent=='')) {
-                        this.isErrorPercent = true;
-                        setTimeout(() => {
-                            this.isErrorPercent = false
-                        }, 2000);      
-                    }
-                resolve()
-                })
-                await checkValues;
-            },*/
+            addNewSkill() {
+                this.$emit('addNewSkill', this.newSkill);
+                setTimeout(() => {
+                    this.newSkill.title = '';
+                    this.newSkill.percent = '';
+                }, 100);
+            },
             checkNewValues() {
                 if ((this.newSkill.title==undefined) || (this.newSkill.title=='')) {
                     this.isErrorTitle = true;
@@ -110,38 +78,21 @@
                     }, 2000);   
                 } else this.addNewSkill()
             },
-            changeEditMode() {
-                this.editMode= !this.editMode
+            editExistedSkill(editedSkill) {
+                this.$emit('editExistedSkill', editedSkill)
             },
-            changeSkill(editSkill) {
-                this.editedSkills.skills[editSkill.id].title = editSkill.newSkillTitle;
-                this.editedSkills.skills[editSkill.id].percent = editSkill.newSkillPercent;
-            },
-            removeSkill(skillId) {
-                this.editedSkills.skills = this.editedSkills.skills.filter(skill => skill.id !== skillId)
-            },
-            editTitle() {
-                if (this.editedSkills.title !== this.editedSkills.title) {
-                    this.editedSkills.title = this.editedSkills.title;
-                } 
-                this.editMode= !this.editMode;
+            removeExistedSkill(removedSkillId) {
+                this.$emit('removeExistedSkill', removedSkillId)
             },
             changeCategoryName() {
-                /*if (this.editedCategory.category !== this.editedCategory.category) {
-                    this.editedSkills.title = this.editedSkills.title;
-                }*/
                 this.editMode= !this.editMode;
                 this.$emit('changeCategoryName', this.editedCategory)
-                
             },
             removeExistedCategory() {
                 this.editMode= !this.editMode;
                 this.$emit('removeExistedCategory', this.editedCategory)
             }
         }
-
-        //@changeSkill="(editSkill) => $emit('editSkill')"
-
     }
 </script>  
 

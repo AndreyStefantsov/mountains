@@ -3,50 +3,95 @@
         section.main-section
             .main-info
                 span.main-info__title Блок &#171;{{sectionTitle}}&#187;
-            add-project(v-if="showGroup" @closeProject="addNewProject")
+            add-project(v-if="showGroup" @addNewProject="addNewProject")
+            edit-project(
+                v-if="showEditGroup" 
+                @editExistedProject="editExistedProject" 
+                @resetForm="resetForm" 
+                :editedProject="editedProject"
+            )
             div.groups
                 ul.groups__list
-                    li.add-project-item(@click.prevent="addNewProject")
-                        a.add-group
+                    li.add-project-item
+                        a.add-group(@click.prevent="showCloseNewProjectForm" title="Добавить проект")
                             span.add-group__link &#43;
                             span.add-group__text Добавить работу
-                    li.groups__item(v-for="item in projects" :key="item.id")
-                        project-group(:prImage="item.image" :prTitle="item.title" :prTags="item.tags" :prRef="item.ref" :prDesc="item.decription")
+                    li.groups__item(v-for="project in projects" :key="project.id")
+                        project-group(
+                            :project="project" 
+                            @transferEditedProject="transferEditedProject"
+                            @removeExistedProject="removeExistedProject")
 </template>
         
 <script>
-    import projectsArr from '../../../data/projects.json'
+    import {mapState, mapActions} from 'vuex';
+
     export default {
         name: 'projects',
         data: () => ({
             sectionTitle: 'Работы',
             showGroup: false,
-            projects: []
+            showEditGroup: false,
+            editedProject:''
         }),
         components: {
             addProject: () => import("components/add-project.vue"),
-			projectGroup: () => import("components/project-group.vue")
+            projectGroup: () => import("components/project-group.vue"),
+            editProject: () => import("components/edit-project.vue"),
         },
-        props: {
-
+        computed: {
+            ...mapState("projects", {
+				projects: state => state.projects
+			}),
         },
         created() {
-            this.projects = this.forRequireImg(projectsArr)
-        },
+			this.setProjects()
+		},
         methods: {
-            addNewProject() {
-                console.log('asd')
+            ...mapActions("projects", ["setProjects", "addProject", "editProject", "removeProject"]),
+            showCloseNewProjectForm() {
                 this.showGroup = !this.showGroup
+                this.showEditGroup = false;
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
-                
             },
-            forRequireImg(projectsArr) {
-                return projectsArr.map(item => {
-                    const newImage = require(`../../../images/content/${item.image}`);
-                    item.image = newImage;
-                    return item
-                })
+            async addNewProject(newProject) {
+                try {
+                    await this.addProject(newProject)
+                } catch (error) {
+                    
+                } finally {
+                    this.showGroup = !this.showGroup
+                    window.scrollTo(0,0) 
+                }
             },
+            resetForm() {
+                this.showEditGroup = false;
+            },
+            transferEditedProject(editedProject) {
+                this.editedProject = editedProject;
+                this.showGroup = false;
+                this.showEditGroup = true;
+                this.showEditGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
+            },
+            async editExistedProject(editedProject) {
+                try {
+                    await this.editProject(editedProject)
+                } catch (error) {
+                    
+                } finally {
+                    this.showEditGroup = false;
+                }     
+            },
+            async removeExistedProject(projectId) {
+                try {
+                    await this.removeProject(projectId)
+                } catch (error) {
+                    
+                } finally {
+    
+                }   
+            }
+           
         }
     }
     
@@ -64,6 +109,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+            .add-group__link {
+                border: 3px solid #E3EF62;
+                color: #E3EF62
+            }
+            .add-group__text {
+                color: #E3EF62
+            }
+        }
 
         @include phones {
 			flex-direction: row
@@ -81,6 +139,7 @@
         border: 3px solid #fff;
         margin-bottom: 30px;
         font-size: 72px;
+        transition: all .5s .1s;
 
         @include phones {
 			margin-bottom: 0;
@@ -95,6 +154,8 @@
     .add-group__text {
         color: #fff;
         font-weight: 700;
+        transition: all .5s
+
     }
 
     .add-project-item {
@@ -120,10 +181,6 @@
 
     }
 
-    .groups {
-
-    }
-
     .groups__list {
         display: flex;
         flex-flow: wrap;
@@ -132,7 +189,6 @@
 			justify-content: center;
 		}
     }
-
 
     .groups__item {
         margin-bottom: 30px;

@@ -3,7 +3,7 @@ export default [
       path: "/",
       component: () => import("components/pages/skills.vue"),
       meta: {
-        title: "Блок «Обо мне»"
+        title: "Блок «Скиллы»"
       }
     },
     {

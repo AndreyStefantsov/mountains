@@ -1,41 +1,51 @@
 <template lang="pug">
     .group
         .image
-            img.image__pic(:src="prImage")
+            img.image__pic(:src="imgPath")
         .info
-            .title {{prTitle}}
-            .description {{prDesc}}
-            a.ref(:href="prRef") htttp:{{prRef}}
+            .title {{editedProject.title}}
+            .description {{editedProject.description}}
+            a.ref(:href="editedProject.link" title="Перейти на сайт") {{editedProject.link}}
             .button-project
-                a.button__pencil-project Править
-                a.button__cross-project Удалить
+                a.button__pencil-project(@click="transferEditedProject" title="Изменить проект") Править
+                a.button__cross-project(@click="removeExistedProject" title="Удалить проект") Удалить
 
 </template>
 
 <script>
     export default {
         name: 'projectGroup',
-        data: () => ({
-
-        }),
+        data() {
+            return {
+                editedProject: {...this.project}
+            }
+        },
         props: {
-            prImage: String,
-            prTitle: String,
-            prTags: String,
-            prRef: String,
-            prDesc: String
+            project: {
+                type: Object,
+                default: () => ({}),
+                required: true
+            }
+        },
+        beforecreated() {
+            
+        },
+        computed: {
+            imgPath: function() {
+                const imgURL = this.editedProject.photo
+                const baseURL = 'https://webdev-api.loftschool.com'
+                return `${baseURL}/${imgURL}`
+            }
         },
         methods: {
-            newValues: function () {
-                this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
-            }            
-        },
-        watch: {
-            newSkill() {
-                //this.newSkill = this.$refs.newSkillValue.value
-                //console.log(this.newSkill)
+            transferEditedProject() {
+                this.$emit('transferEditedProject', this.editedProject);
+            },
+            removeExistedProject() {
+                this.$emit('removeExistedProject', this.editedProject.id);
             }
-        }
+
+        },
     }
 </script>  
 
@@ -104,11 +114,16 @@
     .button__pencil-project {
         position: relative;
         color: rgba(#464d62, 0.5);
+        padding-right: 25px;
+        
+        &:hover {
+            color: #383bcf
+        }
 
         &:after {
             content: '';
             position: absolute;
-            right: -26px;
+            right: 0;
             top: 50%;
             transform: translate(0, -50%);
             background: svg-load("pencil.svg", fill="#383bcf") no-repeat center;
@@ -121,12 +136,17 @@
     .button__cross-project {
         position: relative;
         color: rgba(#464d62, 0.5);
-        margin-right: 25px;
+        padding-right: 25px;
+
+        &:hover {
+            color: #bf2929
+        }
+
 
         &:after {
             content: '';
             position: absolute;
-            right: -26px;
+            right: 0;
             top: 50%;
             transform: translate(0, -50%);
             background: svg-load("cross.svg", fill=#bf2929) no-repeat center;

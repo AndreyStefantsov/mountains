@@ -15,7 +15,7 @@
             .percent-wrap.percent-wrap_add-skill
                 input.input.input_new-percent(placeholder="100" maxlength="3")
                 .error(v-if="isErrorPercent") {{errorMessage}}
-            a.add-group(@click.prevent="checkNewValues")
+            a.add-group()
                 span.add-group__link.add-group__link__link-in-group &#43;
 </template>
 
@@ -41,15 +41,9 @@ let skillId = 0
                 isErrorMainTitle: false,
                 isErrorTitle: false,
                 isErrorPercent: false,
-                //editedSkills: [...this.skills]
             }   
         },
-        // props: {
-        //     skills: Array
-        // },
-        // created() {
-        //    this.newGroup.id =  this.editedSkills.length
-        // },
+
         components: {
             addInput, editSkill
         },
@@ -62,46 +56,13 @@ let skillId = 0
                     this.isErrorMainTitle = true;
                     setTimeout(() => this.isErrorMainTitle = false, 2000);
                 } else {
-                    //this.editedSkills.push(this.newGroup) 
                     this.editMode= !this.editMode;
                     this.$emit('addNewGroup', this.newTitle);
                     this.newTitle = '';
                 }
                
-            },
-            changeSkill(editSkill) {
-                this.newGroup.skills[editSkill.id].title = editSkill.newSkillTitle;
-                this.newGroup.skills[editSkill.id].percent = editSkill.newSkillPercent;
-            },
-            removeSkill(skillId) {
-                this.newGroup.skills = this.newGroup.skills.filter(skill => skill.id !== skillId)
-            },
-            addNewSkill() {
-                let newSkill = {
-                    id: skillId,
-                    title: this.newTitle,
-                    percent: this.newPercent
-                }
-                this.newGroup.skills.push(newSkill);
-                this.newTitle = '';
-                this.newPercent = '';
-                skillId++;
-            },
-            checkNewValues() {
-                if ((this.newTitle==undefined) || (this.newTitle=='')) {
-                    this.isErrorTitle = true;
-                    setTimeout(() => {
-                        this.isErrorTitle = false
-                    }, 2000);
-                } else if ((this.newPercent==undefined) || (this.newPercent=='')) {
-                    this.isErrorPercent = true;
-                    setTimeout(() => {
-                        this.isErrorPercent = false
-                    }, 2000);   
-                } else this.addNewSkill()
-            },
-        },
-        
+            }
+        }
 
     }
 </script>  

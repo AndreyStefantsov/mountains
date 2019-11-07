@@ -16,6 +16,8 @@
 							@changeCategoryName="changeCategoryName"
 							@removeExistedCategory="removeExistedCategory"
 							@addNewSkill="addNewSkill"
+							@editExistedSkill="editExistedSkill"
+							@removeExistedSkill="removeExistedSkill"
 						)
 		tooltip-message(:message="errorMessage" :messageMod="messageMod" v-if="isError")
 </template>
@@ -28,7 +30,7 @@
 		data() {
 			return {
 				showGroup: false,
-				sectionTitle: 'Обо мне',
+				sectionTitle: 'Скиллы',
 				errorMessage: '',
 				messageMod: '', //error/complete/other
 				isError: false
@@ -47,10 +49,9 @@
 		created() {
 			this.setCategories()
 		},
-		
 		methods: {
 			...mapActions("categories", ["addNewCategory", "setCategories", "editCategory", "removeCategory"]),
-			...mapActions("skills", ["addSkill"]),
+			...mapActions("skills", ["addSkill", "editSkill", "removeSkill"]),
 			changeSkill(editSkill) {
 				console.log(editSkill)
 			},
@@ -127,8 +128,43 @@
 						this.messageMod = ''
 					}, 3500);
                 }
+			},
+			async editExistedSkill(editedSkill) {
+				try {
+					await this.editSkill(editedSkill);
+					this.messageMod = 'complete'
+					this.errorMessage = "Скилл изменен";
+					this.isError = true;
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+				} finally {
+                     setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
+			},
+			async removeExistedSkill(removedSkillId) {
+				try {
+					await this.removeSkill(removedSkillId);
+					this.messageMod = 'complete'
+					this.errorMessage = "Скилл удален";
+					this.isError = true;
+				} catch (error) {
+					this.messageMod = 'error'
+					this.errorMessage = error.message;
+					this.isError = true;
+				} finally {
+                     setTimeout(() => {
+						this.isError = false;
+						this.messageMod = ''
+					}, 3500);
+                }
 			}
-		},
+
+		}
 		
 	}
 

@@ -1,13 +1,13 @@
 <template lang="pug">
     .group-project
-        .main-title-project Добавление работы
+        .main-title-project Редактирование работы
         .main-project
             form.form-project(@submit.prevent="checkFields")
                 .form(:style="{'backgroundImage': `url(${renderedPhoto})`}")
                     label.form_label(for="photo")
                     span.form__text(:class="{hidden: renderedPhoto.length}") Перетащите или нажмите "Загрузить" для загрузки изображения
                     button-section(:buttonTitle="buttonNameLoad" :class="{hidden: renderedPhoto.length}")
-                    input.form__input(type="file" id="photo" accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    input.form__input(type="file" id="photo" name="photo" multiple accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
                 .content-project
                     div.project-info
                         input.input.input_name(v-model="project.title")
@@ -27,7 +27,7 @@
                         .error(v-if="isErrorTags") {{errorMessage}}
                         div.tag-create
                             ul.tag-create__list
-                                li.tag-create__item(v-for="(tag, index) in makeArrayFromString" :key="index") 
+                                li.tag-create__item(v-for="(tag,index) in makeArrayFromString" :key="index") 
                                     tag-component(:tagTitle="tag" :tagIndex="index" @removeTag="removeTag")
                     .button-add-projects
                         button.reset-button(type="reset" @click.prevent="resetForm" title="Отменить изменения") Отмена
@@ -35,12 +35,12 @@
 </template>
 
 <script>
-    /*import buttonSection from './button-section.vue'
-    import tagComponent from './tag.vue'
-    //import addInput from './input.vue'*/
-
     export default {
-        name: 'addProject',
+        name: 'editProject',
+        components: {
+            buttonSection: () => import('components/button-section.vue'),
+            tagComponent: () => import('components/tag.vue')
+        },
         data: () => ({
             renderedPhoto: '',
             project: {
@@ -50,7 +50,6 @@
                 link: '',
                 description: ''
             },
-            
             buttonNameLoad: 'Загрузить',
             buttonNameSave: 'Сохранить',
             errorMessage: 'Это поле должно быть заполнено',
@@ -59,9 +58,16 @@
             isErrorDesc: false,
             isErrorTags: false
         }),
-        components: {
-            buttonSection: () => import('components/button-section.vue'),
-            tagComponent: () => import('components/tag.vue')
+        props: {
+            editedProject: {
+                type: Object,
+                default: () => ({}),
+                required: true
+            },
+        },
+        created() {
+            this.project = this.editedProject;
+            this.renderedPhoto = this.imgPath
         },
         computed: {
             makeArrayFromString() {
@@ -70,6 +76,13 @@
                     }
                 return this.project.techs.split(',')
             },
+            imgPath: function() {
+                const imgURL = this.editedProject.photo
+                const baseURL = 'https://webdev-api.loftschool.com'
+                
+                return `${baseURL}/${imgURL}`
+            }
+            
         },
         methods: {
             removeTag(removedTagIndex) {
@@ -81,6 +94,7 @@
             resetForm() {
                 this.renderedPhoto = "";
                 this.project = {};
+                this.$emit('resetForm');
             },
             uploadRenderedPhoto(event) {
                 const file = event.target.files[0];
@@ -95,8 +109,8 @@
 
                 }
             },
-            addNewProject() {
-                this.$emit('addNewProject', this.project);
+            editExistedProject() {
+                this.$emit('editExistedProject', this.project);
             },
             checkFields() {             
                 if ((this.project.title==undefined) || (this.project.title=='')) {
@@ -119,7 +133,7 @@
                     setTimeout(() => {
                         this.isErrorTags = false
                     }, 2000);
-                } else this.addNewProject();
+                } else this.editExistedProject();
             }
         }
     }
@@ -235,7 +249,7 @@
         border-bottom: 1px solid #464d62;
         width: 100%;
         order: 1;
-        
+
         &:focus {
             outline: none;
             border-bottom: 1px solid #383bcf;
@@ -256,7 +270,7 @@
         color: #464d62;
         height: 145px;
         font-weight: 600;
-        order: 1; 
+        order: 1;
 
         &:focus {
             outline: none;
@@ -294,7 +308,7 @@
         }
 
         &:hover {
-            color: #bf2929;
+            color: #bf2929; 
         }
     }
 
@@ -316,6 +330,4 @@
     .hidden {
         opacity: 0;
     }
-
-    
 </style>

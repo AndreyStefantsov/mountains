@@ -53,18 +53,10 @@
     @include tablets {
       margin: 0 2.5%;
     }
-
-    /*@media screen and (max-width: $bp-tablets) {
-      margin: 0 2.5%;
-    }*/
-
     @include phones {
       margin: 0
     }
 
-    /*@media screen and (max-width: $bp-phones) {
-      margin: 0
-    }*/
   }
 
   .main-wrap {
@@ -80,11 +72,6 @@
       flex-direction: column;
       margin-bottom: 0;
     }
-
-    /*@media screen and (max-width: $bp-phones) {
-      flex-direction: column;
-      margin-bottom: 0;
-    }*/
   }
   
   .main-info__title {
@@ -97,14 +84,6 @@
       margin-left: 30px;
       margin-bottom: 30px;
     }
-
-    /*@media screen and (max-width: $bp-phones) {
-      margin-bottom: 30px;
-    }
-
-    @media screen and (max-width: $bp-phones) {
-      margin-left: 30px;
-    }*/
   }
 
   .error {
@@ -113,6 +92,21 @@
         position: absolute;
         left: 0;
         top: 100%
+    }
+
+    .input {
+        background: transparent;
+        border: 1px solid transparent;
+        color: #464d62;
+        font-size: 18px;
+        font-weight: 600;
+        position: relative;
+        line-height: 1.42;
+
+        &:focus {
+            outline: none;
+            border-bottom: 1px solid #383bcf !important;
+        }
     }
 </style>
 
