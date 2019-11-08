@@ -1,4 +1,9 @@
 import Vue from "vue"
+import {mapState, mapActions} from 'vuex';
+import store from '@/store'
+import axios from '@/requests'
+
+store.$axios = axios;
 
 const projectTags = {
     template: '#project-tags',
@@ -12,7 +17,7 @@ const projectDecription = {
     props: ["currentItem"],
     computed: {
         makeTagsArr() {
-            return this.currentItem.tags.split(', ')
+            return this.currentItem.techs.split(', ')
         }
     }
 }
@@ -23,30 +28,52 @@ const projectButtons = {
 
 const projectPreviews = {
     template: '#project-previews',
+    data() {
+        return {
+            counter: 0
+        }
+    },
     props: ["projects", "currentItem", "offsetBottom"],
     computed: {
         reverseProjectsArr() {
             return[...this.projects].reverse()
         },
+        
         /*computeListHeight() {
             return this.listHeight = parseInt(getComputedStyle(this.$refs.previewList).height)
         }*/
+    },
+    methods: {
+        iterate() {
+            return counter++
+        }
     }
 }
 
 new Vue({
     el: "#projects-container",
+    store,
     template: '#project-block',
     components: {projectPreviews, projectButtons, projectDecription},
     data: () => ({
-        projects: [],
         activeItem: 0,
         offsetBottom: 0,
-        dataCount: 0,
         scrollWidth: 17,
-        previewsAmount:''
+        previewsAmount:'',
     }),
+    created() {
+        this.setProjects()
+        //this.projects = this.forRequireImg(projectArr)
+    },
     computed: {
+        ...mapState("projects", {
+            projects: state => state.projects
+        }),
+        imgPath: function() {
+            const imgURL = this.currentItem.photo
+            const baseURL = 'https://webdev-api.loftschool.com'
+            return `${baseURL}/${imgURL}`
+        },
         currentItem() {
             return this.projects[this.activeItem]
         },
@@ -74,7 +101,6 @@ new Vue({
         activeItem(index) {
             if (index<0) {
                 this.activeItem = this.projects.length-1;
-                
             };
 
             if (index>this.projects.length-1) {
@@ -84,19 +110,12 @@ new Vue({
         }
     },
     methods: {
-        forRequireImg(projectArr) {
-            return projectArr.map(item => {
-                const newImage = require(`images/content/${item.image}`);
-                item.image = newImage;
-                return item
-            })
-        },
+        ...mapActions("projects", ["setProjects"]),
 
         slideUp() {
             this.activeItem++
-            console.log(this.activeItem)
-            if ((this.activeItem > Math.abs(this.itemsAmount-this.visibleItemsAmount)) && (this.activeItem<this.visibleItemsAmount)) {
-                this.offsetBottom += -this.itemHeight 
+            if ((this.activeItem > Math.abs(this.itemsAmount-this.visibleItemsAmount)) && (this.activeItem<this.visibleItemsAmount) && (this.itemsAmount!==this.visibleItemsAmount)) {
+                //this.offsetBottom += -this.itemHeight 
             } else if ((this.activeItem >= this.visibleItemsAmount) && (-this.offsetBottom !== (this.itemsAmount-this.visibleItemsAmount)*this.itemHeight)) {
                 this.offsetBottom += -this.itemHeight 
             }
@@ -121,8 +140,8 @@ new Vue({
         }
     },
 
-    created() {
-        const projectArr = require('../data/projects.json');
+    /*created() {
+        //const projectArr = require('../data/projects.json');
         this.projects = this.forRequireImg(projectArr)
-    } 
+    } */
 })

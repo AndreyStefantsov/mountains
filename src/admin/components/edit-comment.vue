@@ -30,6 +30,9 @@
 <script>
     export default {
         name: 'addComment',
+        components: {
+            buttonSection: () => import('components/button-section.vue'),
+        },
         data() {
             return {
                 renderedPhoto: '',
@@ -46,8 +49,24 @@
                 isErrorText: false
             }
         },
-        components: {
-            buttonSection: () => import('components/button-section.vue'),
+        props: {
+            editedComment: {
+                type: Object,
+                default: () => ({}),
+                required: true
+            },
+        },
+        created() {
+            this.comment = this.editedComment;
+            this.renderedPhoto = this.imgPath
+        },
+        computed: {
+            imgPath: function() {
+                const imgURL = this.editedComment.photo
+                const baseURL = 'https://webdev-api.loftschool.com'
+                
+                return `${baseURL}/${imgURL}`
+            }
         },
         methods: {
             resetForm() {
@@ -67,8 +86,8 @@
 
                 }
             },
-            addNewComment() {
-                this.$emit('addNewComment', this.comment);
+            editExistedComment() {
+                this.$emit('editExistedComment', this.comment);
             },
             checkFields() {             
                 if ((this.comment.author==undefined) || (this.comment.author=='')) {
@@ -80,7 +99,7 @@
                 } else if ((this.comment.text==undefined) || (this.comment.text=='')) {
                     this.isErrorText = true;
                     setTimeout(() => this.isErrorText = false, 2000);
-                } else this.addNewComment();
+                } else this.editExistedComment();
             }
         }
     }

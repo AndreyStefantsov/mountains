@@ -58,8 +58,6 @@ export default {
             }
         },
         async removeProject(store, projectId) {         
-            //const formData = new FormData()
-            //Object.keys(editedProject).forEach(key => formData.append(`${key}`, editedProject[key]))       
             try { 
                 const data = await this.$axios.delete(`/works/${projectId}`);
                 store.commit("REMOVE_PROJECT", projectId)

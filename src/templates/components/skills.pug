@@ -1,19 +1,19 @@
 script(type="text/x-template")#skills-block
     .skillwheels-block
         ul.skillwheels-block__list
-            li.skillwheels-block__item(v-for="skill in skills" :key="skill.title")
+            li.skillwheels-block__item(v-for="category in categories" :key="category.id")
                 skills-list(
-                    :skill-arr="skill"
+                    :skill-arr="category"
                 )
 
 script(type="text/x-template")#skills-list
     .skillwheel
-        span.skillwheel__title {{skillArr.title}}
+        span.skillwheel__title {{skillArr.category}}
         ul.skillwheel__list
-            li.skillwheel__item(v-for="(skillPercent, skillTitle) in skillArr.skills")
+            li.skillwheel__item(v-for="skill in skillArr.skills" :key="skill.id")
                 skills-item(
-                    :skill-title="skillTitle",
-                    :skill-percent="skillPercent"
+                    :skill-title="skill.title",
+                    :skill-percent="skill.percent"
                 )
 
 script(type="text/x-template")#skills-item

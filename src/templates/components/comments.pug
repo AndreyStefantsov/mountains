@@ -16,8 +16,8 @@ script(type="text/x-template")#comments-block
                         span.comments__text {{comment.text}}
                         .comments__info
                             .comments__image
-                                img(:src="comment.photo", class="comments__pic")
+                                img(:src="`https://webdev-api.loftschool.com/${comment.photo}`", class="comments__pic")
                             .comments__decription
-                                span.comments__name {{comment.name}}
-                                span.comments__proffesion {{comment.prof}}
+                                span.comments__name {{comment.author}}
+                                span.comments__proffesion {{comment.occ}}
 

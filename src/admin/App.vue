@@ -94,19 +94,20 @@
         top: 100%
     }
 
-    .input {
-        background: transparent;
-        border: 1px solid transparent;
-        color: #464d62;
-        font-size: 18px;
-        font-weight: 600;
-        position: relative;
-        line-height: 1.42;
+  .input {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #464d62;
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+      line-height: 1.42;
 
-        &:focus {
-            outline: none;
-            border-bottom: 1px solid #383bcf !important;
-        }
-    }
+      &:focus {
+          outline: none;
+          border-bottom: 1px solid #383bcf !important;
+      }
+  }
+
 </style>
 

@@ -5,11 +5,11 @@
             .percent-wrap
                 input.input.input_skill-percent(v-model="editedSkills.percent" maxlength="3")
         .button(v-if="editMode == false")
-            a.button__pencil(@click.prevent="changeEditMode")
-            a.button__remove(@click.prevent="removeExistedSkill")
+            a.button__pencil(@click.prevent="changeEditMode" title="Изменить навык")
+            a.button__remove(@click.prevent="removeExistedSkill" title="Удалить навык")
         .button(v-else="editMode == true")
-            a.button__tick(@click.prevent="editExistedSkill")
-            a.button__cross(@click.prevent="changeEditMode") 
+            a.button__tick(@click.prevent="editExistedSkill" title="Подтвердить изменения")
+            a.button__cross(@click.prevent="changeEditMode" title="Отменить изменения") 
 </template>
 
 

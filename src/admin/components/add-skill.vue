@@ -3,10 +3,10 @@
         div.main
             input.input.input_title(v-model="newTitle" :class="{'active-item': editMode}" placeholder="Название новой группы")
             .button(v-if="editMode == false")
-                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode")
+                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode" title="Изменить группу")
             .button(v-else="editMode == true")
-                a.button__tick(@click.prevent="addNewGroup")
-                a.button__cross(@click.prevent="changeEditMode")  
+                a.button__tick(@click.prevent="addNewGroup" title="Подтвердить изменения")
+                a.button__cross(@click.prevent="cancelAddCategory" title="Отменить изменения")  
             .error(v-if="isErrorMainTitle") {{errorMessage}}
         div.add-skill.blocked
             .add-skill__wrap
@@ -50,6 +50,10 @@ let skillId = 0
         methods: {
             changeEditMode() {
                 this.editMode= !this.editMode
+            },
+            cancelAddCategory() {
+                this.editMode= !this.editMode
+                this.$emit('cancelAddCategory');
             },
             addNewGroup() {
                 if ((this.newTitle==undefined) || (this.newTitle=='')) {
@@ -214,7 +218,7 @@ let skillId = 0
         &:after {
             content: '%';
             position: absolute;
-            top: 1px;
+            top: 3px;
             right: 10px;
             color: rgba(#464d62, 0.7)
         }

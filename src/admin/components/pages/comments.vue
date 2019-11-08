@@ -3,48 +3,95 @@
         section.main-section
             .main-info
                 span.main-info__title Блок &#171;{{sectionTitle}}&#187;
-            add-comment(v-if="showGroup" @closeComment="addNewComment")
+            add-comment(v-if="showGroup" @addNewComment="addNewComment")
+            edit-comment(
+                v-if="showEditGroup" 
+                @editExistedComment="editExistedComment" 
+                @resetForm="resetForm" 
+                :editedComment="editedComment"
+            )
             div.groups
                 ul.groups__list
-                    li.add-project-item(@click.prevent="addNewComment")
-                        a.add-group()
+                    li.add-project-item
+                        a.add-group(@click.prevent="showCloseNewCommentForm" title="Добавить отзыв")
                             span.add-group__link &#43;
                             span.add-group__text Добавить отзыв
-                    li.groups__item(v-for="item in comments" :key="item.id")
-                        comments-group(:commPhoto="item.photo" :commName="item.name" :commProf="item.prof" :commText="item.text")
+                    li.groups__item(v-for="comment in comments" :key="comment.id")
+                        comments-group(
+                            :comment="comment" 
+                            @transferEditedComment="transferEditedComment"
+                            @removeExistedComment="removeExistedComment"
+                        )
 </template>
         
 <script>
-    import commentsArr from '../../../data/comments.json'
+    import {mapState, mapActions} from 'vuex';
+
     export default {
         name: 'comments',
         data: () => ({
             sectionTitle: 'Отзывы',
             showGroup: false,
-            comments: []
+            showEditGroup: false,
+            editedComment:''
         }),
         components: {
             addComment: () => import("components/add-comment.vue"),
-			commentsGroup: () => import("components/comments-group.vue")
+            commentsGroup: () => import("components/comments-group.vue"),
+            editComment: () => import("components/edit-comment.vue"),
         },
-        props: {
-
+        computed: {
+            ...mapState("comments", {
+				comments: state => state.comments
+			}),
         },
         created() {
-            this.comments = this.forRequireImg(commentsArr)
+            this.setComments()
         },
         methods: {
-            addNewComment() {
+            ...mapActions("comments", ["setComments", "addComment", "editComment", "removeComment"]),
+            showCloseNewCommentForm() {
                 this.showGroup = !this.showGroup
+                this.showEditGroup = false;
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
             },
-            forRequireImg(commentsArr) {
-                return commentsArr.map(item => {
-                    const newImage = require(`../../../images/content/${item.photo}`);
-                    item.photo = newImage;
-                    return item
-                })
+            async addNewComment(newComment) {
+                try {
+                    await this.addComment(newComment)
+                } catch (error) {
+                    
+                } finally {
+                    this.showGroup = !this.showGroup
+                    window.scrollTo(0,0) 
+                }
             },
+            resetForm() {
+                this.showEditGroup = false;
+            },
+            transferEditedComment(editedComment) {
+                this.editedComment = editedComment;
+                this.showGroup = false;
+                this.showEditGroup = true;
+                this.showEditGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
+            },
+            async editExistedComment(editedComment) {
+                try {
+                    await this.editComment(editedComment)
+                } catch (error) {
+                    
+                } finally {
+                    this.showEditGroup = false;
+                }     
+            },
+            async removeExistedComment(commentId) {
+                try {
+                    await this.removeComment(commentId)
+                } catch (error) {
+                    
+                } finally {
+    
+                }   
+            }
         }
     }
     
@@ -62,6 +109,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+            .add-group__link {
+                border: 3px solid #E3EF62;
+                color: #E3EF62
+            }
+            .add-group__text {
+                color: #E3EF62
+            }
+        }
 
         @include phones {
 			flex-direction: row

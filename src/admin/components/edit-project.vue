@@ -328,6 +328,6 @@
     }
 
     .hidden {
-        opacity: 0;
+        visibility: hidden;;
     }
 </style>

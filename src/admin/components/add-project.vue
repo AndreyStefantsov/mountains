@@ -179,7 +179,6 @@
         align-items: center;
         flex-direction: column;
         background: #dee4ed;
-        background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: grey; stroke-width: 1; stroke-dasharray: 88'/></svg>");
         background-position: center;
         background-size: cover;
 
@@ -200,11 +199,23 @@
         right: 0;
         bottom: 0;
         cursor: pointer;
+        background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: grey; stroke-width: 2; stroke-dasharray: 8'/></svg>");
+
+        &:hover {
+            background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: darkslategrey; stroke-width: 2; stroke-dasharray: 8'/></svg>"); 
+    
+            &~.button {
+                color: #E3EF62;
+                }
+        }
     }
+
+       
 
     .form__input {
         position: absolute;
-        left: -9999px;    }
+        left: -9999px;    
+    }
 
     
 
@@ -314,8 +325,7 @@
     }
 
     .hidden {
-        opacity: 0;
+        visibility: hidden;;
     }
 
-    
 </style>

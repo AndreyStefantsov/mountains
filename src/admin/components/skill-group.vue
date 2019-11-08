@@ -4,10 +4,10 @@
         div.main
             input.input.input_title(v-model="editedCategory.category" :class="{'active-item': editMode}")
             .button(v-if="editMode == false")
-                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode")
+                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode" title="Изменить группу")
             .button(v-else="editMode == true")
-                a.button__tick(@click.prevent="changeCategoryName")
-                a.button__cross(@click.prevent="removeExistedCategory")    
+                a.button__tick(@click.prevent="changeCategoryName" title="Подтвердить изменения")
+                a.button__cross(@click.prevent="removeExistedCategory" title="Удалить группу")    
         .skills
             ul.skills__list
                 li.skills_item(v-for="skill in category.skills" :key="skill.id")
@@ -19,7 +19,7 @@
             .percent-wrap.percent-wrap_add-skill
                 input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newSkill.percent")
                 .error(v-if="isErrorPercent") {{errorMessage}}
-            a.add-group(@click.prevent="checkNewValues")
+            a.add-group(@click.prevent="checkNewValues" title="Добавить навык")
                 span.add-group__link.add-group__link__link-in-group &#43;
 </template>
 
@@ -357,5 +357,15 @@
         pointer-events: all;
     }
 
-
+    .add-group {
+        &:hover {
+            
+            .add-group__link {
+                color: #E3EF62;
+            }
+            .add-group__text {
+                color: #bf2929;
+            }
+        }
+    }
 </style>

@@ -9,7 +9,7 @@
 			div.groups
 				ul.groups__list-skills
 					li.groups__item-skills(v-if="showGroup")
-						add-skill(@addNewGroup="addNewGroup")
+						add-skill(@addNewGroup="addNewGroup" @cancelAddCategory="showNewGroupModule")
 					li.groups__item-skills(v-for="category in categories" :key="category.id")
 						skill-group(
 							:category="category" 
@@ -52,15 +52,14 @@
 		methods: {
 			...mapActions("categories", ["addNewCategory", "setCategories", "editCategory", "removeCategory"]),
 			...mapActions("skills", ["addSkill", "editSkill", "removeSkill"]),
-			changeSkill(editSkill) {
-				console.log(editSkill)
-			},
+
 			showNewGroupModule() {
 				this.showGroup = !this.showGroup
 			},
 			async addNewGroup(newTitle) {
 				try {
 					await this.addNewCategory(newTitle)
+					this.showGroup = !this.showGroup
 					this.messageMod = 'complete'
 					this.errorMessage = "Категория добавлена";
 					this.isError = true;
