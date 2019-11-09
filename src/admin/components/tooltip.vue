@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="postcss">
+<style scoped lang="postcss">
     .tooltip {
         position: absolute;
         bottom: 100px;
@@ -35,15 +35,15 @@ export default {
         white-space: nowrap;
         transition: bottom 2s
     }
-    .error {
+    .error-message {
         background-color: #b13333;
         bottom: 0;
     }
-    .complete {
+    .complete-message {
         background-color: #4bb133;
         bottom: 0;
     },
-    .other {
+    .other-message {
         background-color: #b18333;
         bottom: 0;
     }

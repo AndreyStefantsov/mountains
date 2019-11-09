@@ -2,8 +2,10 @@
     .skill-item-container
         .inputs-wrap(:class="{'active-item': editMode}")
             input.input.input_skill-text(v-model="editedSkills.title")
+            .error(v-if="isErrorTitle") {{errorMessage}}
             .percent-wrap
                 input.input.input_skill-percent(v-model="editedSkills.percent" maxlength="3")
+                .error(v-if="isErrorPercent") {{errorMessage}}
         .button(v-if="editMode == false")
             a.button__pencil(@click.prevent="changeEditMode" title="Изменить навык")
             a.button__remove(@click.prevent="removeExistedSkill" title="Удалить навык")
@@ -20,6 +22,9 @@
             return {
                 editMode: false,
                 editedSkills: {...this.skill},
+                errorMessage: 'Это поле должно быть заполнено',
+                isErrorTitle: false,
+                isErrorPercent: false,
             }
         },
         props: {
@@ -29,6 +34,7 @@
                 required: true
             }
         },
+
         methods: {
             changeEditMode() {
                 this.editMode= !this.editMode;
@@ -40,8 +46,18 @@
                     percent: this.editedSkills.percent,
                     category: this.editedSkills.category
                 }
-                this.editMode= !this.editMode;
-                this.$emit('editExistedSkill', editSkill)
+                
+                if ((this.editedSkills.title==undefined) || (this.editedSkills.title=='')) {                 
+                    this.isErrorTitle = true;
+                    setTimeout(() => this.isErrorTitle = false, 2000);
+                } else if ((this.editedSkills.percent==undefined) || (this.editedSkills.percent=='')) {
+                    this.isErrorPercent = true;
+                    setTimeout(() => this.isErrorPercent = false, 2000);
+                } else {
+                    this.$emit('editExistedSkill', editSkill)
+                    this.editMode= !this.editMode;
+                    }
+                
             },
             removeExistedSkill() {
                 const editSkill = {
@@ -64,5 +80,7 @@
         width: 100%;
     }
 
-    
+    .inputs-wrap, .percent-wrap {
+        position: relative;
+    }
 </style>

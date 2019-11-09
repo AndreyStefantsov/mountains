@@ -10,7 +10,6 @@ let dropArea=document.getElementById('form')
     function handlerDrop(e) {
         e.preventDefault();
         e.stopPropagation();
-        //let dt = e.dataTransfer
         let files = e.dataTransfer.files
-        ([...files]).forEach(e.dataTransfer.files)
+        //([...files]).forEach(e.dataTransfer.files)
     }

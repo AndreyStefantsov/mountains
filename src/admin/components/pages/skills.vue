@@ -24,7 +24,7 @@
 	
 <script>
 	import {mapState, mapActions} from 'vuex';
-	//import tooltipMessage from '../tooltip';
+	//import {errorHandler} from "../../helpers/erorrs";
 	export default {
 		name: 'skills',
 		data() {
@@ -32,7 +32,7 @@
 				showGroup: false,
 				sectionTitle: 'Скиллы',
 				errorMessage: '',
-				messageMod: '', //error/complete/other
+				messageMod: '', //error-message/complete-message/other-message
 				isError: false
 			}
 		},
@@ -60,12 +60,12 @@
 				try {
 					await this.addNewCategory(newTitle)
 					this.showGroup = !this.showGroup
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Категория добавлена";
 					this.isError = true;
 					
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 					
@@ -73,93 +73,92 @@
                     setTimeout(() => {
 						this.isError = false;
 						this.messageMod = ''
-					}, 3500);
+					}, 2500);
                 }
 			},
 			async addNewSkill(newSkill) {
 				try {
 					await this.addSkill(newSkill);
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл добавлен";
 					this.isError = true;
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
                      setTimeout(() => {
 						this.isError = false;
 						this.messageMod = ''
-					}, 3500);
+					}, 2500);
                 }
 			},
 			async changeCategoryName(editedCategory) {
 				try {
 					await this.editCategory(editedCategory);
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Имя категории изменено";
 					this.isError = true;
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
                      setTimeout(() => {
 						this.isError = false;
 						this.messageMod = ''
-					}, 3500);
+					}, 2500);
                 }
-			
 			},
 			async removeExistedCategory(editedCategory) {
 				try {
 					await this.removeCategory(editedCategory);
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Категория удалена";
 					this.isError = true;
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
                      setTimeout(() => {
 						this.isError = false;
 						this.messageMod = ''
-					}, 3500);
+					}, 2500);
                 }
 			},
 			async editExistedSkill(editedSkill) {
 				try {
 					await this.editSkill(editedSkill);
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл изменен";
 					this.isError = true;
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                     setTimeout(() => {
+                    setTimeout(() => {
 						this.isError = false;
-						this.messageMod = ''
-					}, 3500);
+						//this.messageMod = ''
+					}, 2500);
                 }
 			},
 			async removeExistedSkill(removedSkillId) {
 				try {
 					await this.removeSkill(removedSkillId);
-					this.messageMod = 'complete'
+					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл удален";
 					this.isError = true;
 				} catch (error) {
-					this.messageMod = 'error'
+					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
                      setTimeout(() => {
 						this.isError = false;
 						this.messageMod = ''
-					}, 3500);
+					}, 2500);
                 }
 			}
 

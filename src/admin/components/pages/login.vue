@@ -34,21 +34,6 @@
         },
         methods: {
             ...mapActions("user", ["login"]),
-            /*async login() {
-                try {
-                    const response = await $axios.post('/login', this.user);
-                    const token = response.data.token;
-                    localStorage.setItem("token", token);
-                    $axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-                    this.$router.replace("/")
-                    
-                } catch (error) {
-                    throw new Error(error.response.data.error || error.response.data.message)
-                    console.log(error.message)
-                    this.errorMessage = error.message;
-                    setTimeout(() => this.isError = true, 1500);
-                }
-            }*/
             async userLogin() {
                 try {
                     await this.login(this.user);

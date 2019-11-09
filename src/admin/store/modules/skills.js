@@ -1,3 +1,5 @@
+import {errorHandler} from "../../helpers/erorrs";
+
 export default {
     namespaced: true,
     mutations: {},
@@ -16,7 +18,10 @@ export default {
                 const {data} = await this.$axios.post(`/skills/${editedSkill.id}`, editedSkill)
                 store.commit("categories/EDIT_SKILL", data.skill, {root: true})
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
+                //console.log(error.response.data.message)
+                //console.log(error.response.data.errors.percent[0])
+                //throw new Error(error.response.data.message || error.response.data.error)
             }
         },
         async removeSkill(store, removedSkill) {

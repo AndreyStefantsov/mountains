@@ -68,14 +68,10 @@
             checkNewValues() {
                 if ((this.newSkill.title==undefined) || (this.newSkill.title=='')) {
                     this.isErrorTitle = true;
-                    setTimeout(() => {
-                        this.isErrorTitle = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorTitle = false, 2000);
                 } else if ((this.newSkill.percent==undefined) || (this.newSkill.percent=='')) {
                     this.isErrorPercent = true;
-                    setTimeout(() => {
-                        this.isErrorPercent = false
-                    }, 2000);   
+                    setTimeout(() => this.isErrorPercent = false, 2000);   
                 } else this.addNewSkill()
             },
             editExistedSkill(editedSkill) {

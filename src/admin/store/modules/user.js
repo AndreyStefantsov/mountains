@@ -35,7 +35,7 @@ export default {
             try {
                 const user = state.user;
                 await this.$axios.post('/logout', user);
-                //store.commit("LOGOUT_USER")
+                //store.commit("LOGOUT_USER")   
                 //this.$axios.setHeader('Authorization', null)
                 localStorage.removeItem("token")
                 
