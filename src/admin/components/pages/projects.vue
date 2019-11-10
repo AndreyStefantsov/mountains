@@ -21,6 +21,7 @@
                             :project="project" 
                             @transferEditedProject="transferEditedProject"
                             @removeExistedProject="removeExistedProject")
+        tooltip-message(:message="errorMessage" :messageMod="messageMod" v-if="isError")
 </template>
         
 <script>
@@ -28,16 +29,22 @@
 
     export default {
         name: 'projects',
-        data: () => ({
-            sectionTitle: 'Работы',
-            showGroup: false,
-            showEditGroup: false,
-            editedProject:''
-        }),
+        data() {
+            return {
+                sectionTitle: 'Работы',
+                showGroup: false,
+                showEditGroup: false,
+                editedProject:'',
+                errorMessage: '',
+                messageMod: '', //error-message/complete-message/other-message
+                isError: false
+            }
+        },
         components: {
             addProject: () => import("components/add-project.vue"),
             projectGroup: () => import("components/project-group.vue"),
             editProject: () => import("components/edit-project.vue"),
+            tooltipMessage: () =>import("components/tooltip.vue")
         },
         computed: {
             ...mapState("projects", {
@@ -46,7 +53,7 @@
         },
         created() {
 			this.setProjects()
-		},
+        },
         methods: {
             ...mapActions("projects", ["setProjects", "addProject", "editProject", "removeProject"]),
             showCloseNewProjectForm() {
@@ -56,12 +63,18 @@
             },
             async addNewProject(newProject) {
                 try {
-                    await this.addProject(newProject)
+                    await this.addProject(newProject);
+					this.messageMod = 'complete-message'
+					this.errorMessage = "Проект добавлен";
+					this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
                     this.showGroup = !this.showGroup
-                    window.scrollTo(0,0) 
+                    window.scrollTo(0,0);
+                    setTimeout(() => this.isError = false, 2500);
                 }
             },
             resetForm() {
@@ -75,20 +88,31 @@
             },
             async editExistedProject(editedProject) {
                 try {
-                    await this.editProject(editedProject)
+                    await this.editProject(editedProject);
+                    this.messageMod = 'complete-message'
+					this.errorMessage = "Проект изменен";
+                    this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
                     this.showEditGroup = false;
+                    setTimeout(() => this.isError = false, 2500);
                 }     
             },
             async removeExistedProject(projectId) {
                 try {
-                    await this.removeProject(projectId)
+                    await this.removeProject(projectId);
+                    this.messageMod = 'complete-message'
+					this.errorMessage = "Проект удален";
+					this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
-    
+                    setTimeout(() => this.isError = false, 2500);
                 }   
             }
            

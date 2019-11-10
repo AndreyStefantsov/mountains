@@ -56,7 +56,7 @@
                 } else {
                     this.$emit('editExistedSkill', editSkill)
                     this.editMode= !this.editMode;
-                    }
+                }
                 
             },
             removeExistedSkill() {

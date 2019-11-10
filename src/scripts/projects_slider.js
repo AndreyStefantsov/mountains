@@ -63,9 +63,11 @@ new Vue({
     }),
     created() {
         this.setProjects()
-        //this.projects = this.forRequireImg(projectArr)
     },
     computed: {
+        digit() {
+            return this.activeItem;
+        },
         ...mapState("projects", {
             projects: state => state.projects
         }),

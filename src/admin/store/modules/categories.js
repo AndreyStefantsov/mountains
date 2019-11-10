@@ -1,3 +1,5 @@
+import {errorHandler} from "../../helpers/erorrs";
+
 export default {
     namespaced: true,
     state: {
@@ -64,7 +66,7 @@ export default {
                 const {data} = await this.$axios.post("/categories/", {title})
                 store.commit("ADD_CATEGORY", data)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
         async setCategories(store) {
@@ -73,7 +75,7 @@ export default {
                const {data} = await this.$axios.get(`/categories/${id}`);
                store.commit("SET_CATEGORIES", data)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
         async editCategory(store, category) {
@@ -81,7 +83,7 @@ export default {
                const {data} = await this.$axios.post(`/categories/${category.id}`, {title: category.category})
                store.commit("EDIT_CATEGORY", data.category)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
         async removeCategory(store, category) {
@@ -89,7 +91,7 @@ export default {
                await this.$axios.delete(`/categories/${category.id}`)
                store.commit("REMOVE_CATEGORY", category)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
     }

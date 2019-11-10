@@ -63,17 +63,13 @@
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Категория добавлена";
 					this.isError = true;
-					
 				} catch (error) {
 					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 					
 				} finally {
-                    setTimeout(() => {
-						this.isError = false;
-						this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async addNewSkill(newSkill) {
@@ -87,10 +83,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                     setTimeout(() => {
-						this.isError = false;
-						this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async changeCategoryName(editedCategory) {
@@ -104,10 +97,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                     setTimeout(() => {
-						this.isError = false;
-						this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async removeExistedCategory(editedCategory) {
@@ -121,10 +111,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                     setTimeout(() => {
-						this.isError = false;
-						this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async editExistedSkill(editedSkill) {
@@ -138,10 +125,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                    setTimeout(() => {
-						this.isError = false;
-						//this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async removeExistedSkill(removedSkillId) {
@@ -155,10 +139,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
-                     setTimeout(() => {
-						this.isError = false;
-						this.messageMod = ''
-					}, 2500);
+                    setTimeout(() => this.isError = false, 2500);
                 }
 			}
 

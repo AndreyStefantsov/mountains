@@ -22,6 +22,7 @@
                             @transferEditedComment="transferEditedComment"
                             @removeExistedComment="removeExistedComment"
                         )
+        tooltip-message(:message="errorMessage" :messageMod="messageMod" v-if="isError")
 </template>
         
 <script>
@@ -33,12 +34,16 @@
             sectionTitle: 'Отзывы',
             showGroup: false,
             showEditGroup: false,
-            editedComment:''
+            editedComment:'',
+            errorMessage: '',
+            messageMod: '', //error-message/complete-message/other-message
+            isError: false
         }),
         components: {
             addComment: () => import("components/add-comment.vue"),
             commentsGroup: () => import("components/comments-group.vue"),
             editComment: () => import("components/edit-comment.vue"),
+            tooltipMessage: () =>import("components/tooltip.vue")
         },
         computed: {
             ...mapState("comments", {
@@ -57,12 +62,18 @@
             },
             async addNewComment(newComment) {
                 try {
-                    await this.addComment(newComment)
+                    await this.addComment(newComment);
+                    this.messageMod = 'complete-message'
+					this.errorMessage = "Отзыв добавлен";
+					this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
                     this.showGroup = !this.showGroup
-                    window.scrollTo(0,0) 
+                    window.scrollTo(0,0);
+                    setTimeout(() => this.isError = false, 2500);
                 }
             },
             resetForm() {
@@ -76,20 +87,32 @@
             },
             async editExistedComment(editedComment) {
                 try {
-                    await this.editComment(editedComment)
+                    await this.editComment(editedComment);
+                    this.messageMod = 'complete-message'
+					this.errorMessage = "Отзыв изменен";
+					this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
                     this.showEditGroup = false;
+                    setTimeout(() => this.isError = false, 2500);
                 }     
             },
             async removeExistedComment(commentId) {
                 try {
                     await this.removeComment(commentId)
+                    ;
+                    this.messageMod = 'complete-message'
+					this.errorMessage = "Отзыв удален";
+					this.isError = true;
                 } catch (error) {
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = error.message;
+					this.isError = true;
                 } finally {
-    
+                    setTimeout(() => this.isError = false, 2500);
                 }   
             }
         }

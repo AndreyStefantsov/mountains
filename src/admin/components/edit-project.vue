@@ -8,6 +8,7 @@
                     span.form__text(:class="{hidden: renderedPhoto.length}") Перетащите или нажмите "Загрузить" для загрузки изображения
                     button-section(:buttonTitle="buttonNameLoad" :class="{hidden: renderedPhoto.length}")
                     input.form__input(type="file" id="photo" name="photo" multiple accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    .error(v-if="isErrorPhoto") {{errorMessage}}
                 .content-project
                     div.project-info
                         input.input.input_name(v-model="project.title")
@@ -41,23 +42,26 @@
             buttonSection: () => import('components/button-section.vue'),
             tagComponent: () => import('components/tag.vue')
         },
-        data: () => ({
-            renderedPhoto: '',
-            project: {
-                title: '',
-                techs: '',
-                photo: '',
-                link: '',
-                description: ''
-            },
-            buttonNameLoad: 'Загрузить',
-            buttonNameSave: 'Сохранить',
-            errorMessage: 'Это поле должно быть заполнено',
-            isErrorName: false,
-            isErrorRef: false,
-            isErrorDesc: false,
-            isErrorTags: false
-        }),
+        data() {
+            return {
+                renderedPhoto: '',
+                project: {
+                    title: '',
+                    techs: '',
+                    photo: '',
+                    link: '',
+                    description: ''
+                },
+                buttonNameLoad: 'Загрузить',
+                buttonNameSave: 'Сохранить',
+                errorMessage: 'Это поле должно быть заполнено',
+                isErrorPhoto: false,
+                isErrorName: false,
+                isErrorRef: false,
+                isErrorDesc: false,
+                isErrorTags: false
+            }
+        },
         props: {
             editedProject: {
                 type: Object,
@@ -66,8 +70,8 @@
             },
         },
         created() {
-            this.project = this.editedProject;
-            this.renderedPhoto = this.imgPath
+            this.project = {...this.editedProject};
+            this.renderedPhoto = this.imgPath;
         },
         computed: {
             makeArrayFromString() {
@@ -79,7 +83,7 @@
             imgPath: function() {
                 const imgURL = this.editedProject.photo
                 const baseURL = 'https://webdev-api.loftschool.com'
-                
+
                 return `${baseURL}/${imgURL}`
             }
             
@@ -112,27 +116,26 @@
             editExistedProject() {
                 this.$emit('editExistedProject', this.project);
             },
-            checkFields() {             
-                if ((this.project.title==undefined) || (this.project.title=='')) {
-                    this.isErrorName = true;
+            checkFields() {            
+                if (this.project.photo.size >= 1500000) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
                     setTimeout(() => {
-                        this.isErrorName = false
+                        this.isErrorPhoto = false;
+                        this.errorMessage = 'Это поле должно быть заполнено'
                     }, 2000);
+                } else if ((this.project.title==undefined) || (this.project.title=='')) {
+                    this.isErrorName = true;
+                    setTimeout(() => this.isErrorName = false, 2000);
                 } else if ((this.project.link==undefined) || (this.project.link=='')) {
                     this.isErrorRef = true;
-                    setTimeout(() => {
-                        this.isErrorRef = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorRef = false, 2000);
                 } else if ((this.project.description==undefined) || (this.project.description=='')) {
                     this.isErrorDesc = true;
-                    setTimeout(() => {
-                        this.isErrorDesc = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorDesc = false, 2000);
                 } else if ((this.project.techs==undefined) || (this.project.techs=='')) {
                     this.isErrorTags = true;
-                    setTimeout(() => {
-                        this.isErrorTags = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorTags = false, 2000);
                 } else this.editExistedProject();
             }
         }
@@ -214,6 +217,7 @@
         right: 0;
         bottom: 0;
         cursor: pointer;
+
     }
 
     .form__input {

@@ -10,6 +10,7 @@ export default {
                 const {data} = await this.$axios.post("/skills", newSkill)
                 store.commit("categories/ADD_SKILL", data, {root: true})
             } catch (error) {
+                errorHandler(error)
                 //throw new Error(error.error || error.message)
             }
         },
@@ -29,6 +30,7 @@ export default {
                 await this.$axios.delete(`/skills/${removedSkill.id}`)
                 store.commit("categories/REMOVE_SKILL", removedSkill, {root: true})
             } catch (error) {
+                errorHandler(error)
                 //throw new Error(error.error || error.message)
             }
         }

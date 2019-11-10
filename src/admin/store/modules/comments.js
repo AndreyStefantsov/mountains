@@ -1,3 +1,5 @@
+import {errorHandler} from "../../helpers/erorrs";
+
 export default {
     namespaced: true,
     state: {
@@ -34,7 +36,7 @@ export default {
                const {data} = await this.$axios.get(`/reviews/${id}`);
                store.commit("SET_COMMENTS", data)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
         async addComment(store, newComment) {
@@ -42,10 +44,9 @@ export default {
             Object.keys(newComment).forEach(key => formData.append(`${key}`, newComment[key]))       
             try { 
                 const {data} = await this.$axios.post("/reviews", formData);
-                console.log(data)
                 store.commit("ADD_COMMENT", data)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
         async editComment(store, editedComment) {         
@@ -55,7 +56,7 @@ export default {
                 const {data} = await this.$axios.post(`/reviews/${editedComment.id}`, formData);
                 store.commit("EDIT_COMMENT", data.review)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
         async removeComment(store, commentId) {         
@@ -63,7 +64,7 @@ export default {
                 const data = await this.$axios.delete(`/reviews/${commentId}`);
                 store.commit("REMOVE_COMMENT", commentId)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
     },

@@ -7,7 +7,9 @@
                     .form-comment__image(:class="{'hidden-background': renderedPhoto.length}" :style="{'backgroundImage': `url(${renderedPhoto})`}")
                     a.add-photo() Добавить фото
                         label.form_label(for="photo")
+                        .error(v-if="isErrorPhoto") {{errorMessage}}
                     input.form__input(type="file" id="photo" accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    
                 .content-commment
                     .commment-input-group
                         .comment-info
@@ -41,6 +43,7 @@
                 },
                 buttonNameSave: 'Сохранить',
                 errorMessage: 'Это поле должно быть заполнено',
+                isErrorPhoto: false,
                 isErrorAuthor: false,
                 isErrorOcc: false,
                 isErrorText: false
@@ -71,7 +74,15 @@
                 this.$emit('addNewComment', this.comment);
             },
             checkFields() {             
-                if ((this.comment.author==undefined) || (this.comment.author=='')) {
+                if (this.comment.photo.size == undefined) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Это поле должно быть заполнено'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if (this.comment.photo.size >= 1500000) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if ((this.comment.author==undefined) || (this.comment.author=='')) {
                     this.isErrorAuthor = true;
                     setTimeout(() => this.isErrorAuthor = false, 2000);
                 } else if ((this.comment.occ==undefined) || (this.comment.occ=='')) {

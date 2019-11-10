@@ -7,9 +7,7 @@ export default {
         SET_USER: (state, user) => {
             state.user = user;
         },
-        LOGOUT_USER: (state) => {
-            state.user = () => ({})
-        }
+        LOGOUT_USER: state => (state.user = {})
     },
     getters: {
         isLogged: state => {
@@ -31,14 +29,11 @@ export default {
                 throw new Error(error.response.data.error || error.response.data.message)
             }
         },
-        async logout(state) {
+        async logout({ commit }) {
             try {
-                const user = state.user;
-                await this.$axios.post('/logout', user);
-                //store.commit("LOGOUT_USER")   
-                //this.$axios.setHeader('Authorization', null)
+                await this.$axios.post('/logout');
+                commit("LOGOUT_USER");
                 localStorage.removeItem("token")
-                
             }
             catch(error) {
                 throw new Error(error.response.data.message)

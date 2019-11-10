@@ -4,9 +4,15 @@ export const errorHandler = errorData => {
     if (errorResponseMessage.errors.percent[0]) {
         throw new Error(errorResponseMessage.errors.percent[0])
     } 
+
     if (errorResponseMessage.errors.title[0]) {
         throw new Error(errorResponseMessage.errors.title[0])
     }
+
+    if (errorResponseMessage.errors.photo[0]) {
+        throw new Error(errorResponseMessage.errors.photo[0])
+    }
+
 
     if (errorResponseMessage.message) {
         switch (errorResponseMessage.message) {

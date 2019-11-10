@@ -1,3 +1,5 @@
+import {errorHandler} from "../../helpers/erorrs";
+
 export default {
     namespaced: true,
     state: {
@@ -34,7 +36,7 @@ export default {
                const {data} = await this.$axios.get(`/works/${id}`);
                store.commit("SET_PROJECTS", data)
             } catch (error) {
-                throw new Error(error.data.error || error.data.message)
+                errorHandler(error)
             }
         },
         async addProject(store, newProject) {
@@ -44,7 +46,7 @@ export default {
                 const {data} = await this.$axios.post("/works", formData);
                 store.commit("ADD_PROJECT", data)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
         async editProject(store, editedProject) {         
@@ -54,7 +56,7 @@ export default {
                 const {data} = await this.$axios.post(`/works/${editedProject.id}`, formData);
                 store.commit("EDIT_PROJECT", data.work)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
         async removeProject(store, projectId) {         
@@ -62,7 +64,7 @@ export default {
                 const data = await this.$axios.delete(`/works/${projectId}`);
                 store.commit("REMOVE_PROJECT", projectId)
             } catch (error) {
-                //throw new Error(error.error || error.message)
+                errorHandler(error)
             }
         },
     },

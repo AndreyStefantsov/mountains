@@ -1,6 +1,6 @@
 script(type="text/x-template")#project-block
     .my-projects
-        pre {{activeItem}}
+        pre {{digit}}
         .project-preview(:data-image="currentItem.id")
             img(:src="imgPath" class='project-preview__pic')
             project-previews(

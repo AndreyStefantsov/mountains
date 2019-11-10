@@ -4,10 +4,11 @@
         .main-project
             form.form-project(@submit.prevent="checkFields")
                 .form(:style="{'backgroundImage': `url(${renderedPhoto})`}")
-                    label.form_label(for="photo")
+                    label.form_label(for="photo" :class="{'hidden-label': renderedPhoto.length}")
                     span.form__text(:class="{hidden: renderedPhoto.length}") Перетащите или нажмите "Загрузить" для загрузки изображения
                     button-section(:buttonTitle="buttonNameLoad" :class="{hidden: renderedPhoto.length}")
                     input.form__input(type="file" id="photo" accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    .error(v-if="isErrorPhoto") {{errorMessage}}
                 .content-project
                     div.project-info
                         input.input.input_name(v-model="project.title")
@@ -54,6 +55,7 @@
             buttonNameLoad: 'Загрузить',
             buttonNameSave: 'Сохранить',
             errorMessage: 'Это поле должно быть заполнено',
+            isErrorPhoto: false,
             isErrorName: false,
             isErrorRef: false,
             isErrorDesc: false,
@@ -92,33 +94,32 @@
                     this.renderedPhoto = reader.result;
                     };
                 } catch (error) {
-
                 }
             },
             addNewProject() {
                 this.$emit('addNewProject', this.project);
             },
-            checkFields() {             
-                if ((this.project.title==undefined) || (this.project.title=='')) {
+            checkFields() {    
+                if (this.project.photo.size == undefined) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Это поле должно быть заполнено'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if (this.project.photo.size >= 1500000) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if ((this.project.title==undefined) || (this.project.title=='')) {
                     this.isErrorName = true;
-                    setTimeout(() => {
-                        this.isErrorName = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorName = false, 2000);
                 } else if ((this.project.link==undefined) || (this.project.link=='')) {
                     this.isErrorRef = true;
-                    setTimeout(() => {
-                        this.isErrorRef = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorRef = false, 2000);
                 } else if ((this.project.description==undefined) || (this.project.description=='')) {
                     this.isErrorDesc = true;
-                    setTimeout(() => {
-                        this.isErrorDesc = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorDesc = false, 2000);
                 } else if ((this.project.techs==undefined) || (this.project.techs=='')) {
                     this.isErrorTags = true;
-                    setTimeout(() => {
-                        this.isErrorTags = false
-                    }, 2000);
+                    setTimeout(() => this.isErrorTags = false, 2000);
                 } else this.addNewProject();
             }
         }
@@ -207,6 +208,10 @@
             &~.button {
                 color: #E3EF62;
                 }
+        }
+
+        &.hidden-label {
+            background-image: none;
         }
     }
 
