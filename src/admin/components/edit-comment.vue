@@ -59,7 +59,8 @@
             },
         },
         created() {
-            this.comment = {...this.editedComment};
+            //this.comment = {...this.editedComment};
+            this.comment = this.editedComment;
             this.renderedPhoto = this.imgPath
         },
         computed: {

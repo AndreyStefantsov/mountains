@@ -15,6 +15,10 @@ const projectDecription = {
     template: '#project-decription',
     components: {projectTags},
     props: ["currentItem"],
+    created() {
+        //this.setProjects()
+        console.log(this.currentItem)
+    },
     computed: {
         makeTagsArr() {
             return this.currentItem.techs.split(', ')
@@ -38,10 +42,6 @@ const projectPreviews = {
         reverseProjectsArr() {
             return[...this.projects].reverse()
         },
-        
-        /*computeListHeight() {
-            return this.listHeight = parseInt(getComputedStyle(this.$refs.previewList).height)
-        }*/
     },
     methods: {
         iterate() {
@@ -63,6 +63,7 @@ new Vue({
     }),
     created() {
         this.setProjects()
+        console.log(this.currentItem)
     },
     computed: {
         digit() {
@@ -76,8 +77,12 @@ new Vue({
             const baseURL = 'https://webdev-api.loftschool.com'
             return `${baseURL}/${imgURL}`
         },
-        currentItem() {
-            return this.projects[this.activeItem]
+        currentItem() {            
+            let obj = {...this.projects[this.activeItem]}
+            obj.count = this.activeItem+1;
+            //console.log(obj)
+            //return this.projects[this.activeItem]
+            return obj
         },
         itemsAmount() {
             return this.projects.length;

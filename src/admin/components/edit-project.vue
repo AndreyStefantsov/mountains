@@ -11,19 +11,19 @@
                     .error(v-if="isErrorPhoto") {{errorMessage}}
                 .content-project
                     div.project-info
-                        input.input.input_name(v-model="project.title")
+                        input.input.input_name(v-model="newProject.title")
                         .project-text Название
                         .error(v-if="isErrorName") {{errorMessage}}
                     div.project-info
-                        input.input.input_ref(v-model="project.link")
+                        input.input.input_ref(v-model="newProject.link")
                         .project-text Ссылка
                         .error(v-if="isErrorRef") {{errorMessage}}
                     div.project-info
-                        textarea.textarea(v-model="project.description")
+                        textarea.textarea(v-model="newProject.description")
                         .project-text Описание
                         .error(v-if="isErrorDesc") {{errorMessage}}
                     div.project-info
-                        input.input.input_tags(v-model="project.techs")
+                        input.input.input_tags(v-model="newProject.techs")
                         .project-text Добавление тэга
                         .error(v-if="isErrorTags") {{errorMessage}}
                         div.tag-create
@@ -45,7 +45,7 @@
         data() {
             return {
                 renderedPhoto: '',
-                project: {
+                newProject: {
                     title: '',
                     techs: '',
                     photo: '',
@@ -68,17 +68,33 @@
                 default: () => ({}),
                 required: true
             },
+            projects: {
+                type: Array,
+                default: () => ({}),
+                required: true
+            }
         },
         created() {
-            this.project = {...this.editedProject};
+            this.newProject = this.editedProject;
+            // this.newProject = this.projects.filter(project => {
+            //     /*if (project.id === this.editedProject.id) {
+            //         Object.keys(this.editedProject).forEach(key => project[key] = this.editedProject[key])
+            //     }
+            //     return project*/
+            //     if (project.id === this.editedProject.id) {
+            //         return project
+            //     }
+            // });
+            // this.newProject = this.newProject[0]
+            // console.log(this.newProject)
             this.renderedPhoto = this.imgPath;
         },
         computed: {
             makeArrayFromString() {
-                if ((this.project.techs==undefined) || (this.project.techs==''))  {
+                if ((this.newProject.techs==undefined) || (this.newProject.techs==''))  {
                     return
                     }
-                return this.project.techs.split(',')
+                return this.newProject.techs.split(',')
             },
             imgPath: function() {
                 const imgURL = this.editedProject.photo
@@ -90,19 +106,19 @@
         },
         methods: {
             removeTag(removedTagIndex) {
-                let str = this.project.techs.split(',').filter((item, index) => {
+                let str = this.newProject.techs.split(',').filter((item, index) => {
                     return index !== removedTagIndex
                 });
-                return this.project.techs = str.join(',')
+                return this.newProject.techs = str.join(',')
             },
             resetForm() {
                 this.renderedPhoto = "";
-                this.project = {};
+                this.newProject = {};
                 this.$emit('resetForm');
             },
             uploadRenderedPhoto(event) {
                 const file = event.target.files[0];
-                this.project.photo = file;
+                this.newProject.photo = file;
                 const reader = new FileReader();
                 try {
                     reader.readAsDataURL(file);
@@ -114,26 +130,26 @@
                 }
             },
             editExistedProject() {
-                this.$emit('editExistedProject', this.project);
+                this.$emit('editExistedProject', this.newProject);
             },
             checkFields() {            
-                if (this.project.photo.size >= 1500000) {
+                if (this.newProject.photo.size >= 1500000) {
                     this.isErrorPhoto = true;
                     this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
                     setTimeout(() => {
                         this.isErrorPhoto = false;
                         this.errorMessage = 'Это поле должно быть заполнено'
                     }, 2000);
-                } else if ((this.project.title==undefined) || (this.project.title=='')) {
+                } else if ((this.newProject.title==undefined) || (this.newProject.title=='')) {
                     this.isErrorName = true;
                     setTimeout(() => this.isErrorName = false, 2000);
-                } else if ((this.project.link==undefined) || (this.project.link=='')) {
+                } else if ((this.newProject.link==undefined) || (this.newProject.link=='')) {
                     this.isErrorRef = true;
                     setTimeout(() => this.isErrorRef = false, 2000);
-                } else if ((this.project.description==undefined) || (this.project.description=='')) {
+                } else if ((this.newProject.description==undefined) || (this.newProject.description=='')) {
                     this.isErrorDesc = true;
                     setTimeout(() => this.isErrorDesc = false, 2000);
-                } else if ((this.project.techs==undefined) || (this.project.techs=='')) {
+                } else if ((this.newProject.techs==undefined) || (this.newProject.techs=='')) {
                     this.isErrorTags = true;
                     setTimeout(() => this.isErrorTags = false, 2000);
                 } else this.editExistedProject();

@@ -9,6 +9,7 @@
                 @editExistedComment="editExistedComment" 
                 @resetForm="resetForm" 
                 :editedComment="editedComment"
+                
             )
             div.groups
                 ul.groups__list

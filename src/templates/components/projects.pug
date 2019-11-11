@@ -1,7 +1,6 @@
 script(type="text/x-template")#project-block
     .my-projects
-        pre {{digit}}
-        .project-preview(:data-image="currentItem.id")
+        .project-preview(:data-image="currentItem.count")
             img(:src="imgPath" class='project-preview__pic')
             project-previews(
                 :projects="projects",
@@ -31,6 +30,7 @@ script(type="text/x-template")#project-buttons
 
 script(type="text/x-template")#project-decription                
     .project-decription
+        //- pre {{currentItem}}
         project-tags(
             :tagsArr="makeTagsArr"
         )

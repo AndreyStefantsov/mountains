@@ -9,6 +9,7 @@
                 @editExistedProject="editExistedProject" 
                 @resetForm="resetForm" 
                 :editedProject="editedProject"
+                :projects="projects" 
             )
             div.groups
                 ul.groups__list
