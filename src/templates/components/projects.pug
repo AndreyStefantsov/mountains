@@ -1,6 +1,6 @@
 script(type="text/x-template")#project-block
     .my-projects
-        .project-preview(:data-image="currentItem.count")
+        .project-preview(:data-image="currentItem.id")
             img(:src="imgPath" class='project-preview__pic')
             project-previews(
                 :projects="projects",

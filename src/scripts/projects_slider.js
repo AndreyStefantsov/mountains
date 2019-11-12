@@ -15,10 +15,6 @@ const projectDecription = {
     template: '#project-decription',
     components: {projectTags},
     props: ["currentItem"],
-    created() {
-        //this.setProjects()
-        console.log(this.currentItem)
-    },
     computed: {
         makeTagsArr() {
             return this.currentItem.techs.split(', ')
@@ -63,8 +59,8 @@ new Vue({
     }),
     created() {
         this.setProjects()
-        console.log(this.currentItem)
     },
+
     computed: {
         digit() {
             return this.activeItem;
@@ -78,11 +74,11 @@ new Vue({
             return `${baseURL}/${imgURL}`
         },
         currentItem() {            
-            let obj = {...this.projects[this.activeItem]}
-            obj.count = this.activeItem+1;
-            //console.log(obj)
-            //return this.projects[this.activeItem]
-            return obj
+            // let obj = {...this.projects[this.activeItem]}
+            // obj.count = this.activeItem+1;
+            
+            return this.projects[this.activeItem]
+            //return obj
         },
         itemsAmount() {
             return this.projects.length;
