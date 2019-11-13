@@ -7,11 +7,11 @@
                 input.input.input_skill-percent(v-model="editedSkills.percent" maxlength="3")
                 .error(v-if="isErrorPercent") {{errorMessage}}
         .button(v-if="editMode == false")
-            a.button__pencil(@click.prevent="changeEditMode" title="Изменить навык")
+            a.button__pencil(@click.prevent="changeAndBlockEditMode" title="Изменить навык")
             a.button__remove(@click.prevent="removeExistedSkill" title="Удалить навык")
         .button(v-else="editMode == true")
             a.button__tick(@click.prevent="editExistedSkill" title="Подтвердить изменения")
-            a.button__cross(@click.prevent="changeEditMode" title="Отменить изменения") 
+            a.button__cross(@click.prevent="changeAndBlockEditMode" title="Отменить изменения") 
 </template>
 
 
@@ -32,12 +32,13 @@
                 type: Object,
                 default: () => ({}),
                 required: true
-            }
+            },
         },
 
         methods: {
-            changeEditMode() {
+            changeAndBlockEditMode() {
                 this.editMode= !this.editMode;
+                this.$emit('changeAndBlockEditMode', this.editMode)
             },
             editExistedSkill() {
                 const editSkill = {
@@ -46,7 +47,7 @@
                     percent: this.editedSkills.percent,
                     category: this.editedSkills.category
                 }
-                
+                this.editMode= !this.editMode;
                 if ((this.editedSkills.title==undefined) || (this.editedSkills.title=='')) {                 
                     this.isErrorTitle = true;
                     setTimeout(() => this.isErrorTitle = false, 2000);
@@ -55,7 +56,6 @@
                     setTimeout(() => this.isErrorPercent = false, 2000);
                 } else {
                     this.$emit('editExistedSkill', editSkill)
-                    this.editMode= !this.editMode;
                 }
                 
             },

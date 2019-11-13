@@ -1,3 +1,5 @@
+import {errorHandler} from "../../helpers/erorrs";
+
 export default {
     namespaced: true,
     state: {
@@ -23,10 +25,9 @@ export default {
                 const token = response.data.token;
                 localStorage.setItem("token", token);
                 this.$axios.defaults.headers["Authorization"] = `Bearer ${token}`;
-                //commit("SET_USER", user)
             }
             catch(error) {
-                throw new Error(error.response.data.error || error.response.data.message)
+                errorHandler(error)
             }
         },
         async logout({ commit }) {
@@ -36,7 +37,7 @@ export default {
                 localStorage.removeItem("token")
             }
             catch(error) {
-                throw new Error(error.response.data.message)
+                errorHandler(error)
             }
         }
     }

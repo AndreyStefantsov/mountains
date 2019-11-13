@@ -115,5 +115,17 @@
       }
   }
 
+  .blocked-new-item {
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(1);
+
+  },
+  .blocked-while-add {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.7;
+  }
+
 </style>
 

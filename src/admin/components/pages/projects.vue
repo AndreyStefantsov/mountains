@@ -17,7 +17,7 @@
                         a.add-group(@click.prevent="showCloseNewProjectForm" title="Добавить проект")
                             span.add-group__link &#43;
                             span.add-group__text Добавить работу
-                    li.groups__item(v-for="project in projects" :key="project.id")
+                    li.groups__item(v-for="project in projects" :key="project.id" :class="{'blocked-while-add': blocked}")
                         project-group(
                             :project="project" 
                             @transferEditedProject="transferEditedProject"
@@ -38,7 +38,8 @@
                 editedProject:'',
                 errorMessage: '',
                 messageMod: '', //error-message/complete-message/other-message
-                isError: false
+                isError: false,
+                blocked: false
             }
         },
         components: {
@@ -58,12 +59,14 @@
         methods: {
             ...mapActions("projects", ["setProjects", "addProject", "editProject", "removeProject"]),
             showCloseNewProjectForm() {
-                this.showGroup = !this.showGroup
+                this.showGroup = !this.showGroup;
                 this.showEditGroup = false;
+                this.blocked = !this.blocked;
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
             },
             async addNewProject(newProject) {
                 try {
+                    this.blocked = true
                     await this.addProject(newProject);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Проект добавлен";
@@ -73,15 +76,18 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
-                    this.showGroup = !this.showGroup
+                    this.showGroup = !this.showGroup;
+                    this.blocked = false
                     window.scrollTo(0,0);
                     setTimeout(() => this.isError = false, 2500);
                 }
             },
             resetForm() {
                 this.showEditGroup = false;
+                this.blocked = !this.blocked;
             },
             transferEditedProject(editedProject) {
+                this.blocked = !this.blocked;
                 this.editedProject = editedProject;
                 this.showGroup = false;
                 this.showEditGroup = true;
@@ -89,6 +95,7 @@
             },
             async editExistedProject(editedProject) {
                 try {
+                    this.blocked = true
                     await this.editProject(editedProject);
                     this.messageMod = 'complete-message'
 					this.errorMessage = "Проект изменен";
@@ -98,12 +105,14 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
+                    this.blocked = false
                     this.showEditGroup = false;
                     setTimeout(() => this.isError = false, 2500);
                 }     
             },
             async removeExistedProject(projectId) {
                 try {
+                    this.blocked = true
                     await this.removeProject(projectId);
                     this.messageMod = 'complete-message'
 					this.errorMessage = "Проект удален";
@@ -113,6 +122,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
+                    this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }   
             }

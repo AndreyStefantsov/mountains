@@ -4,15 +4,15 @@
         div.main
             input.input.input_title(v-model="editedCategory.category" :class="{'active-item': editMode}")
             .button(v-if="editMode == false")
-                a.button__pencil.button__pencil_title(@click.prevent="changeEditMode" title="Изменить группу")
+                a.button__pencil.button__pencil_title(@click.prevent="changeEditTitleMode" title="Изменить группу")
             .button(v-else="editMode == true")
                 a.button__tick(@click.prevent="changeCategoryName" title="Подтвердить изменения")
                 a.button__cross(@click.prevent="removeExistedCategory" title="Удалить группу")    
         .skills
             ul.skills__list
                 li.skills_item(v-for="skill in category.skills" :key="skill.id")
-                    edit-skill(:skill="skill" @editExistedSkill="editExistedSkill" @removeExistedSkill="removeExistedSkill")
-        div.add-skill
+                    edit-skill(:skill="skill" @editExistedSkill="editExistedSkill" @removeExistedSkill="removeExistedSkill" @changeAndBlockEditMode="changeAndBlockEditMode")
+        div.add-skill(:class="{'blocked-new-item': blocked}")
             .add-skill__wrap
                 input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill.title")
                 .error(v-if="isErrorTitle") {{errorMessage}}
@@ -38,11 +38,10 @@
                 errorMessage: 'Это поле должно быть заполнено',
                 isErrorTitle: false,
                 isErrorPercent: false,
-                editedCategory: {...this.category}
+                editedCategory: {...this.category},
+                blocked: false,
+                indexArray: []
             }
-        },
-        computed: {
-
         },
         components: {
             editSkill: () => import('components/edit-skill.vue')
@@ -55,8 +54,12 @@
             }
         },
         methods: {
-            changeEditMode() {
+            changeEditTitleMode() {
                 this.editMode= !this.editMode
+                this.blocked = !this.blocked
+            },
+            changeAndBlockEditMode(blockedSkillAdding) {
+                this.blocked = blockedSkillAdding;
             },
             addNewSkill() {
                 this.$emit('addNewSkill', this.newSkill);
@@ -75,6 +78,7 @@
                 } else this.addNewSkill()
             },
             editExistedSkill(editedSkill) {
+                this.blocked = false
                 this.$emit('editExistedSkill', editedSkill)
             },
             removeExistedSkill(removedSkillId) {
@@ -82,6 +86,7 @@
             },
             changeCategoryName() {
                 this.editMode= !this.editMode;
+                this.blocked = !this.blocked
                 this.$emit('changeCategoryName', this.editedCategory)
             },
             removeExistedCategory() {
@@ -364,4 +369,5 @@
             }
         }
     }
+
 </style>

@@ -9,7 +9,6 @@
                 @editExistedComment="editExistedComment" 
                 @resetForm="resetForm" 
                 :editedComment="editedComment"
-                
             )
             div.groups
                 ul.groups__list
@@ -17,7 +16,7 @@
                         a.add-group(@click.prevent="showCloseNewCommentForm" title="Добавить отзыв")
                             span.add-group__link &#43;
                             span.add-group__text Добавить отзыв
-                    li.groups__item(v-for="comment in comments" :key="comment.id")
+                    li.groups__item(v-for="comment in comments" :key="comment.id" :class="{'blocked-while-add': blocked}")
                         comments-group(
                             :comment="comment" 
                             @transferEditedComment="transferEditedComment"
@@ -38,7 +37,8 @@
             editedComment:'',
             errorMessage: '',
             messageMod: '', //error-message/complete-message/other-message
-            isError: false
+            isError: false,
+            blocked: false
         }),
         components: {
             addComment: () => import("components/add-comment.vue"),
@@ -59,10 +59,12 @@
             showCloseNewCommentForm() {
                 this.showGroup = !this.showGroup
                 this.showEditGroup = false;
+                this.blocked = !this.blocked;
                 this.showGroup ? window.scrollTo(0,200) : window.scrollTo(0,0) 
             },
             async addNewComment(newComment) {
                 try {
+                    this.blocked = true
                     await this.addComment(newComment);
                     this.messageMod = 'complete-message'
 					this.errorMessage = "Отзыв добавлен";
@@ -72,15 +74,18 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
-                    this.showGroup = !this.showGroup
+                    this.showGroup = !this.showGroup;
+                    this.blocked = false
                     window.scrollTo(0,0);
                     setTimeout(() => this.isError = false, 2500);
                 }
             },
             resetForm() {
                 this.showEditGroup = false;
+                this.blocked = !this.blocked;
             },
             transferEditedComment(editedComment) {
+                this.blocked = !this.blocked;
                 this.editedComment = editedComment;
                 this.showGroup = false;
                 this.showEditGroup = true;
@@ -88,6 +93,7 @@
             },
             async editExistedComment(editedComment) {
                 try {
+                    this.blocked = true
                     await this.editComment(editedComment);
                     this.messageMod = 'complete-message'
 					this.errorMessage = "Отзыв изменен";
@@ -97,15 +103,16 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
+                    this.blocked = false
                     this.showEditGroup = false;
                     setTimeout(() => this.isError = false, 2500);
                 }     
             },
             async removeExistedComment(commentId) {
                 try {
-                    await this.removeComment(commentId)
-                    ;
-                    this.messageMod = 'complete-message'
+                    this.blocked = true
+                    await this.removeComment(commentId);
+                    this.messageMod = 'complete-message';
 					this.errorMessage = "Отзыв удален";
 					this.isError = true;
                 } catch (error) {
@@ -113,6 +120,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
                 } finally {
+                    this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }   
             }

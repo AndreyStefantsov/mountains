@@ -76,17 +76,6 @@
         },
         created() {
             this.newProject = this.editedProject;
-            // this.newProject = this.projects.filter(project => {
-            //     /*if (project.id === this.editedProject.id) {
-            //         Object.keys(this.editedProject).forEach(key => project[key] = this.editedProject[key])
-            //     }
-            //     return project*/
-            //     if (project.id === this.editedProject.id) {
-            //         return project
-            //     }
-            // });
-            // this.newProject = this.newProject[0]
-            // console.log(this.newProject)
             this.renderedPhoto = this.imgPath;
         },
         computed: {

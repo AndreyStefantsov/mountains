@@ -31,11 +31,6 @@
             imgPath: function() {
                 
                 const imgURL = this.editedProject.photo
-                // if (imgURL === Object) {
-                //     console.log('nan')
-                //     return
-                // }
-                //console.log(imgURL)
                 const baseURL = 'https://webdev-api.loftschool.com'
                 return `${baseURL}/${imgURL}`
             }

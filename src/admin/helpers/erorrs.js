@@ -25,5 +25,10 @@ export const errorHandler = errorData => {
                 break;
         }
     }
+
+    if (errorResponseMessage.error) {
+        throw new Error("Неверный логин или пароль")
+
+    }
     
 }

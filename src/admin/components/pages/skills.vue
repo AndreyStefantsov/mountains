@@ -6,7 +6,7 @@
 				a.add-group.add-group_top(@click="showNewGroupModule")
 					span.add-group__link &#43;
 					span.add-group__text Добавить группу
-			div.groups
+			div.groups(:class="{'blocked-while-add': blocked}")
 				ul.groups__list-skills
 					li.groups__item-skills(v-if="showGroup")
 						add-skill(@addNewGroup="addNewGroup" @cancelAddCategory="showNewGroupModule")
@@ -33,7 +33,8 @@
 				sectionTitle: 'Скиллы',
 				errorMessage: '',
 				messageMod: '', //error-message/complete-message/other-message
-				isError: false
+				isError: false,
+				blocked: false
 			}
 		},
 		components: {
@@ -58,22 +59,26 @@
 			},
 			async addNewGroup(newTitle) {
 				try {
+					this.blocked = true
 					await this.addNewCategory(newTitle)
 					this.showGroup = !this.showGroup
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Категория добавлена";
 					this.isError = true;
+
 				} catch (error) {
 					this.messageMod = 'error-message'
 					this.errorMessage = error.message;
 					this.isError = true;
 					
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async addNewSkill(newSkill) {
 				try {
+					this.blocked = true
 					await this.addSkill(newSkill);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл добавлен";
@@ -83,11 +88,13 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async changeCategoryName(editedCategory) {
 				try {
+					this.blocked = true
 					await this.editCategory(editedCategory);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Имя категории изменено";
@@ -97,11 +104,13 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async removeExistedCategory(editedCategory) {
 				try {
+					this.blocked = true
 					await this.removeCategory(editedCategory);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Категория удалена";
@@ -111,11 +120,13 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async editExistedSkill(editedSkill) {
 				try {
+					this.blocked = true
 					await this.editSkill(editedSkill);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл изменен";
@@ -125,11 +136,13 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			},
 			async removeExistedSkill(removedSkillId) {
 				try {
+					this.blocked = true
 					await this.removeSkill(removedSkillId);
 					this.messageMod = 'complete-message'
 					this.errorMessage = "Скилл удален";
@@ -139,6 +152,7 @@
 					this.errorMessage = error.message;
 					this.isError = true;
 				} finally {
+					this.blocked = false
                     setTimeout(() => this.isError = false, 2500);
                 }
 			}

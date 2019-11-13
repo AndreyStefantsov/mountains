@@ -1,14 +1,14 @@
 <template lang="pug">
     .login
         .login__container
-            form.login__form(@submit.prevent="userLogin")
+            form.login__form(@submit.prevent="checkFields")
                 .login__form-title Авторизация
-                .login__content.login-content_name
+                .login__content.login-content_name(:class="{'error-input':isErrorTitle}")
                     label(for="login").login__label Логин
-                    input(v-model="user.name" name="login").login__name
-                .login__content.login-content_password
+                    input(v-model="user.name" name="login" :class="{'error-input':isErrorTitle}").login__name
+                .login__content.login-content_password(:class="{'error-input':isErrorPercent}")
                     label(for="password").login__label Пароль
-                    input(v-model="user.password" name="password" type="password").login__password
+                    input(v-model="user.password" name="password" type="password" :class="{'error-input':isErrorPercent}").login__password
                 button(type="submit").login__send Войти
         tooltip-message(:message="errorMessage" v-if="isError")            
 </template>
@@ -25,7 +25,8 @@
                     name: "stefantsov-102019",      //stefantsov-102019
                     password: "jo5e72"    //jo5e72
                 },
-                errorMessage: '',
+                isErrorTitle: false,
+                isErrorPercent: false,
                 isError: false
             }
         },
@@ -40,14 +41,24 @@
                     this.$router.replace("/");
                     this.errorMessage = "Вход выполнен";
                     this.isError = true;
-
                 } catch (error) {
-                    this.errorMessage = error.message;
-                    this.isError = true;
-                    
+                    this.messageMod = 'error-message'
+					this.errorMessage = "Неверный логин или пароль";
+					this.isError = true;
                 } finally {
                     setTimeout(() => this.isError = false, 2500);
                 }
+            },
+            checkFields() {
+                if ((this.user.name==undefined) || (this.user.name=='')) {                 
+                    this.isErrorTitle = true;
+                    setTimeout(() => this.isErrorTitle = false, 2000);
+                } else if ((this.user.password==undefined) || (this.user.password=='')) {
+                    this.isErrorPercent = true;
+                    setTimeout(() => this.isErrorPercent = false, 2000);
+                } else this.userLogin();
+                    
+                
             }
         }
     }
@@ -122,6 +133,16 @@
             width: 26px;
             height: 30px;
         }
+
+        &.error-input {
+            &:before {
+                content: '';
+                position: absolute;
+                background: svg-load("user.svg", fill=#b13333) no-repeat center;
+                width: 26px;
+                height: 30px;
+            }
+        }
     }
 
     .login-content_password {
@@ -131,6 +152,16 @@
             background: svg-load("key.svg", fill="#c7cad0") no-repeat center;
             width: 28px;
             height: 28px;
+        }
+
+        &.error-input {
+            &:before {
+                content: '';
+                position: absolute;
+                background: svg-load("key.svg", fill=#b13333) no-repeat center;
+                width: 26px;
+                height: 30px;
+            }
         }
     }
     
@@ -149,10 +180,16 @@
             outline: none;
             border-bottom: 1px solid $hover-color;
         }
+
+        &.error-input {
+            border-bottom: 1px solid #b13333;
+        }
     }
 
     .login__name {
         margin-bottom: 75px;
+        
+        
     }
 
     .login__password {
@@ -186,4 +223,5 @@
             outline: none
         }
     }
+
 </style>

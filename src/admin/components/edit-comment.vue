@@ -75,6 +75,7 @@
             resetForm() {
                 this.renderedPhoto = "";
                 this.comment = {};
+                this.$emit('resetForm');
             },
             uploadRenderedPhoto(event) {
                 const file = event.target.files[0];
