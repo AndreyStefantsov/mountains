@@ -1,4 +1,5 @@
 import {errorHandler} from "../../helpers/erorrs";
+const userId = 195
 
 export default {
     namespaced: true,
@@ -32,9 +33,9 @@ export default {
     actions: {
         async setProjects(store) {
             try {
-               const {data: {user: {id}}} = await this.$axios.get('/user');                
-               const {data} = await this.$axios.get(`/works/${id}`);
-               store.commit("SET_PROJECTS", data)
+                //const {data: {user: {id}}} = await this.$axios.get('/user');                 
+                const {data} = await this.$axios.get(`/works/${userId}`);
+                store.commit("SET_PROJECTS", data)
             } catch (error) {
                 errorHandler(error)
             }

@@ -1,4 +1,5 @@
 import {errorHandler} from "../../helpers/erorrs";
+const userId = 195
 
 export default {
     namespaced: true,
@@ -32,8 +33,8 @@ export default {
     actions: {
         async setComments(store) {
             try {
-               const {data: {user: {id}}} = await this.$axios.get('/user');                
-               const {data} = await this.$axios.get(`/reviews/${id}`);
+               //const {data: {user: {id}}} = await this.$axios.get('/user');                
+               const {data} = await this.$axios.get(`/reviews/${userId}`);
                store.commit("SET_COMMENTS", data)
             } catch (error) {
                 errorHandler(error)
