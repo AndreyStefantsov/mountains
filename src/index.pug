@@ -36,14 +36,14 @@ html(lang="ru-Ru")
           .burger-menu(:class="open" @click='clickOn')
             +nav('burger', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
             .socials-burger
-              +socials('socials-burger', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+              +socials('socials-burger', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], ['#', '#', 'https://github.com/AndreyStefantsov'])
             a.close-lines(@click.prevent='closeMenu')  
           section.container.container-main#main
             .header.container#header
               .text-logo AC
               +nav('nav', ['Главная', 'Обо мне', 'Навыки', 'Работы', 'Отзывы', 'Связаться'], ['#main', '#about', '#skills', '#my-projects', '#comments', '#contact-me'])
               .socials(:class="hidden")
-                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'])
+                +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], ['', '', 'https://github.com/AndreyStefantsov'])
               a.burger-lines(@click.prevent='openMenu')  
             .main-text
               div.title-main
@@ -122,7 +122,7 @@ html(lang="ru-Ru")
               .about-site
                 .about-site__description Этот сайт я сделал в рамках обучения в Школе онлайн образования LoftSchool.
                 .socials-footer
-                  +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], 'footer')
+                  +socials('socials', ['я в VK', 'я в Instagram', 'я на Github'], 'socials__pic', ['vk', 'insta', 'github'], ['#', '#', 'https://github.com/AndreyStefantsov'], 'footer')
               .quote
                 .quote__text Пишите код так, как будто сопровождать его будет склонный к насилию психопат, который знает, где вы живёте
                 span.quote__author Martin Golding

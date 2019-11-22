@@ -14,11 +14,11 @@ mixin nav(className, items, anchors, linkMod)
           a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') href=anchors[i])=items[i]
 
 
-mixin socials(className, items, iconClassName, iconNames, linkMod)
+mixin socials(className, items, iconClassName, iconNames, links, linkMod)
   ul(class=`${className}__list `)
     - for (var i=0; i<items.length; i++) 
       li(class=`${className}__item ` + (linkMod ? `${className}__item_${linkMod}` : ''))
-        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i]  href='')
+        a(class=`${className}__link ` + (linkMod ? `${className}__link_${linkMod}` : '') title=items[i] href=links[i] target="_blank")
           +icon(iconNames[i], (`${iconClassName} `+ (linkMod ? `${iconClassName}_${linkMod}` : '')))
 
 mixin questionnaire(className, items, mod)
