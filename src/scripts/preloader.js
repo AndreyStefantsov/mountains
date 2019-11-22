@@ -1,4 +1,13 @@
-window.onbeforeunload = function () {
+/*window.scrollTo(0, 0);
+document.documentElement.style.scrollBehavior = 'auto';
+document.body.style.scrollBehavior = 'auto';
+
+window.onload = () => {
+    document.documentElement.style.scrollBehavior = 'smooth';
+    document.body.style.scrollBehavior = 'smooth';
+}*/
+
+window.onbeforeunload = () => {
     window.scrollTo(0, 0);
 }
 
@@ -6,11 +15,9 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode === 116) {
         document.documentElement.style.scrollBehavior = 'auto';
         document.body.style.scrollBehavior = 'auto';   
-        location.reload()
+        setTimeout(() => location.reload(), 300);
     }
 })
-
-
 
 var images = [].slice.call(document.getElementsByTagName('img'));
 
@@ -42,7 +49,6 @@ function setAnimation(item) {
 //var images = document.images;
 var preloaderPercent = Math.trunc(100/images.length);
 
-
 var progressBar = 0
 var progress = 0;
 var imgCount = 0;
@@ -55,6 +61,7 @@ for (var i = 0; i<images.length; i++) {
 }
 
 function loading() {
+    window.scrollTo(0, 0);
     step = progress;
     progress += preloaderPercent;
     ++imgCount;
