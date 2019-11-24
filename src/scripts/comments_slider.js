@@ -1,17 +1,27 @@
 import Vue from "vue"
+import {mapState, mapActions} from 'vuex';
+import store from '@/store'
+import axios from '@/requests'
+store.$axios = axios;
 
 new Vue({
     el: "#comments-content",
+    store,
     template: "#comments-block",
     data: () => ({
-        comments: [],
         offsetleft: 0,
         start: "",
         blockedRight: true,
         blockedLeft: false,
         iterate: 1
     }),
+    created() {
+        this.setComments()
+    },
     computed: {
+        ...mapState("comments", {
+            comments: state => state.comments
+        }),
         commentlist() {
             return this.$refs['commentsList']
         },
@@ -37,7 +47,7 @@ new Vue({
         }
         
     },
-    watch: {
+    watch: {        
         iterate() {
             if (this.iterate*this.count==this.items+(this.stopper == 2 ? 0 : 1))  {
                 this.blockedLeft = true;
@@ -56,13 +66,8 @@ new Vue({
         }
     },
     methods: {
-        forRequireImg(commentsArr) {
-            return commentsArr.map(item => {
-                const newImage = require(`images/content/${item.photo}`);
-                item.photo = newImage;
-                return item
-            })
-        },
+        ...mapActions("comments", ["setComments"]),
+
         slideLeft() {
             this.blockedRight = false;
             this.iterate++;
@@ -74,8 +79,6 @@ new Vue({
                     return this.offsetleft;
                 }  
             }
-
-
         },
 
         slideRight() {
@@ -89,10 +92,7 @@ new Vue({
 
     },
 
-    created() {
-        const commentsArr = require('../data/comments.json');
-        this.comments = this.forRequireImg(commentsArr)
-    } 
+   
 })
 
 /*

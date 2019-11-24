@@ -1,108 +1,128 @@
 <template lang="pug">
     .group-project
-        .main-title-project Редактирование работы
+        .main-title-project Добавление работы
         .main-project
-            form(enctype="multipart/form-data" method="post").form-project
-                span.form__text Перетащите или нажмите "Загрузить" для загрузки изображения
-                //input.form__input(type="file" name="photo" multiple accept="image/*,image/jpeg")
-                button-section(:buttonTitle="buttonNameLoad")
-            .content-project
-                div.project-info
-                    .project-text Название
-                    input.input.input_name(v-model="name")
-                    .error(v-if="isErrorName") {{errorMessage}}
-                    //addInput(classMod="input_name" v-model="name")
-                div.project-info
-                    .project-text Ссылка
-                    input.input.input_ref(v-model="ref")
-                    .error(v-if="isErrorRef") {{errorMessage}}
-                    //addInput(classMod="input_ref" v-model="ref")
-                div.project-info
-                    .project-text Описание
-                    textarea.textarea(v-model="desc")
-                    .error(v-if="isErrorDesc") {{errorMessage}}
-                div.project-info
-                    .project-text Добавление тэга
-                    input.input.input_tags(v-model="tags")
-                    //addInput(classMod="input_tags" v-model="tags")
-                    .error(v-if="isErrorTags") {{errorMessage}}
-                    div.tag-create
-                        ul.tag-create__list
-                            li.tag-create__item(v-for="(tag,index) in makeArrayFromString" :key="index") 
-                                tag-component(:newTag="tag" :tagIndex="index" @removeTag="removeTag")
-        .button-add-projects
-            a.reset-button(@click="$emit('closeProject')") Отмена
-            button-section(:buttonTitle="buttonNameSave" @addNewProject="addNewProject")
+            form.form-project(@submit.prevent="checkFields")
+                .form(:style="{'backgroundImage': `url(${renderedPhoto})`}")
+                    label.form_label(for="photo" :class="{'hidden-label': renderedPhoto.length}")
+                    span.form__text(:class="{hidden: renderedPhoto.length}") Перетащите или нажмите "Загрузить" для загрузки изображения
+                    button-section(:buttonTitle="buttonNameLoad" :class="{hidden: renderedPhoto.length}")
+                    input.form__input(type="file" id="photo" accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    .error(v-if="isErrorPhoto") {{errorMessage}}
+                .content-project
+                    div.project-info
+                        input.input.input_name(v-model="project.title")
+                        .project-text Название
+                        .error(v-if="isErrorName") {{errorMessage}}
+                    div.project-info
+                        input.input.input_ref(v-model="project.link")
+                        .project-text Ссылка
+                        .error(v-if="isErrorRef") {{errorMessage}}
+                    div.project-info
+                        textarea.textarea(v-model="project.description")
+                        .project-text Описание
+                        .error(v-if="isErrorDesc") {{errorMessage}}
+                    div.project-info
+                        input.input.input_tags(v-model="project.techs")
+                        .project-text Добавление тэга
+                        .error(v-if="isErrorTags") {{errorMessage}}
+                        div.tag-create
+                            ul.tag-create__list
+                                li.tag-create__item(v-for="(tag, index) in makeArrayFromString" :key="index") 
+                                    tag-component(:tagTitle="tag" :tagIndex="index" @removeTag="removeTag")
+                    .button-add-projects
+                        button.reset-button(type="reset" @click.prevent="resetForm" title="Отменить изменения") Отмена
+                        button-section(:buttonTitle="buttonNameSave" type="submit" @checkFields="checkFields" title="Сохранить изменения")
 </template>
 
 <script>
-    import buttonSection from './button-section.vue'
+    /*import buttonSection from './button-section.vue'
     import tagComponent from './tag.vue'
-    import addInput from './input.vue'
+    //import addInput from './input.vue'*/
+
     export default {
         name: 'addProject',
         data: () => ({
-            name: '',
-            ref: '',
-            desc: '',
-            tags: undefined,
-            tagsArr: '',
+            renderedPhoto: '',
+            project: {
+                title: '',
+                techs: '',
+                photo: '',
+                link: '',
+                description: ''
+            },
+            
             buttonNameLoad: 'Загрузить',
             buttonNameSave: 'Сохранить',
             errorMessage: 'Это поле должно быть заполнено',
+            isErrorPhoto: false,
             isErrorName: false,
             isErrorRef: false,
             isErrorDesc: false,
             isErrorTags: false
         }),
         components: {
-            buttonSection, tagComponent, addInput
+            buttonSection: () => import('components/button-section.vue'),
+            tagComponent: () => import('components/tag.vue')
         },
         computed: {
             makeArrayFromString() {
-                if ((this.tags==undefined) || (this.tags==''))  {
-                    
+                if ((this.project.techs==undefined) || (this.project.techs==''))  {
                     return
                     }
-                return this.tags.split(',')
-            }
+                return this.project.techs.split(',')
+            },
         },
         methods: {
-            removeTag(tagIndexRemove) {
-                //console.log('asdasd')
-                //console.log(this.makeArrayFromString)
-                //this.makeArrayFromString.splice(1, 1)
+            removeTag(removedTagIndex) {
+                let str = this.project.techs.split(',').filter((item, index) => {
+                    return index !== removedTagIndex
+                });
+                return this.project.techs = str.join(',')
+            },
+            resetForm() {
+                this.renderedPhoto = "";
+                this.project = {};
+            },
+            uploadRenderedPhoto(event) {
+                const file = event.target.files[0];
+                this.project.photo = file;
+                const reader = new FileReader();
+                try {
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                    this.renderedPhoto = reader.result;
+                    };
+                } catch (error) {
+                }
             },
             addNewProject() {
-                if ((this.name==undefined) || (this.name=='')) {
+                this.$emit('addNewProject', this.project);
+            },
+            checkFields() {    
+                if (this.project.photo.size == undefined) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Это поле должно быть заполнено'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if (this.project.photo.size >= 1500000) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if ((this.project.title==undefined) || (this.project.title=='')) {
                     this.isErrorName = true;
-                    setTimeout(() => {
-                        this.isErrorName = false
-                    }, 2000);
-                } else if ((this.ref==undefined) || (this.ref=='')) {
+                    setTimeout(() => this.isErrorName = false, 2000);
+                } else if ((this.project.link==undefined) || (this.project.link=='')) {
                     this.isErrorRef = true;
-                    setTimeout(() => {
-                        this.isErrorRef = false
-                    }, 2000);
-                } else if ((this.desc==undefined) || (this.desc=='')) {
+                    setTimeout(() => this.isErrorRef = false, 2000);
+                } else if ((this.project.description==undefined) || (this.project.description=='')) {
                     this.isErrorDesc = true;
-                    setTimeout(() => {
-                        this.isErrorDesc = false
-                    }, 2000);
-                } else if ((this.tags==undefined) || (this.tags=='')) {
+                    setTimeout(() => this.isErrorDesc = false, 2000);
+                } else if ((this.project.techs==undefined) || (this.project.techs=='')) {
                     this.isErrorTags = true;
-                    setTimeout(() => {
-                        this.isErrorTags = false
-                    }, 2000);
-                }
+                    setTimeout(() => this.isErrorTags = false, 2000);
+                } else this.addNewProject();
             }
         }
-        /*watch: {
-            tags(newSymbol) {
-                this.tagsArr = makeArrayFromString(newSymbol)
-                console.log(this.tagsArr)
-            }
-        }*/
     }
 </script>  
 
@@ -137,6 +157,11 @@
     }
 
     .main-project {
+
+
+    }
+
+    .form-project {
         display: flex;
         justify-content: space-between;
 
@@ -144,10 +169,10 @@
             flex-direction: column;
             align-items: center;
         }
-
     }
 
-    .form-project {
+    .form {
+        position: relative;
         width: 495px;
         height: 275px;
         display: flex;
@@ -155,7 +180,8 @@
         align-items: center;
         flex-direction: column;
         background: #dee4ed;
-        background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: grey; stroke-width: 1; stroke-dasharray: 8 8'/></svg>");
+        background-position: center;
+        background-size: cover;
 
         @include desktop {
             margin-bottom: 55px;
@@ -166,6 +192,37 @@
             height: 155px;
         }
     }
+
+    .form_label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: grey; stroke-width: 2; stroke-dasharray: 8'/></svg>");
+
+        &:hover {
+            background-image: url("data:image/svg+xml;utf8,<svg width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill: none; stroke: darkslategrey; stroke-width: 2; stroke-dasharray: 8'/></svg>"); 
+    
+            &~.button {
+                color: #E3EF62;
+                }
+        }
+
+        &.hidden-label {
+            background-image: none;
+        }
+    }
+
+       
+
+    .form__input {
+        position: absolute;
+        left: -9999px;    
+    }
+
+    
 
     .form__text {
         color: rgba(#464d62, 0.5);
@@ -193,10 +250,15 @@
         padding-bottom: 18px;
         border-bottom: 1px solid #464d62;
         width: 100%;
-
+        order: 1;
+        
         &:focus {
             outline: none;
             border-bottom: 1px solid #383bcf;
+
+            & ~div {
+                color: #383bcf
+            }
         }
     }
 
@@ -209,10 +271,16 @@
         padding: 20px;
         color: #464d62;
         height: 145px;
+        font-weight: 600;
+        order: 1; 
 
         &:focus {
             outline: none;
             border: 1px solid #383bcf;
+
+            & ~div {
+                color: #383bcf
+            }
         }
     }
 
@@ -235,6 +303,19 @@
     .reset-button {
         color: #383bcf;
         margin-right: 60px;
+        background: none;
+
+        &:focus {
+            outline: none
+        }
+
+        &:hover {
+            color: #bf2929;
+        }
+    }
+
+    .tag-create {
+        order: 2
     }
 
     .tag-create__list {
@@ -247,4 +328,9 @@
         margin-right: 10px;
         margin-bottom: 10px;
     }
+
+    .hidden {
+        visibility: hidden;;
+    }
+
 </style>

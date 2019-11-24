@@ -2,73 +2,98 @@
     .group-project
         .main-title-project Новый отзыв
         .main-project
-            .form-comment
-                .form-comment__image
-                a.add-photo Добавить фото
-            .content-commment
-                .commment-input-group
-                    .comment-info
-                        .comment-text Имя автора
-                        input.input.input_name(v-model="name")
-                        //addInput(classMod="input_name" v-model="name")
-                        .error(v-if="isErrorName") {{errorMessage}}
-                    .comment-info
-                        .comment-text Титул автора
-                        input.input.input_prof(v-model="prof")
-                        //addInput(classMod="input_prof" v-model="prof")
-                        .error(v-if="isErrorProf") {{errorMessage}}
-                .comment-textarea
-                    .comment-text Отзыв
-                    textarea.textarea(v-model="text")
-                    .error(v-if="isErrorTextarea") {{errorMessage}}
-        .button-add-comment
-            a.reset-button(@click="$emit('closeComment')") Отмена
-            button-section(:buttonTitle="buttonNameSave" @addNewProject="addNewProject")
+            form.form-comment(@submit.prevent="checkFields")
+                .form
+                    .form-comment__image(:class="{'hidden-background': renderedPhoto.length}" :style="{'backgroundImage': `url(${renderedPhoto})`}")
+                    a.add-photo() Добавить фото
+                        label.form_label(for="photo")
+                        .error(v-if="isErrorPhoto") {{errorMessage}}
+                    input.form__input(type="file" id="photo" accept="image/*,image/jpeg" @change="uploadRenderedPhoto")
+                    
+                .content-commment
+                    .commment-input-group
+                        .comment-info
+                            input.input.input_name(v-model="comment.author")
+                            .comment-text Имя автора
+                            .error(v-if="isErrorAuthor") {{errorMessage}}
+                        .comment-info
+                            input.input.input_prof(v-model="comment.occ")
+                            .comment-text Титул автора
+                            .error(v-if="isErrorOcc") {{errorMessage}}
+                    .comment-textarea
+                        textarea.textarea(v-model="comment.text")
+                        .comment-text Отзыв
+                        .error(v-if="isErrorText") {{errorMessage}}
+                    .button-add-comment
+                        button.reset-button(type="reset" @click.prevent="resetForm" title="Отменить изменения") Отмена
+                        button-section(:buttonTitle="buttonNameSave" type="submit" @checkFields="checkFields" title="Сохранить изменения")
 </template>
 
 <script>
-    import buttonSection from './button-section.vue'
-    import addInput from './input.vue'
     export default {
         name: 'addComment',
-        data: () => ({
-            name: '',
-            prof: '',
-            text: '',
-            buttonNameSave: 'Сохранить',
-            errorMessage: 'Это поле должно быть заполнено',
-            isErrorName: false,
-            isErrorProf: false,
-            isErrorTextarea: false
-
-        }),
-        components: {
-            buttonSection, addInput
+        data() {
+            return {
+                renderedPhoto: '',
+                comment: {
+                    author: '',
+                    occ: '',
+                    text: '',
+                    photo: '',
+                },
+                buttonNameSave: 'Сохранить',
+                errorMessage: 'Это поле должно быть заполнено',
+                isErrorPhoto: false,
+                isErrorAuthor: false,
+                isErrorOcc: false,
+                isErrorText: false
+            }
         },
-        computed: {
-
+        components: {
+            buttonSection: () => import('components/button-section.vue'),
         },
         methods: {
-            addNewProject() {
-                if ((this.name==undefined) || (this.name=='')) {
-                    this.isErrorName = true;
-                    setTimeout(() => {
-                        this.isErrorName = false
-                    }, 2000);
-                } else if ((this.prof==undefined) || (this.prof=='')) {
-                    this.isErrorProf = true;
-                    setTimeout(() => {
-                        this.isErrorProf = false
-                    }, 2000);
-                } else if ((this.text==undefined) || (this.text=='')) {
-                    this.isErrorTextarea = true;
-                    setTimeout(() => {
-                        this.isErrorTextarea = false
-                    }, 2000);
+            resetForm() {
+                this.renderedPhoto = "";
+                this.comment = {};
+            },
+            uploadRenderedPhoto(event) {
+                const file = event.target.files[0];
+                this.comment.photo = file;
+                const reader = new FileReader();
+                try {
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                    this.renderedPhoto = reader.result;
+                    };
+                } catch (error) {
+
                 }
+            },
+            addNewComment() {
+                this.$emit('addNewComment', this.comment);
+            },
+            checkFields() {             
+                if (this.comment.photo.size == undefined) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Это поле должно быть заполнено'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if (this.comment.photo.size >= 1500000) {
+                    this.isErrorPhoto = true;
+                    this.errorMessage = 'Размер фото больше допустимого (1500Кb)'
+                    setTimeout(() => this.isErrorPhoto = false, 2000);
+                } else if ((this.comment.author==undefined) || (this.comment.author=='')) {
+                    this.isErrorAuthor = true;
+                    setTimeout(() => this.isErrorAuthor = false, 2000);
+                } else if ((this.comment.occ==undefined) || (this.comment.occ=='')) {
+                    this.isErrorOcc = true;
+                    setTimeout(() => this.isErrorOcc = false, 2000);
+                } else if ((this.comment.text==undefined) || (this.comment.text=='')) {
+                    this.isErrorText = true;
+                    setTimeout(() => this.isErrorText = false, 2000);
+                } else this.addNewComment();
             }
         }
-
     }
 </script>  
 
@@ -100,23 +125,39 @@
         }
     }
 
-    .main-project {
+    .form-comment {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
 
         @include desktop {
             flex-direction: column;
             align-items: center;
         }
-
     }
 
-    .form-comment {
+    .form_label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .form__input {
+        position: absolute;
+        left: -9999px;    
+    }
+
+
+    .form {
+        position: relative;
         display: flex;
-        justify-content: center;
         align-items: center;
         flex-direction: column;
         margin-right: 30px;
+
 
         @include desktop {
             margin-bottom: 55px;
@@ -138,6 +179,8 @@
         background-color: #dee4ed;
         position: relative;
         margin-bottom: 30px;
+        background-position: center;
+        background-size: cover;
 
         &:after {
             content: '';
@@ -152,7 +195,12 @@
     }
 
     .add-photo {
+        position: relative;
         color: #383bcf;
+
+        &:hover {
+            color: #bf2929;
+        }
     }
 
     .commment-input-group {
@@ -164,6 +212,8 @@
     .content-commment {
         width: 100%;
         max-width: 610px;
+        display: flex;
+        flex-direction: column;
     }
 
     .comment-info {
@@ -181,10 +231,15 @@
         padding-bottom: 18px;
         border-bottom: 1px solid #464d62;
         width: 100%;
+        order: 1;
 
         &:focus {
             outline: none;
             border-bottom: 1px solid #383bcf;
+
+            & ~div {
+                color: #383bcf
+            }
         }
     }
 
@@ -192,6 +247,8 @@
         width: 100%;
         margin-bottom: 30px;
         position: relative;
+        display: flex;
+        flex-direction: column;
     }
 
     .textarea {
@@ -200,10 +257,16 @@
         color: #464d62;
         height: 115px;
         width: 100%;
+        order: 1;
+        font-weight: 600;
 
         &:focus {
             outline: none;
             border: 1px solid #383bcf;
+
+            & ~div {
+                color: #383bcf
+            }
         }
     }
 
@@ -226,6 +289,26 @@
     .reset-button {
         color: #383bcf;
         margin-right: 60px;
+        background: none;
+
+        &:focus {
+            outline: none
+        }
+
+        &:hover {
+            color: #bf2929;
+        }
+    }
+
+    .hidden {
+        visibility: hidden;;
+    }
+
+    .hidden-background {
+        &:after {
+            content: '';
+            background: none;
+        }
     }
 
 </style>

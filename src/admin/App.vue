@@ -1,27 +1,46 @@
 <template lang="pug">
-  .div
-    header-admin
-    .content-wrap
-      router-view      
+  .maincontent-container
+    template(v-if="$route.meta.public")
+      router-view
+    template(v-else="isLogged")  
+      header-admin
+      .content-wrap
+        router-view
 </template>
 
 <script>
-
+  
   export default {
+    data() {
+      return {
+        isLogged: false
+      }
+    },
     components: {
       headerAdmin: () => import("components/header-admin.vue")
     },
+    beforecreated() {
+      const token = localStorage.getItem("token")
+      token ? isLogged=true : isLogged=false
+    }
   } 
 </script>
 
 <style lang="postcss">
+
+
   @import "normalize.css";
   @import "../styles/mixins.pcss";
   @import "../styles/layout/base.pcss";
   @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800");
 
-  .maincontent {
+  body {
+    overflow: auto
+  }
+
+  .admin-wrapper, .maincontent, .maincontent-container {
     width: 100%;
+    height: 100%
   }
 
   .content-wrap {
@@ -29,7 +48,7 @@
     background-size: cover;
     background-blend-mode: lighten;
     padding-top: 60px;
-    padding-bottom: 30px;
+    padding-bottom: 30px; 
   }
 
   .main-section {
@@ -40,18 +59,10 @@
     @include tablets {
       margin: 0 2.5%;
     }
-
-    /*@media screen and (max-width: $bp-tablets) {
-      margin: 0 2.5%;
-    }*/
-
     @include phones {
       margin: 0
     }
 
-    /*@media screen and (max-width: $bp-phones) {
-      margin: 0
-    }*/
   }
 
   .main-wrap {
@@ -67,11 +78,6 @@
       flex-direction: column;
       margin-bottom: 0;
     }
-
-    /*@media screen and (max-width: $bp-phones) {
-      flex-direction: column;
-      margin-bottom: 0;
-    }*/
   }
   
   .main-info__title {
@@ -84,14 +90,6 @@
       margin-left: 30px;
       margin-bottom: 30px;
     }
-
-    /*@media screen and (max-width: $bp-phones) {
-      margin-bottom: 30px;
-    }
-
-    @media screen and (max-width: $bp-phones) {
-      margin-left: 30px;
-    }*/
   }
 
   .error {
@@ -101,5 +99,33 @@
         left: 0;
         top: 100%
     }
+
+  .input {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #464d62;
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+      line-height: 1.42;
+
+      &:focus {
+          outline: none;
+          border-bottom: 1px solid #383bcf !important;
+      }
+  }
+
+  .blocked-new-item {
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(1);
+
+  },
+  .blocked-while-add {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.7;
+  }
+
 </style>
 

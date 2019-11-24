@@ -2,91 +2,98 @@
 <template lang="pug">
     .group
         div.main
-            input.input.input_title(v-model="skillTitle" :class="{'active-item': editedMode}")
-            //addInput(classMod="input_title" v-model="skillTitle" :class="{'active-item': editedMode}")
-            .button(v-if="editedMode == false")
-                a.button__pencil.button__pencil_title(@click.prevent="changeEditedMode")
-            .button(v-else="editedMode == true")
-                a.button__tick
-                a.button__cross(@click.prevent="changeEditedMode")    
+            input.input.input_title(v-model="editedCategory.category" :class="{'active-item': editMode}")
+            .button(v-if="editMode == false")
+                a.button__pencil.button__pencil_title(@click.prevent="changeEditTitleMode" title="Изменить группу")
+            .button(v-else="editMode == true")
+                a.button__tick(@click.prevent="changeCategoryName" title="Подтвердить изменения")
+                a.button__cross(@click.prevent="removeExistedCategory" title="Удалить группу")    
         .skills
             ul.skills__list
-                li.skills_item(v-for="skill in skillsArr" :key="skill.id")
-                    //input.input.input_skill-text(:value="skillName")
-                    .inputs-wrap(:class="{'active-item': editedMode}")
-                        //addInput(classMod="input_skill-text" v-model="skillName")
-                        input.input.input_skill-text(v-model="skill.title")
-                        .percent-wrap
-                            input.input.input_skill-percent(:value="skill.percent" maxlength="3")
-                            //addInput(classMod="input_skill-percent" v-model="skillsArr[skillPercent]" maxlength="3")
-                    .button(v-if="editedMode == false")
-                        a.button__pencil(@click.prevent="changeEditedMode")
-                        a.button__remove
-                    .button(v-else="editedMode == true")
-                        a.button__tick
-                        a.button__cross(@click.prevent="changeEditedMode") 
-        div.add-skill
+                li.skills_item(v-for="skill in category.skills" :key="skill.id")
+                    edit-skill(:skill="skill" @editExistedSkill="editExistedSkill" @removeExistedSkill="removeExistedSkill" @changeAndBlockEditMode="changeAndBlockEditMode")
+        div.add-skill(:class="{'blocked-new-item': blocked}")
             .add-skill__wrap
-                input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill")
-                //addInput(classMod="input_new-skill" v-model="newSkill" placeholder="Новый навык")
+                input.input.input_new-skill(placeholder="Новый навык" v-model="newSkill.title")
                 .error(v-if="isErrorTitle") {{errorMessage}}
             .percent-wrap.percent-wrap_add-skill
-                input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newPercent")
-                //addInput(classMod="input_new-percent" v-model="newPercent" placeholder="100" maxlength="3")
+                input.input.input_new-percent(placeholder="100" maxlength="3" v-model="newSkill.percent")
                 .error(v-if="isErrorPercent") {{errorMessage}}
-            a.add-group(@click.prevent="newValues")
+            a.add-group(@click.prevent="checkNewValues" title="Добавить навык")
                 span.add-group__link.add-group__link__link-in-group &#43;
 </template>
 
 <script>
-    //import tickIcon from ''
-    import addInput from './input.vue'
+    import editSkill from './edit-skill.vue'
     export default {
         name: 'skillGroup',
         data() {
             return {
-                newSkill: '',
-                newPercent: '',
-                classMod:'',
-                editedMode: false,
+                newSkill: {
+                    title: '',
+                    percent: '',  
+                    category: this.category.id
+                },
+                editMode: false,
                 errorMessage: 'Это поле должно быть заполнено',
                 isErrorTitle: false,
                 isErrorPercent: false,
-                //skillTitle: ''
+                editedCategory: {...this.category},
+                blocked: false,
+                indexArray: []
             }
         },
         components: {
-            addInput
+            editSkill: () => import('components/edit-skill.vue')
         },
         props: {
-            skillsArr: Array,
-            skillTitle: String,
-            skillId: String
-            //skillItem: Object
+            category: {
+                type: Object,
+                default: () => ({}),
+                required: true 
+            }
         },
-        // mouted() {
-        //     this.skillTitle = skillItem.title
-        // },
         methods: {
-            newValues: function () {
-                if ((this.newSkill==undefined) || (this.newSkill=='')) {
-                    this.isErrorTitle = true;
-                    setTimeout(() => {
-                        this.isErrorTitle = false
-                    }, 2000);
-                } else if ((this.newPercent==undefined) || (this.newPercent=='')) {
-                    this.isErrorPercent = true;
-                    setTimeout(() => {
-                        this.isErrorPercent = false
-                    }, 2000);
-                }
-
+            changeEditTitleMode() {
+                this.editMode= !this.editMode
+                this.blocked = !this.blocked
             },
-            changeEditedMode() {
-                this.editedMode= !this.editedMode
+            changeAndBlockEditMode(blockedSkillAdding) {
+                this.blocked = blockedSkillAdding;
+            },
+            addNewSkill() {
+                this.$emit('addNewSkill', this.newSkill);
+                setTimeout(() => {
+                    this.newSkill.title = '';
+                    this.newSkill.percent = '';
+                }, 100);
+            },
+            checkNewValues() {
+                if ((this.newSkill.title==undefined) || (this.newSkill.title=='')) {
+                    this.isErrorTitle = true;
+                    setTimeout(() => this.isErrorTitle = false, 2000);
+                } else if ((this.newSkill.percent==undefined) || (this.newSkill.percent=='')) {
+                    this.isErrorPercent = true;
+                    setTimeout(() => this.isErrorPercent = false, 2000);   
+                } else this.addNewSkill()
+            },
+            editExistedSkill(editedSkill) {
+                this.blocked = false
+                this.$emit('editExistedSkill', editedSkill)
+            },
+            removeExistedSkill(removedSkillId) {
+                this.$emit('removeExistedSkill', removedSkillId)
+            },
+            changeCategoryName() {
+                this.editMode= !this.editMode;
+                this.blocked = !this.blocked
+                this.$emit('changeCategoryName', this.editedCategory)
+            },
+            removeExistedCategory() {
+                this.editMode= !this.editMode;
+                this.$emit('removeExistedCategory', this.editedCategory)
             }
         }
-
     }
 </script>  
 
@@ -118,7 +125,6 @@
     .main {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-bottom: 45px;
         position: relative;
         width: 100%;
@@ -199,33 +205,55 @@
         margin-right: 20px;
         background: svg-load("tick.svg", fill=#00d70a) no-repeat center;
         width: 15px;
-        height: 12px;
+        height: 15px;
+       
+        &:hover {
+            background: svg-load("tick.svg", fill=#08a337) no-repeat center;
+        }
+
+        &:active {
+            outline:none;
+        }
     }
 
     .button__cross {
         display: block;
         background: svg-load("cross.svg", fill=#bf2929) no-repeat center;
-        width: 14px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
+
+        &:hover {
+            background: svg-load("cross.svg", fill=#e01b1b) no-repeat center;
+        }
     }
 
     .button__pencil {
-        background: svg-load("pencil.svg", fill=#888 ) no-repeat center;
-        width: 16px;
-        height: 16px;
+        background: svg-load("pencil.svg", fill=#888) no-repeat center;
+        width: 15px;
+        height: 15px;
         margin-right: 20px;
         background-size: 15px;
 
         &_title {
             margin-right: 0;
         }
+
+        &:hover {
+            background: svg-load("pencil.svg", fill=#1b5ae3) no-repeat center;
+            background-size: 15px;
+        }
     }
 
     .button__remove {
         background: svg-load("trash.svg", fill=#888) no-repeat center;
-        width: 13px;
+        width: 15px;
         height: 15px;
         background-size: 15px;
+
+        &:hover {
+            background: svg-load("trash.svg", fill=#bf2929) no-repeat center;
+            background-size: 15px;
+        }
     }
 
 
@@ -265,7 +293,7 @@
         &:after {
             content: '%';
             position: absolute;
-            top: 0;
+            top: 1px;
             right: 10px;
             color: rgba(#464d62, 0.7)
         }
@@ -330,5 +358,16 @@
         pointer-events: all;
     }
 
+    .add-group {
+        &:hover {
+            
+            .add-group__link {
+                color: #E3EF62;
+            }
+            .add-group__text {
+                color: #bf2929;
+            }
+        }
+    }
 
 </style>

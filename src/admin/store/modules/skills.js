@@ -1,59 +1,34 @@
-const skills = {
-    state: {
-        skills: [
-            {
-                id: "0",
-                title: "Front-end",
-                skills: [
-                    {
-                        id: "0",
-                        title: "HTML5",
-                        percent: "50"
-                    },
-                    {
-                        id: "1",
-                        title: "CSS",
-                        percent: "75"
-                    },{
-                        id: "2",
-                        title: "Javascript",
-                        percent: "25"
-                    },{
-                        id: "3",
-                        title: "jQuery и Vue.js",
-                        percent: "10"
-                    }
-                ]
-            },
-            {
-                id: "1",
-                title: "Back-end",
-                skills: [
-                    {
-                        id: "0",
-                        title: "Git",
-                        percent: "37"
-                    },
-                    {
-                        id: "1",
-                        title: "Terminal",
-                        percent: "86"
-                    },{
-                        id: "2",
-                        title: "Gulp",
-                        percent: "30"
-                    },{
-                        id: "3",
-                        title: "Webpack",
-                        percent: "44"
-                    }
-                ]
-            }
-        ]
-    },
-    actions: {},
-    getters: {},
-    mutations: {}
-}
+import {errorHandler} from "../../helpers/erorrs";
 
-export default skills
+export default {
+    namespaced: true,
+    mutations: {},
+    getters: {},
+    actions: {
+        async addSkill(store, newSkill) {
+            try { 
+                const {data} = await this.$axios.post("/skills", newSkill)
+                store.commit("categories/ADD_SKILL", data, {root: true})
+            } catch (error) {
+                errorHandler(error)
+            }
+        },
+        async editSkill(store, editedSkill) {
+            try { 
+                const {data} = await this.$axios.post(`/skills/${editedSkill.id}`, editedSkill)
+                store.commit("categories/EDIT_SKILL", data.skill, {root: true})
+            } catch (error) {
+                errorHandler(error)
+
+            }
+        },
+        async removeSkill(store, removedSkill) {
+            try { 
+                await this.$axios.delete(`/skills/${removedSkill.id}`)
+                store.commit("categories/REMOVE_SKILL", removedSkill, {root: true})
+            } catch (error) {
+                errorHandler(error)
+            }
+        }
+    },
+}

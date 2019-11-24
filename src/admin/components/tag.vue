@@ -1,26 +1,35 @@
 <template lang="pug">
     .tag-wrap
-        .tag-colored {{newTag}}
-        .button__cross-project(@click="remTag")
+        .tag-colored {{tagTitle}}
+        a.button__cross-project(@click.prevent="removeTag")
 </template>
 
 <script>
 
     export default {
         name: 'tagComponent',
-        data: () => ({
-            tagndx: 1
-        }),
+        data() {
+            return {
+                index: this.tagIndex
+            }
+        },
         props: {
-            newTag: String,
-            tagIndex: Number
+            tagTitle: {
+                type: String,
+                required: true
+            },
+            tagIndex: {
+                type: Number,
+                default: 0,
+                required: true
+            }
         },
         computed: {
             
         },
         methods: {
-            remTag: function () {
-                this.$emit('removeTag')
+            removeTag () {
+                this.$emit('removeTag', this.index)
             }
         },
 

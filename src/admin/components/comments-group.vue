@@ -2,36 +2,47 @@
     .group
         .comments-main
             .comments-main__image
-                img.comments-main__pic(:src="commPhoto")
+                img.comments-main__pic(:src="imgPath")
             .comments-main__info
-                span.comments-main__name {{commName}}
-                span.comments-main__prof {{commProf}}
-        .comment-text {{commText}}
+                span.comments-main__name {{editedComment.author}}
+                span.comments-main__prof {{editedComment.occ}}
+        .comment-text {{editedComment.text}}
         .button-comment
-            a.button__pencil-comment Править
-            a.button__cross-comment Удалить
+            a.button__pencil-comment(@click="transferEditedComment" title="Изменить отзыв") Править
+            a.button__cross-comment(@click="removeExistedComment" title="Удалить отзыв") Удалить
 </template>
 
 <script>
     export default {
         name: 'commentsGroup',
-        data: () => ({
-
-        }),
+        data() {
+            return {
+                editedComment: {...this.comment}
+            }
+        },
         props: {
-            commPhoto: String,
-            commName: String,
-            commProf: String,
-            commText: String,
+            comment: {
+                type: Object,
+                default: () => ({}),
+                required: true
+            }
+        },
+        computed: {
+            imgPath: function() {
+                const imgURL = this.editedComment.photo
+                const baseURL = 'https://webdev-api.loftschool.com'
+                return `${baseURL}/${imgURL}`
+            }
         },
         methods: {
-            // newValues: function () {
-            //     this.$emit('addSkill', this.newSkill, this.newPercent, this.skillId)
-            // }            
-        },
-        watch: {
+            transferEditedComment() {
+                this.$emit('transferEditedComment', this.editedComment);
+            },
+            removeExistedComment() {
+                this.$emit('removeExistedComment', this.editedComment.id);
+            }
 
-        }
+        },
     }
 </script>  
 
@@ -45,7 +56,7 @@
         flex-direction: column;
         background: #fff;
         padding: 30px;
-        align-items: center;
+        align-items: flex-start;
 
         @include phones {
             width: 320px;
@@ -115,11 +126,16 @@
     .button__pencil-comment {
         position: relative;
         color: rgba(#464d62, 0.5);
+        padding-right: 25px;
+
+        &:hover {
+            color: #383bcf
+        }
 
         &:after {
             content: '';
             position: absolute;
-            right: -26px;
+            right: 0;
             top: 50%;
             transform: translate(0, -50%);
             background: svg-load("pencil.svg", fill="#383bcf") no-repeat center;
@@ -132,12 +148,16 @@
     .button__cross-comment {
         position: relative;
         color: rgba(#464d62, 0.5);
-        margin-right: 25px;
+        padding-right: 25px;
+
+        &:hover {
+            color: #bf2929
+        }
 
         &:after {
             content: '';
             position: absolute;
-            right: -26px;
+            right: 0;
             top: 50%;
             transform: translate(0, -50%);
             background: svg-load("cross.svg", fill=#bf2929) no-repeat center;

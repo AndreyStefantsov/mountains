@@ -10,17 +10,22 @@
                             .header__name Андрей Стефанцов    
                             .header__title Панель администрирования
                         .quit 
-                            a.quit__link(href="#") Выйти
+                            a.quit__link(@click.prevent="userLogout") Выйти
         .header__down
             .header__container
                 nav.nav
                     ul.nav__list
-                        li.nav__item(v-for="(tab, i) in tabs" :key="i" :class="{'active-tab': tab.id==activeTab}")    
-                            router-link(:to="tab.href" class="nav__link" exact-active-class="active") {{tab.title}}
-                            
+                        li.nav__item(v-for="(tab, i) in tabs" :key="i")    
+                            router-link(
+                                :to="tab.href" 
+                                :data-text="tab.title" 
+                                class="nav__link" 
+                                exact-active-class="active"
+                                )                            
 </template>
 
 <script>
+import { mapActions } from 'vuex'
     export default {
         name: 'headerAdmin',
         data() {
@@ -28,12 +33,23 @@
                 src: require('images/content/me.jpg'),
                 activeTab: 0,
                 tabs: [
-                    {title: "Обо мне", href: "/"},
+                    {title: "Скиллы", href: "/"},
                     {title: "Работы", href: "/projects"},
                     {title: "Отзывы", href: "/comments"}
 			    ]
             }
         },
+        methods: {
+            ...mapActions("user", ["logout"]),
+            async userLogout() {
+                try {
+                    await this.logout();
+                    this.$router.replace("/login")
+                } catch (error) {
+                   
+                }
+            }
+        }
     }
     
 </script>  
@@ -99,7 +115,7 @@
     }
 
     .header__pic {
-        max-width: 100%;
+        width: 100%;
         object-fit: cover;
     }    
     .header__name {
@@ -111,10 +127,6 @@
         @include phones {
 			margin-right: 0px;
 		}
-
-        /*@media screen and (max-width: $bp-phones) {
-            margin-right: 0px;
-        }*/
     }
     .header__title {
         color: rgba(#6d6d87, 0.5);
@@ -123,10 +135,6 @@
         @include phones {
 			display: none;
 		}
-
-        /*@media screen and (max-width: $bp-phones) {
-            display: none;
-        }*/
     }
     .quit {
         display: flex;
@@ -160,22 +168,34 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-bottom: 3px solid transparent;
         cursor: pointer;
+        margin-right: 20px;
+    }
+
+    .nav__link {
+        color: #464d62;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 3px solid transparent;
+            
+        &:before {
+            content: attr(data-text);
+        }
 
         &:hover {
             border-bottom: 3px solid #383bcf;
             color: #383bcf;
         }
-    }
 
-    .nav__link {
-        color: #464d62
+        &.active {
+            border-bottom: 3px solid #383bcf;
+            color: #383bcf;
+        }
     }
-    .active {
-        border-bottom: 3px solid #383bcf;
-        color: #383bcf;
-    }
+    
     
 </style>
     
